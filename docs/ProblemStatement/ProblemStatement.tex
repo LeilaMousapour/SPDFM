@@ -1,6 +1,4 @@
-\documentclass{article}
-\usepackage{tabularx}
-\usepackage{booktabs}
+\documentclass{article} \usepackage{tabularx} \usepackage{booktabs}
 
 \title{CAS 741: Problem Statement\\Surface Plasmon Dynamics Finite Method}
 
@@ -11,75 +9,69 @@
 \input{Comments}
 
 \begin{document}
-
-\maketitle
-\clearpage
-
-
-\begin{table}[hp]
-\caption{Revision History} \label{TblRevisionHistory}
-\begin{tabularx}{\textwidth}{llX}
-\toprule
-\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
-\midrule
-2020/09/20 & Shayan Mousavi & Initial Draft\\
-2020/09/24 & Shayan Mousavi & Draft Revised\\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-
-
-\clearpage
-
-
-\newpage
-
-
-\newcommand*\apos{\textsc{\char13}}
-\section{Introduction}
-
-Surface plasmons are harmonic oscillations of free electrons on the surface of 
-materials with high electron density. These oscillations are electromagnetic 
-waves following Maxwell's equations and are excited by an incident 
-electromagnetic wave (photons or swift electrons). Surface plasmons depend on 
-the geometry, dielectric function, and density of charge carriers on the 
-surface.
-Surface plasmons can absorb the energy of the incident light and generate hot 
-charge carriers. These generated energetic charge carriers can be used for 
-different purposes such as accelerating chemical reactions, designing 
-invisibility cloaks, generating local heat for killing cancer cells, and 
-biosensing. Being able to simulate the electromagnetic activities on the surface 
-gives a great insight into studying and designing novel plasmonic systems.  
-  
-  
-\section{Objective}
-
-The purpose of the Surface Plasmon Dynamics Finite Method (SPDFM) script is to
-solve Maxwell's equations applied for surface plasmons in a time domain, for a
-discretized (meshed) anisotropic and varying dielectric environment composed of
-different materials. The SPDFM script provides the user with 3D
-electromagnetic vector field over the entire geometry. \\
-SPDFM will be launched in two phases. The first phase is due December 2020, and measures the generated electric potential with a pulsed illumination in a time domain for a discretized homogeneous dielectric space. The second phase is due February 2021, and calculates the electromagnetic vector field generated with a pulsed illumination for an anisotropic environment in a time domain. In both phases partial differential equations will be solved using FEniCS finite element toolbox.    
-
-
-\section{Interest}
-
-Available open-source softwares are either simulating more general optical 
-properties and are not adopted for plasmonic properties specifically or 
-simulating the plasmonic response with too many restrictions. Among the 
-limitations present in the current surface plasmon simulation scripts are 
-constrains on the dielectric functions or particle size, and no information on 
-the evolution of surface plasmons with time. Although potential equivalent 
-licensed softwares might exist, their source code is hidden which forces the 
-user to blindly trust them. Interested stakeholders in this project may include 
-researchers and industries that are exploring areas related to plasmonic physics 
-and devices. 
-
-
-
-
-\an{comment}
-
+	
+	\maketitle \clearpage
+	
+	
+	\begin{table}[hp] \caption{Revision History} \label{TblRevisionHistory}
+		\begin{tabularx}{\textwidth}{llX} \toprule \textbf{Date} &
+			\textbf{Developer(s)} & \textbf{Change}\\ \midrule 2020/09/20 & Shayan Mousavi
+			& Initial Draft\\ 2020/09/24 & Shayan Mousavi & Draft Revised\\ \bottomrule
+	\end{tabularx} \end{table}
+	
+	
+	
+	\clearpage
+	
+	
+	\newpage
+	
+	
+	\newcommand*\apos{\textsc{\char13}} \section{Introduction}
+	
+	Surface plasmons are harmonic oscillations of free electrons on the surface of
+	materials with high electron density. These oscillations are electromagnetic
+	waves following Maxwell's equations and are excited by an incident
+	electromagnetic wave (photons or swift electrons). Surface plasmons depend on
+	the geometry, dielectric function, and density of charge carriers on the
+	surface. Surface plasmons can absorb the energy of the incident light and
+	generate hot charge carriers. These generated energetic charge carriers can be
+	used for different purposes such as accelerating chemical reactions, designing
+	invisibility cloaks, generating local heat for killing cancer cells, and
+	biosensing. Being able to simulate the electromagnetic activities on the
+	surface gives a great insight into studying and designing novel plasmonic
+	systems.
+	
+	
+	\section{Objective}
+	
+	The purpose of the Surface Plasmon Dynamics Finite Method (SPDFM) script is to
+	solve Maxwell's equations applied for surface plasmons in a time domain, for a
+	discretized (meshed) anisotropic and varying dielectric environment composed of
+	different materials. The current version of SPDFM script provides the user with
+	the plasmon-enhanced 3D electric field over the entire geometry, generated by a
+	light source with a frequency ranged from mid-infrared to ultraviolet. The
+	time-dependant partial differential equations in this script are solved using
+	FEniCS finite element toolbox.
+	
+	
+	\section{Interest}
+	
+	Available open-source softwares are either simulating more general optical
+	properties and are not adopted for plasmonic properties specifically or
+	simulating the plasmonic response with too many restrictions. Among the
+	limitations present in the current surface plasmon simulation scripts are
+	constrains on the dielectric functions or particle size, and no information on
+	the evolution of surface plasmons with time. Although potential equivalent
+	licensed softwares might exist, their source code is hidden which forces the
+	user to blindly trust them. Interested stakeholders in this project may include
+	researchers and industries that are exploring areas related to plasmonic
+	physics and devices.
+	
+	
+	
+	
+	\an{comment}
+	
 \end{document}
 
