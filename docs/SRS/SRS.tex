@@ -402,15 +402,11 @@ easier to correctly understand the requirements:
 	\forall (x, y, z) \in \Bbb R^3: \textbf{r}= x\textbf{u}_x + y\textbf{u}_y +z\textbf{u}_z
 	\end{equation} \\
 
-\item \textbf{Mesh:} A network of nodes in 3D Cartesian space that subdivides an environment or a geometry into smaller subspace.   
+\item \textbf{Mesh:} A network of coordinates in 3D Cartesian space that subdivides an environment or a geometry into smaller subspace.   
 \item \textbf{Surface plasmon:} Collective oscillation of the free electron density on the surface of a conductive material due to the interaction with an electromagnetic of an incident photon or a swift electron beam.     
 \item \textbf{Plasmonic materials:} materials such as nobel metals that have surface plasmonic properties.
 
-\item \textbf{Hydrodynamic formulation:}
 
-\item \textbf{Weak formalism} 
-
-\item \textbf{Fermi velocity}
 \end{itemize}
 
 
@@ -614,14 +610,17 @@ on.
 		
 		\hline
 		Description & 
-		Above partial differential equation similar to equation \ref{eq:Jnonlocal}, shows the relationship between \textbf{E}(\textbf{r},t) (electric field vector $\in \Bbb C$) and hydrodynamic electric current density vector $\textbf{J}_{HD}(\textbf{r},t)$
+		Above partial differential equation, similar to equation \ref{eq:Jnonlocal}, shows the relationship between \textbf{E}(\textbf{r},t) (electric field vector $\in \Bbb C$) and hydrodynamic electric current density vector $\textbf{J}_{HD}(\textbf{r},t)$. However, equation \ref{eq:Enonlocal} is derived from  Maxwell's equations, the approach is explained in detail in \cite{hiremath2012numerical}. \\
+		& In this equation $\mu_{0}$ (permeability constant with value of $1.256637062 * 10^{-6}$ \si{\henry \per \meter}) and $\varepsilon_{0}$ (permittivity constant with value of $8.85418781*10^{-12}$ \si{\farad \per \meter}) are constants.
+		\\
+		&$\varepsilon_{loc}$ is permeability of the medium ($\varepsilon_{loc}$ $\in \Bbb C$, \si{\farad \per \meter}).    
 		\\
 		\hline
 		Source & 
 		\cite{hiremath2012numerical} \\
 		% The above web link should be replaced with a proper citation to a publication
 		\hline
-		Ref.\ By & \dref{ROCT}\\
+		Ref.\ By & GD\ref{GD:weakE}, IM\ref{IM:solve}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -639,14 +638,14 @@ on.
 		\rowcolor[gray]{0.9}
 		Number& T\refstepcounter{theorynum}\thetheorynum \label{TM:boundary}\\
 		\hline
-		Label&\bf Dirichlet to Neumann boundary condition  \\
+		Label&\bf General boundary condition for the nonlocal hydrodynamic system  \\
 		\hline
 		Equation&  
 		\begin{equation}
 			\label{eq:boundary}
 			\begin{gathered}
 				\begin{cases}
-					\int_\Omega ((\nabla \times \phi).(\mu^{-1}_{0} \nabla \times \textbf{E})- \omega^2\phi \epsilon_{local} \textbf{E}_i)dV + \int_{\partial \Omega} \phi . DtN(\textbf{E})dA\\ \ \ - i\omega \int_\Omega \phi . \textbf{J}_{HD}dV =  -\int_{\partial \Omega} phi.(n \times (\mu^{-1}_0 \nabla \times \textbf{E}_i))dA + \int_{\partial \Omega} \phi.DtN(\textbf{E}_i)dA
+					\int_\Omega ((\nabla \times \phi).(\mu^{-1}_{0} \nabla \times \textbf{E})- \omega^2\phi \epsilon_{local} \textbf{E}_i)dV + \int_{\partial \Omega} \phi . DtN(\textbf{E})dA\\ \ \ - i\omega \int_\Omega \phi . \textbf{J}_{HD}dV =  -\int_{\partial \Omega} \phi.(n \times (\mu^{-1}_0 \nabla \times \textbf{E}_i))dA + \int_{\partial \Omega} \phi.DtN(\textbf{E}_i)dA
 					\\
 					\\
 					n.\textbf{J}_{HD}=0 \ \ on \ \partial \Omega 
@@ -655,13 +654,18 @@ on.
 		
 		\hline
 		Description & 
+		The upper equation is known as the weak formulation of the boundary condition on the electric field in a nonlocal hydrodynamic system. In this equation \textbf{n} is the unit normal vector of the surface of the meshed volume ($\partial \Omega boundary$), $\phi$ in an arbitrary test vector function in the meshed geometry ($\Omega$ domain), $\varepsilon_{loc}$ is permeability of the medium ($\varepsilon_{loc}$ $\in \Bbb C$, \si{\farad \per \meter}), $\textbf{E}_i$ is the electric field of the incident light source, and $\omega$ ($s^{-1}$) is the angular frequency of the light source.  
+		\\
+		&$DtN$ is the Dirichlet to Neumann boundary condition which is discussed in detail in \cite{monk2003finite}.
+		\\
+		 & The lower equation is also seen in \ref{A_leakage} and indicates that electric current only propagates on the surface of the mesh geometry ($\Omega$).		
 		\\
 		\hline
 		Source & 
-		\cite{hiremath2012numerical} \\
+		\cite{hiremath2012numerical}, \cite{monk2003finite} \\
 		% The above web link should be replaced with a proper citation to a publication
 		\hline
-		Ref.\ By & \dref{ROCT}\\
+		Ref.\ By & DD\ref{DD:omega},IM\ref{IM:solve}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -691,13 +695,12 @@ on.
 		\\
 		\hline
 		Description &
-
-
-		\\
+The weak formulation is a notation that is adopted for the finite element methods. Derivation of above equation is discussed in \cite{hiremath2012numerical}. This equation is a different notation of equation \ref{eq:Jnonlocal} which is known as weak formulation.
+\\
 		\hline
-		Source & \cite{hiremath2012numerical} \\
+		Source & \cite{hiremath2012numerical}  \\
 		\hline
-		Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+		Ref.\ By & T\ref{TM:J}, IM\ref{IM:solve}, DD\ref{DD:omega}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -712,7 +715,7 @@ on.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{weakE}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{GD:weakE}\\
 \hline
 Label &\bf Weak formulation of the hydrodynamic electric field \\
 \hline
@@ -725,11 +728,12 @@ $\int_\Omega ((\nabla \times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omeg
   \\
 \hline
 Description &
+The weak formulation is a notation that is adopted for the finite element methods. Derivation of above equation is discussed in \cite{hiremath2012numerical}. This equation is a different notation of equation \ref{eq:Enonlocal} which is known as weak formulation.
 \\
 \hline
   Source & Citation here \\
   \hline
-  Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+  Ref.\ By &T\ref{TM:E}, IM\ref{IM:solve}, DD\ref{DD:omega}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -741,18 +745,10 @@ Description &
 
 \subsubsection{Data Definitions}\label{sec_datadef}
 
-\plt{The Data Definitions are definitions of symbols and equations that are
-  given for the problem.  They are not derived; they are simply used by other
-  models.  For instance, if a problem depends on density, there may be a data
-  definition for the equation defining density.  The DDs are given information
-  that you can use in your other modules.}
-
-\plt{All Data Definitions should be used (referenced) by at least one other
-  model.}
+\
 
 This section collects and defines all the data needed to build the instance
-models. The dimension of each quantity is also given.  \plt{Modify the examples
-  below for your problem, and add additional definitions as appropriate.}
+models. The dimension of each quantity is also given. 
 
 %-----------------------------------DD1
 
@@ -787,40 +783,6 @@ Symbol &$k$\\
 \end{tabular}
 \end{minipage}\\
 
-%-----------------------------------DD2
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-	\renewcommand*{\arraystretch}{1.5}
-	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-		\hline
-		\rowcolor[gray]{0.9}
-		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD:omega}\\
-		\hline
-		Label& \bf Local permittivity (dielectric function)\\
-		\hline
-		Symbol &$\epsilon_{local}$\\
-		\hline
-		% Units& $Mt^{-3}$\\
-		% \hline
-		SI Units & $m^{-1}$\\
-		\hline
-		Equation&$k=\frac{2\pi}{\lambda}$\\
-		\hline
-		Description & 
-		$\lambda$ is the wavelength of a given wave (m). k is Wave number that indicates the  number of waves (cycles) per unit distance.
-		\\
-		\hline
-		Sources& \url{https://en.wikipedia.org/wiki/Wavenumber} \\
-		\hline
-		Ref.\ By & IM\ref{IM:source}, T\ref{TM:source} \\
-		\hline
-	\end{tabular}
-\end{minipage}\\
-
-~\newline
 
 %-----------------------------------DD3
 
@@ -834,23 +796,23 @@ Symbol &$k$\\
 		\rowcolor[gray]{0.9}
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD:omega}\\
 		\hline
-		Label& \bf \\
+		Label& \bf Meshed geometry \\
 		\hline
-		Symbol &$\gamma$\\
+		Symbol &$\Omega$ + $\partial \Omega$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
-		SI Units & $m^{-1}$\\
+		SI Units &dimensionless\\
 		\hline
-		Equation&$k=\frac{2\pi}{\lambda}$\\
+		Equation& N/A \\
 		\hline
-		Description &Plasmon damping term 
-		$\lambda$ is the wavelength of a given wave (m). k is Wave number that indicates the  number of waves (cycles) per unit distance.
+		Description &
+		$\Omega$ is the 3D set of coordinate that shape a volume together and $\partial \Omega$ is a set of coordinates in 3D space that form the interface of $\Omega$
 		\\
 		\hline
-		Sources& \url{https://en.wikipedia.org/wiki/Wavenumber} \\
+		Sources& N/A\\
 		\hline
-		Ref.\ By & IM\ref{IM:source}, T\ref{TM:source} \\
+		Ref.\ By & IM\ref{IM:solve}, T\ref{TM:boundary}, GD\ref{GD:weakJ}, GD\ref{GD:weakE} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -873,19 +835,18 @@ Symbol &$k$\\
 		\hline
 		Symbol &$\beta$\\
 		\hline
-		% Units& $Mt^{-3}$\\
+		% Units& dimensionless\\
 		% \hline
 		SI Units & $m^{-1}$\\
 		\hline
-		Equation&$k=\frac{2\pi}{\lambda}$\\
+		Equation&$\beta^2 = \frac{3}{5} \nu_f^2$\\
 		\hline
-		Description &Plasmon damping term 
-		$\lambda$ is the wavelength of a given wave (m). k is Wave number that indicates the  number of waves (cycles) per unit distance.
+		Description & $\nu_f$ is the Fermi velocity of electron in the medium ($ms^{-1}$) 
 		\\
 		\hline
-		Sources& \url{https://en.wikipedia.org/wiki/Wavenumber} \\
+		Sources& \cite{hiremath2012numerical} \\
 		\hline
-		Ref.\ By & IM\ref{IM:source}, T\ref{TM:source} \\
+		Ref.\ By & GD\ref{GD:weakJ}, T\ref{TM:J}, IM\ref{IM:solve} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -941,10 +902,6 @@ one which is expressed in mathematical terms. It uses concrete symbols defined
 in Section~\ref{sec_datadef} to replace the abstract symbols in the models 
 identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 
-The goals \plt{reference your goals} are solved by \plt{reference your instance
-  models}.  \plt{other details, with cross-references where appropriate.}
-\plt{Modify the examples below for your problem, and add additional models as
-  appropriate.}
 
 
 
@@ -1016,7 +973,7 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 		
 		& $\textbf{E}_i$ is the incident electric field calculated at IM\ref{IM:source} \\
 		& $\Omega$ and $partial \Omega$ are respectively the meshed domain and the boundary of it. Therefore,    \\
-		& \\       
+		&       
 		For solving the hydrodynamic equations for electric current density ($\textbf{J}_HD(\textbf{r},t)$), and electric field ($\textbf{E}(\textbf{r},t)$), a system of partial differential equations consisting of equations \ref{eq:JEnonlocal}, \ref{eq:Enonlocal} presented in T\ref{TM:J} and T\ref{TM:E} plus their boundary conditions in equation system \ref{eq:boundary} in T\ref{TM:boundary} needs to be solved for a desired geometry. For doing so, this system of equations and a meshed geometry are handed to the FEniCS finite element solver. This toolbox   
 		\\
 		\hline
@@ -1068,14 +1025,10 @@ Table~\ref{TblSpecParams}.
   \midrule 
   $\varnothing(\Omega)$ & $\varnothing(\Omega) > 0$ & $\varnothing(\Omega)_{\text{min}} \leq \varnothing(\Omega) \leq \varnothing(\Omega)_{\text{max}}$ & $20*10^{-9}$ \si[per-mode=symbol] {\metre} 
   \\
+  $t_{final}$ & $t_{final}>0$ &   $t_{min} < t_{final} < t_{max}$ & $10^{-12} s$\\
   \bottomrule
 \end{longtable*}
 \end{table}
-
-\noindent 
-\begin{description}
-\item[(*)] \plt{you might need to add some notes or clarifications}
-\end{description}
 
 \begin{table}[!h]
 \caption{Specification Parameter Values} \label{TblSpecParams}
@@ -1084,7 +1037,12 @@ Table~\ref{TblSpecParams}.
   \toprule
   \textbf{Var} & \textbf{Value} \\
   \midrule 
-  $L_\text{min}$ & 0.1 \si{\metre}\\
+  $\varnothing(\Omega)_{\text{min}}$ & $10^{-8}$ \si{\metre}\\
+  $\varnothing(\Omega)_{\text{max}}$ & $10^{-7}$ \si{\metre}\\
+  $t_{min}$ & $10^{-15}$\\
+  $t_{max}$ & $10^{-12}$\\
+  
+  
   \bottomrule
 \end{longtable*}
 \end{table}
@@ -1097,8 +1055,6 @@ The correct measured variables must be judged by the user, based on him/herself 
 
 \section{Requirements}
 
-\plt{The requirements refine the goal statement.  They will make heavy use of
-  references to the instance models.}
 
 This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
@@ -1112,6 +1068,8 @@ qualities that the software is expected to exhibit.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_sourcecheck}:] Verify the format of the inputs $\textbf{p}$ and $\textbf{d}$ to be vectors in $\Bbb R^3$ and $\textbf{p}\textbf{.}\textbf{d}=0$ (IM\ref{IM:source}).
 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_source}:] Calculate the electric field of the light source $\textbf{E}_i$ to setup the light source (IM\ref{IM:source}).
+
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_source}:] Provide the user with instructions to input $\lambda$, and $\omega$ (IM\ref{IM:source}).
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_sourcecheck}:] Verify the format of the inputs $\textbf{p}$ and $\textbf{d}$ to be scalars in $\Bbb R$ and $\lambda>0$ and $\omega \geqslant0$ (IM\ref{IM:source}).
@@ -1124,7 +1082,6 @@ qualities that the software is expected to exhibit.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] Verify that all data inputs for $\Omega$ are of the correct dimensionality and composed of Real numbers (ref\ref{IM:solve})
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_FEniCS}:] Import FEniCS library as an external unit for solving the system of equations \ref{eq:eqsys} over the $\Omega$ domain (IM\ref{IM:solve})).
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] Output $|J_{HD}|$, $|E|$ on each element of the $\Omega$ domain (IM\ref{IM:output}).
  
@@ -1309,10 +1266,10 @@ instance models, requirements, and data constraints on each other.
 
 \section{Values of Auxiliary Constants}
 
-\plt{Show the values of the symbolic parameters introduced in the report.}
-
-\plt{The definition of the requirements will likely call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.}
+$\varepsilon_{0} = 8.8541878128 * 10^{-12} \si{\farad\per \meter}$ 
+\\
+$\mu_{0} = 1.256637062 * 10^{-6}$ \si{\henry \per \meter}
+\\
 
 \newpage
 
