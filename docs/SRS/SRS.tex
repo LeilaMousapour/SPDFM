@@ -853,44 +853,6 @@ Symbol &$k$\\
 
 ~\newline
 
-\noindent
-\begin{minipage}{\textwidth}
-	\renewcommand*{\arraystretch}{1.5}
-	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-		\hline
-		\rowcolor[gray]{0.9}
-		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{FluxCoil}\\
-		\hline
-		Label& \bf Heat flux out of coil\\
-		\hline
-		Symbol &$q_C$\\
-		\hline
-		% Units& $Mt^{-3}$\\
-		% \hline
-		SI Units & \si{\watt\per\square\metre}\\
-		\hline
-		Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
-		\hline
-		Description & 
-		$T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
-		The heat flux out of the coil, $q_C$ (\si{\watt\per\square\metre}), is found by
-		assuming that Newton's Law 
-		of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of
-		the coil, which has area $A_C$ (\si{\square\metre}) and heat 
-		transfer coefficient $h_C$
-		(\si{\watt\per\square\metre\per\celsius}).  This equation
-		assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length
-		of the coil (\aref{A_tlcoil}).
-		\\
-		\hline
-		Sources& Citation here \\
-		\hline
-		Ref.\ By & \iref{ewat}\\
-		\hline
-	\end{tabular}
-\end{minipage}\\
-
-
 %-------------------------IMs------------------------
 
 
@@ -969,8 +931,26 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 		& $\omega_p$ is the plasma frequency of the target material ($\si{\per \second}$).\\
 		& $\mu_{0}$ is the permeability constant ($\si{\henry \per \meter}$). \\
 		& $\varepsilon_{local}$ is the local permittivity ($\si{\farad \per \meter}$).\\
-		& Using above values, equations \ref{eq:Jnonlocal} and \ref{eq:Enonlocal} can be formed that show the relationship between electric current density $\textbf{J}_HD(\textbf{r},t)$ and electric field $\textbf{E}(\textbf{r},t)$; $\textbf{J}_HD(\textbf{r},t)$, $\textbf{E}(\textbf{r},t)$ $\in \Bbb C^3$.\\
+		& Using above values, and weak form of equations T\ref{TM:J} and T\ref{TM:E}, (GD\ref{GD:weakJ} and GD\ref{GD:weakE}) and the boundary conditions in T\ref{TM:boundary} forms a system of equation that FEniCS can solve using finite element method and obtains the electric current density $\textbf{J}_HD(\textbf{r},t)$ and electric field $\textbf{E}(\textbf{r},t)$ on the meshed geometry.\\
 		
+		&	\begin{equation}
+			\label{eq:boundary}
+			\begin{gathered}
+				\begin{cases}	
+					
+					-\int_\Omega \beta^2(\nabla.\psi)(\nabla.\textbf{J}_{HD})dV+\omega(\omega+i\gamma)\int_{\Omega} \psi. \textbf{J}_HD dV - \\ \ i\omega \omega^2_p \int_\Omega \psi.\varepsilon_{0}\textbf{E}dV = 0 
+					\\
+					\\
+					\int_\Omega ((\nabla \times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omega^2 \phi.\epsilon_{local} \textbf{E}) dV + \\ \ \int_{\partial \Omega} \phi.(\textbf{n} \times (\mu^{-1}_0 \nabla \times \textbf{E}))dA = i\omega \int_\Omega \phi. \textbf{J}_{HD} dV 
+					
+					\\
+					\\
+					\int_\Omega ((\nabla \times \phi).(\mu^{-1}_{0} \nabla \times \textbf{E})- \omega^2\phi \epsilon_{local} \textbf{E}_i)dV + \int_{\partial \Omega} \phi . DtN(\textbf{E})dA\\ \ \ - i\omega \int_\Omega \phi . \textbf{J}_{HD}dV =  -\int_{\partial \Omega} \phi.(n \times (\mu^{-1}_0 \nabla \times \textbf{E}_i))dA + \int_{\partial \Omega} \phi.DtN(\textbf{E}_i)dA
+					
+					\\
+					n.\textbf{J}_{HD}=0 \ \ on \ \partial \Omega 
+		\end{cases} \end{gathered}  \end{equation} \\
+		\\
 		& $\textbf{E}_i$ is the incident electric field calculated at IM\ref{IM:source} \\
 		& $\Omega$ and $partial \Omega$ are respectively the meshed domain and the boundary of it. Therefore,    \\
 		&       
