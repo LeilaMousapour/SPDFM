@@ -1,2 +1,5 @@
-# CAS741
-CAS 741 (Development of Scientific Computing Software) course project repo
+# Documentation folders
+
+The folders and files for this folder are as follows:
+
+Describe ...
