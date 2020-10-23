@@ -792,24 +792,20 @@
 	The specification parameters in Table~\ref{TblInputVar} are listed in
 	Table~\ref{TblSpecParams}.
 	
-	\begin{table}[!h] \caption{Input Variables} \label{TblInputVar}
-		\renewcommand{\arraystretch}{1.2} \noindent \begin{longtable*}{l l l l c}
-			\toprule \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software
-				Constraints} & \textbf{Typical Value} \\ \midrule $\varnothing(\Omega)$ &
-			$\varnothing(\Omega) > 0$ & $\varnothing(\Omega)_{\text{min}} \leq
-			\varnothing(\Omega) \leq \varnothing(\Omega)_{\text{max}}$ & $20*10^{-9}$
-			\si[per-mode=symbol] {\metre} \\ $t_{final}$ & $t_{final}>0$ &   $t_{min} <
-			t_{final} < t_{max}$ & $10^{-12} s$\\ \bottomrule \end{longtable*} \end{table}
-	
-	\begin{table}[!h] \caption{Specification Parameter Values} \label{TblSpecParams}
-		\renewcommand{\arraystretch}{1.2} \noindent \begin{longtable*}{l l} \toprule
-			\textbf{Var} & \textbf{Value} \\ \midrule $\varnothing(\Omega)_{\text{min}}$ &
-			$10^{-8}$ \si{\metre}\\ $\varnothing(\Omega)_{\text{max}}$ & $10^{-7}$
-			\si{\metre}\\ $t_{min}$ & $10^{-15}$\\ $t_{max}$ & $10^{-12}$\\
-			
-			
-			\bottomrule \end{longtable*} \end{table}
-	
+	\begin{table}[!h] \caption{Input Variables} \label{TblInputVar} \renewcommand{\arraystretch}{1.2} \noindent \begin{longtable*}{l l l l c} \toprule \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software Constraints} & \textbf{Typical Value} & Uncertainty\\ \midrule 
+			\textbf{p} & $|\textbf{p}|=1,  \textbf{p} \in \Bbb R^{3} , \textbf{p}.\textbf{d}=0$ & $|\textbf{p}|=1, \textbf{p} \in \Bbb R^{3}, \textbf{p}.\textbf{d}=0$ & $(1,0,0)$ & N/A \\
+			\textbf{d} & $|\textbf{d}|=1,  \textbf{d} \in \Bbb R^{3}, \textbf{p}.\textbf{d}=0$ & $|\textbf{d}|=1, \textbf{d} \in \Bbb R^{3}, \textbf{p}.\textbf{d}=0$ & $(0,1,0)$& N/A\\
+			$\lambda$ & $\lambda>0,  \lambda \in \Bbb R$ & $\lambda>0, \lambda \in \Bbb R$ & $4 * 10^{-7} m$& N/A\\	 
+			$\omega$ & $\omega > 0, \omega \in \Bbb R$ & $\omega > 0, \omega \in \Bbb R$ & 1 THz & N/A\\  
+			$\varnothing(\Omega)$ & $\varnothing(\Omega) > 0$ & $\varnothing(\Omega)_{\text{min}} \leq \varnothing(\Omega) \leq \varnothing(\Omega)_{\text{max}}$ & $20*10^{-9}$ \si[per-mode=symbol] {\metre} & N/A \\ 
+			$t_{final}$ & $t_{final}>0$ &   $t_{min} < t_{final} < t_{max}$ & $10^{-12} s$ & N/A\\
+			 \bottomrule \end{longtable*} \end{table}
+
+\begin{table}[!h] \caption{Specification Parameter Values} \label{TblSpecParams} \renewcommand{\arraystretch}{1.2} \noindent \begin{longtable*}{l l} \toprule \textbf{Var} & \textbf{Value} \\ \midrule $\varnothing(\Omega)_{\text{min}}$ & $10^{-8}$ \si{\metre}\\ $\varnothing(\Omega)_{\text{max}}$ & $10^{-7}$ \si{\metre}\\ $t_{min}$ & $10^{-15}$\\ $t_{max}$ & $10^{-12}$\\
+		
+		
+		\bottomrule \end{longtable*} \end{table}
+
 	\subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
 	
 	The correct measured variables must be judged by the user, based on him/herself
@@ -830,11 +826,11 @@
 	\noindent \begin{itemize}
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_1}:] Provide the user
-		with instructions to input $\textbf{p}$ and $\textbf{d}$ (IM\ref{IM:source}).
+		with instructions to input required data or parameters \wss{$\textbf{p}$ and $\textbf{d}$} (IM\ref{IM:source}, IM\ref{IM:solve}).
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_2}:] Verify the
-		format of the inputs $\textbf{p}$ and $\textbf{d}$ to be vectors in $\Bbb R^3$
-		and $\textbf{p}\textbf{.}\textbf{d}=0$ (IM\ref{IM:source}).
+		format of the inputs $\textbf{p}$ and $\textbf{d}$ to be unite vectors in $\Bbb R^3$
+		and $\textbf{p}\textbf{.}\textbf{d}=0$, and $\lambda$ and $\omega$ to be scalars in $\Bbb R$ where $\lambda > 0$ and $\omega \geqslant 0$ (IM\ref{IM:source}).
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_3}:] Calculate the
 		electric field of the light source $\textbf{E}_i$ to setup the light source
