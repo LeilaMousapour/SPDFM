@@ -30,7 +30,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Oct 17 2020& 1.0 & First Draft\\
+Oct 29 2020& 1.0 & First Draft\\
 \bottomrule
 \end{tabularx}
 
@@ -54,6 +54,7 @@ Oct 17 2020& 1.0 & First Draft\\
   T & Test\\
   VnV & verification and validation\\
   \progname{} & Surface Plasmon Dynamics Finite Method\\
+  MNPBEM & Metallic NanoParticle Boundary Elemenr Method\\
   \bottomrule
 \end{tabular}\\
 The complete table of symbols, abbreviations and acronyms can be found in the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document of the software. 
@@ -121,7 +122,7 @@ System Tests:  System tests will be carried out as listed in Section \ref{systes
 
 By predetermining some user inputs, an automated testing approach can be
 considered. The most of the functional requirement system tests will be executed and
-validated automatically; these tests are outlined in Section \ref{func}. The goal of testing is $100\%$ code coverage. However, some system tests () require at least a manual assessment of the test results and
+validated automatically; these tests are outlined in Section \ref{func}. The goal of testing is $100\%$ code coverage. However, some system tests (Test12, Test14, Test15, Test16, Test17, Test18) require at least a manual assessment of the test results and
 are thus removed from the automated scope.
 \subsection{Software Validation Plan}
  
@@ -325,8 +326,7 @@ Output: An error saying "Error: Invalid mesh file format"
 Test Case Derivation: \progname{} only accepts .mesh format as the mesh input. 
 
 How test will be performed: The file with an unexpected format should be input to the software and the expected error shall be appear on the screen. Shayan Mousavi is responsible for execution of this test.  
-
-
+\\
 %---------------------------------------------------------------T11	
 \item{\textbf{Test 11:} validation of format of the input mesh\\}
 
@@ -400,8 +400,7 @@ How test will be performed: The file with an unexpected format should be input t
 	Test Case Derivation: In this test $E_i$ is the electric field of the incident beam calculated by the software and $E_i^t$ is the electric field calculated in the test function following the equation $E_i^t = cos(k\  \textbf{d.} \textbf{r} - \omega t) - i \ sin(k\  \textbf{d.} \textbf{r} - \omega t)$   
 	
 	How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
-	
-	
+\\	
 \item{\textbf{Test 14:} Light source electric field evolution\\}
 
 Control: Manual 
@@ -440,8 +439,7 @@ Output: N/A
 Test Case Derivation: Walkthrough 
 
 How test will be performed: Shayan Mousavi and Dr. Alexander Pofelski are responsible for walkthrough the whole codes after MG and MIS documents developed and verify the functionality of the code and validate that theoretical equations are properly fed to FEniCS PDE solver.
-
-	
+\\	
 \item{\textbf{Test 16:} Amplitude of E and J$_{HD}$ in absence of light source\\}
 
 Control: Manual 
@@ -459,9 +457,8 @@ Output: for all the nodes value of E and J$_{HD}$ shall be zero
 
 Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
 
-How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  	
-		
-		
+How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  			
+\\
 \item{\textbf{Test 17:} Amplitude of E and J$_{HD}$ in absence of light source\\}
 
 Control: Manual 
@@ -480,8 +477,7 @@ Output: for all the nodes value of E and J$_{HD}$ shall be zero
 Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
 
 How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  
-
-
+\\
 \item{\textbf{Test 18:} Amplitude of E and J$_{HD}$ in absence of light source\\}
 
 Control: Manual 
