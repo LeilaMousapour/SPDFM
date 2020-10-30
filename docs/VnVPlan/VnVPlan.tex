@@ -124,11 +124,8 @@ considered. The most of the functional requirement system tests will be executed
 validated automatically; these tests are outlined in Section \ref{func}. The goal of testing is $100\%$ code coverage. However, some system tests () require at least a manual assessment of the test results and
 are thus removed from the automated scope.
 \subsection{Software Validation Plan}
-
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.} 
-Metallic Nanoparticle 
+ 
+Metallic Nanoparticle Boundary Element Method (MNPBEM) toolbox in MATLAB is used for validation of the calculated electric field density in this study. In this regard, as MNPBEM toolbox uses quasi-static method to solve Maxwell's equations at the boundaries of a meshed geometry, this software is used to validation of the \progname{}, which solves similar equations using nonlocal hydrodynamic theory (Test 18).
 
 \section{System Test Description}
 \label{systest}
@@ -312,23 +309,38 @@ How test will be performed: Using Pytest library the material properties which a
  
 \end{enumerate}
 
-\paragraph{Test R 5: Proper input meshing }
+\paragraph{Test R 5: Mesh Input Verification}
 \begin{enumerate}
-	
-\item{\textbf{Test 10:} \\}
+%---------------------------------------------------------------T10	
+\item{\textbf{Test 10:} validation of format of the input mesh\\}
 
-Control: Manual
+Control: Automated
 
-Initial State: N/A
+Initial State: As \progname{} solves the nonlocal hydrodynamic equations for any arbitrary meshed geometry the quality of the mesh has not been verified. The only area about mesh that is concerned by \progname{} is the input format of the mesh. 
 
-Input: \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} 
+Input:A mesh cylinder in a file with .geo format (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.geo}{cylinder\_3d.geo}) 
 
-Output: visualization of the 
+Output: An error saying "Error: Invalid mesh file format" 
 
-Test Case Derivation: 
+Test Case Derivation: \progname{} only accepts .mesh format as the mesh input. 
 
-How test will be performed: Using Pytest library the material properties which are written in \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} file will be input to Material Properties Input Module. As in this data set $\mu_0$ is missed, desired output is an error. Shayan Mousavi is responsible for execution of this test.  
-	
+How test will be performed: The file with an unexpected format should be input to the software and the expected error shall be appear on the screen. Shayan Mousavi is responsible for execution of this test.  
+
+
+%---------------------------------------------------------------T11	
+\item{\textbf{Test 11:} validation of format of the input mesh\\}
+
+Control: Automated
+
+Initial State: As \progname{} solves the nonlocal hydrodynamic equations for any arbitrary meshed geometry the quality of the mesh has not been verified. The only area about mesh that is concerned by \progname{} is the input format of the mesh. 
+
+Input:A mesh cylinder in a file with .mesh format (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.mesh}{cylinder\_3d.mesh}) 
+
+Output:"Mesh received"
+
+Test Case Derivation: \progname{} only accepts .mesh format as the mesh input. If the proper format is fed to the software, an approval message will confirm that software will move on to the next step.
+
+How test will be performed: The file with an unexpected format should be input to the software and expected message shall be appear on the screen. Shayan Mousavi is responsible for execution of this test.  	
 	
 \end{enumerate}
 
@@ -337,7 +349,7 @@ How test will be performed: Using Pytest library the material properties which a
 
 \begin{enumerate}
 	
-	\item{\textbf{Test 1:} Instruction print out\\}
+	\item{\textbf{Test 12:} Instruction print out\\}
 	
 	Control: Manual
 	
@@ -370,7 +382,7 @@ How test will be performed: Using Pytest library the material properties which a
 
 \begin{enumerate}
 	
-	\item{\textbf{Test 11:} calculation of the light source electric field \\}
+	\item{\textbf{Test 13:} calculation of the light source electric field \\}
 	
 	Control: Automated 
 	
@@ -390,7 +402,7 @@ How test will be performed: Using Pytest library the material properties which a
 	How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
 	
 	
-\item{\textbf{Test 12:} Light source electric field evolution\\}
+\item{\textbf{Test 14:} Light source electric field evolution\\}
 
 Control: Manual 
 
@@ -411,11 +423,11 @@ How test will be performed: Using Pytest library in python. Codes can be found i
 	
 \end{enumerate}
 
-\paragraph{Test R 7: Correctness of the calculated electric field density (E) and electric current density (J$_\textbf{{HD}}$)}
+\paragraph{Test R 6: Correctness of the calculated electric field density (E) and electric current density (J$_\textbf{{HD}}$)}
 	
 \begin{enumerate}
 	
-\item{\textbf{Test 13:} Proper implementation of equations in code\\}
+\item{\textbf{Test 15:} Proper implementation of equations in code\\}
 
 Control: Manual
 
@@ -430,7 +442,7 @@ Test Case Derivation: Walkthrough
 How test will be performed: Shayan Mousavi and Dr. Alexander Pofelski are responsible for walkthrough the whole codes after MG and MIS documents developed and verify the functionality of the code and validate that theoretical equations are properly fed to FEniCS PDE solver.
 
 	
-\item{\textbf{Test 13:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+\item{\textbf{Test 16:} Amplitude of E and J$_{HD}$ in absence of light source\\}
 
 Control: Manual 
 
@@ -450,7 +462,7 @@ Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, t
 How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  	
 		
 		
-\item{\textbf{Test 13:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+\item{\textbf{Test 17:} Amplitude of E and J$_{HD}$ in absence of light source\\}
 
 Control: Manual 
 
@@ -470,7 +482,7 @@ Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, t
 How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  
 
 
-\item{\textbf{Test 13:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+\item{\textbf{Test 18:} Amplitude of E and J$_{HD}$ in absence of light source\\}
 
 Control: Manual 
 
@@ -502,7 +514,7 @@ How test will be performed: Shayan Mousavi is responsible for executing both SPD
 
 \begin{enumerate}
 
-\item{\textbf{Test :} Usibility \\}
+\item{\textbf{Test 19:} Usibility \\}
 
 Type: Usability Survey
 					
@@ -521,7 +533,7 @@ How test will be performed: each participant shall install the software on a sys
 
 \begin{enumerate}
 	
-	\item{\textbf{Test :} Maintainability\\}
+	\item{\textbf{Test 20:} Maintainability\\}
 	
 	Type: Maintainability Walkthrough
 	
@@ -539,32 +551,37 @@ How test will be performed: each participant shall install the software on a sys
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+Table \ref{Table:A_trace} shows the connection between functional and nonfunctional requirements and the tests provided in this document. 
 
 \begin{table}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline        
-		& R1 & R2 & R3 & R4 & R5 & R6 & R7 & NR1 & NR2 \\
+		& R1 & R2 & R3 & R4 & R5 & R6 & NR1 & NR2 \\
 		\hline
-		Test1        & X& & & X& & & X& &  \\ \hline
-		Test2             & & X& & X& X& & & X&  \\ \hline
-		Test3             & & & X& X& & X& & & \\ \hline
-		Test4      &X &X &X &X & & &X&X&X\\ \hline
-		Test5         & &X & & &X & & &X &X  \\ \hline
-		Test6         & & &X & & &X & &X & \\ \hline
-		Test7   & X& & & X& & & X& & \\ \hline
-		Test8        & & & &X &X &X & &X & \\ \hline
-		Test9         & &X & & &X & & & &X   \\ \hline
-		Test10        &X & & &X & & &X & &   \\ \hline
-		Test11         &X &X &X &X &X &X &X &X &X  \\ \hline
-		Test12          &X &X &X &X &X &X &X &X &X   \\ \hline
-		Test13          &X &X &X &X &X &X &X &X &X  \\ \hline
-		Test14          &X &X &X &X &X &X &X &X &X   \\ \hline
-		Test15          &X &X &X &X &X &X &X &X &X   \\ \hline
-		Test16          &X &X &X &X &X &X &X &X &X   \\ \hline
+		Test1        & &X & & & & & &   \\ \hline
+		Test2        & &X & & & & & &   \\ \hline
+		Test3        & &X & & & & & &  \\ \hline
+		Test4        & &X & & & & & & \\ \hline
+		Test5        & &X & & & & & &   \\ \hline
+		Test6        & &X & & & & & &  \\ \hline
+		Test7        & &X & & & & & &  \\ \hline
+		Test8        & &X & & & & & &  \\ \hline
+		Test9        & & & &X & & & &  \\ \hline
+		Test10       & & & & &X & & &  \\ \hline
+		Test11       & & & & & X& & &  \\ \hline
+		Test12       &X & & & & & & &  \\ \hline
+		Test13       & & &X & & & & &  \\ \hline
+		Test14       & & &X & & & & &  \\ \hline
+		Test15       & & & & & &X & &  \\ \hline
+		Test16       & & & & & &X & &  \\ \hline
+		Test17       & & & & & &X & &  \\ \hline
+		Test18       & & & & & &X & &  \\ \hline
+		Test19       & & & & & & &X &  \\ \hline
+		Test20       & & & & & & & &X  \\ \hline
 	\end{tabular}
+\caption{Traceability Matrix Showing the Connections Between Tests and Functional and Nonfunctional System Requirements}
+\label{Table:A_trace}
 \end{table}
 
 \section{Unit Test Description}
