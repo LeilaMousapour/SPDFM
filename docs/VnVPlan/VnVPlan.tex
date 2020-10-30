@@ -109,13 +109,6 @@ The design shall be verified by ensuring that key aspects in \progname{} are, as
 
 \subsection{Implementation Verification Plan}
 
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
-
-\wss{In this section you would also give any details of any plans for static verification of
-  the implementation.  Potential techniques include code walkthroughs, code
-  inspection, static analyzers, etc.}
-
 The implementation shall be verified in the following ways:\\
 \\
 Code Walkthrough by author:  Module unit code shall be inspected for functional errors by the author (Shayan Mousavi) after MIS document is developed.\\  
@@ -302,21 +295,42 @@ How test will be performed: Using Pytest library in python Input Module will be 
 %---------------------------------------------------------------T9
 \item{\textbf{Test 9:} \\}
 
-Control: Automatic
+Control: Manual
 
-Initial State: As materials properties as assumed to be received by another input module no initial states regarding the light source are required.
+Initial State: As materials properties as assumed to be received by another input module no initial input regarding the light source is required. The validity of the material properties is not been tested and focus is on providing the complete data set.
 
-Input: All the material related parameters are written in a text file as instructed in the \href{URL}{text} input_instruction.text
+Input: \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} 
 
-Output: 
+All the material related parameters are written in a .csv file as instructed in the \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/Input_Instruction.txt}{Input\_Instruction.txt} more details can also be found in MG and MIS documents. 
 
-Test Case Derivation: Although some constraints on material parameters can be considered, \progname{} has no limitations on these values other that their type and their sign. In this regards,   
+Output: An error saying "Error: Insufficient properties are provided"
 
-How test will be performed: Using Pytest library the material properties which are written in a csv file that shall be found in 
+Test Case Derivation: Although some constraints on material parameters can be considered, \progname{} has no limitations on these values. However for initiation of the simulations, \progname{} need to be given enough input data in a .csv file.  
+
+How test will be performed: Using Pytest library the material properties which are written in \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} file will be input to Material Properties Input Module. As in this data set $\mu_0$ is missed, desired output is an error. Shayan Mousavi is responsible for execution of this test.  
 
  
 \end{enumerate}
 
+\paragraph{Test R 5: Proper input meshing }
+\begin{enumerate}
+	
+\item{\textbf{Test 10:} \\}
+
+Control: Manual
+
+Initial State: N/A
+
+Input: \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} 
+
+Output: visualization of the 
+
+Test Case Derivation: 
+
+How test will be performed: Using Pytest library the material properties which are written in \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} file will be input to Material Properties Input Module. As in this data set $\mu_0$ is missed, desired output is an error. Shayan Mousavi is responsible for execution of this test.  
+	
+	
+\end{enumerate}
 
 \subsubsection{Output Verification (and/or Validation) tests}
 \paragraph{Test R 1: Software providing the user with information }
@@ -340,8 +354,7 @@ How test will be performed: Using Pytest library the material properties which a
 	Frequency = freq : light source angular frequency (THz), freq in R;\\
 	Time step = delt\_t : time step (fs), delta\_t in R;\\
 	Final time = t\_final : (fs), t\_final in R;\\
-	Fermi velocity in the medium = v\_f : (m/s), v\_f in R;\\
-	Dielectric information;\\
+	provide materials properties in a .csv as instructed;\\
 	Mesh file : address of the .gmsh file."
 	
 	Test Case Derivation: As soon as the software is executed, the above paragraph should be shown to notify the user of the 
@@ -351,7 +364,7 @@ How test will be performed: Using Pytest library the material properties which a
 	
 \end{enumerate}
 
-\paragraph{Test R 2: Correctness of the light source related data entry}
+
 
 \paragraph{Test R 3: Correctness of the light source electric field calculation}
 
@@ -395,106 +408,164 @@ Output: for t=0, plot of evolution of electric field by R. for r=(0, 0, 0), plot
 Test Case Derivation: In this test $E_i = cos(k\  \textbf{d.} \textbf{r} - \omega t) - i \ sin(k\  \textbf{d.} \textbf{r} - \omega t)$ is plotted with respect to time and space and the examiner is responsible to see if the behaviour of the function is as expected or not.   
 
 How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_plot\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
-
-\paragraph{Test R 3: Correctness of the measurment}
-	
-	
-
-
-
-	
 	
 \end{enumerate}
 
+\paragraph{Test R 7: Correctness of the calculated electric field density (E) and electric current density (J$_\textbf{{HD}}$)}
+	
+\begin{enumerate}
+	
+\item{\textbf{Test 13:} Proper implementation of equations in code\\}
+
+Control: Manual
+
+Initial State:  performance of FEniCS toolbox has not been tested. 
+
+Input:N/A
+
+Output: N/A
+
+Test Case Derivation: Walkthrough 
+
+How test will be performed: Shayan Mousavi and Dr. Alexander Pofelski are responsible for walkthrough the whole codes after MG and MIS documents developed and verify the functionality of the code and validate that theoretical equations are properly fed to FEniCS PDE solver.
+
+	
+\item{\textbf{Test 13:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+
+Control: Manual 
+
+Initial State:  performance of FEniCS toolbox has not been tested. 
+
+Input:\textbf{p}=(0,0,0)\\
+\rule{1.3cm}{0pt}\textbf{d}=(0,1,0)\\
+\rule{1.3cm}{0pt}wavelength=700 nm\\ 
+\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$\\
+\rule{1.3cm}{0pt}materials properties file (.csv): \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv}\\
+\rule{1.3cm}{0pt}mesh file (.msh): \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.msh}{cylinder\_3d.msh}
+
+Output: for all the nodes value of E and J$_{HD}$ shall be zero 
+
+Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
+
+How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  	
+		
+		
+\item{\textbf{Test 13:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+
+Control: Manual 
+
+Initial State: Performance of FEniCS toolbox in python has not been tested. 
+
+Input:\textbf{p}=(0,0,0)\\
+\rule{1.3cm}{0pt}\textbf{d}=(0,1,0)\\
+\rule{1.3cm}{0pt}wavelength=700 nm\\ 
+\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$\\
+\rule{1.3cm}{0pt}materials properties file (.csv): Material properties for gold (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv})\\
+\rule{1.3cm}{0pt}mesh file (.msh): A 3d meshed cylinder (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.msh}{cylinder\_3d.msh})
+
+Output: for all the nodes value of E and J$_{HD}$ shall be zero 
+
+Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
+
+How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  
 
 
-\subsubsection{Area of Testing2}
+\item{\textbf{Test 13:} Amplitude of E and J$_{HD}$ in absence of light source\\}
 
-...
+Control: Manual 
+
+Initial State:  performance of FEniCS toolbox in python and MNPBEM toobox in MATLAB has not been tested. 
+
+Input:\textbf{p}=(1,0,0)\\
+\rule{1.1cm}{0pt}\textbf{d}=(0,1,0)\\
+\rule{1.1cm}{0pt}wavelength=532 nm\\ 
+\rule{1.1cm}{0pt}t=0\\
+\rule{1.1cm}{0pt}materials properties file (.csv): Material properties for gold  \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv}\\
+\rule{1.1cm}{0pt}mesh file (.msh): A meshed sphere of 12 nm diameter
+
+Output: .vtk 3D intensity map of the meshed geometry
+
+Test Case Derivation: Similar input shall be fed to the MNPBEM toolbox in  MATLAB and the electric field enhancement be extracted for the 3D meshed geometry. As MNPBEM uses boundary element method to calculate a quasi-static approximation of the Maxwell's equations it is not expected to have exactly the same results. However, as both nonlocal hydrodynamic theory and quasi-static theory trying to solve similar equations roughly similar behaviour on the surface of the structure is expected.     
+
+How test will be performed: Shayan Mousavi is responsible for executing both SPDFM and MNPBEM simulations. Shayan Mousavi, Dr. Gianluigi Botton, and Dr. Alex Pofelski are responsible for evaluating how these two responses are close.
+
+
+\end{enumerate}
+	
 
 \subsection{Tests for Nonfunctional Requirements}
 \label{nonfunc}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.}
-
-\wss{Tests related to usability could include conducting a usability test and
-  survey.}
-
-\subsubsection{Area of Testing1}
+\subsubsection{Usability}
 		
-\paragraph{Title for Test}
+\paragraph{Test NR1: Capability of execution of the software}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{\textbf{Test :} Usibility \\}
 
-Type: 
+Type: Usability Survey
 					
-Initial State: 
+Initial State: The system being used should already have Python3, and FEniCS toolbox installed on.  
 					
-Input/Condition: 
+Input/Condition: A usability survey with the questions listed in Section \ref{usab}. For execution of a simulation, data provided in Test? is suggested to be used.
 					
-Output/Result: 
+Output/Result: Survey results
 					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
+How test will be performed: each participant shall install the software on a system and try to run a simulation. Respondents will be asked to rank their experience of installing and running a module. A final average grade of 3 will indicate that the users found the system to have average usability. The higher the score,the better the perception of usability. Shayan Mousavi and Alexander Pofelski shall be participate this test. This approach is suggested by \cite{LatticeB41:online}.
 
 \end{enumerate}
+\subsubsection{Maintainability}
 
-\subsubsection{Area of Testing1}
-
-\paragraph{Title for Test}
+\paragraph{Test NR2: Maintainability and expandability of the software}
 
 \begin{enumerate}
 	
-	\item{test-id1\\}
+	\item{\textbf{Test :} Maintainability\\}
 	
-	Type: 
+	Type: Maintainability Walkthrough
 	
-	Initial State: 
+	Initial State: Maintainability of the repository and external toolboxes used in this software such as FEniCS has not been tested.
 	
-	Input/Condition: 
+	Input/Condition: production version of \progname{} has been released.
 	
-	Output/Result: 
+	Output/Result: A graded report describing the maintainability of the repository
 	
-	How test will be performed: 
-	
-	\item{test-id2\\}
-	
-	Type: Functional, Dynamic, Manual, Static etc.
-	
-	Initial State: 
-	
-	Input: 
-	
-	Output: 
-	
-	How test will be performed: 
-	
+	How test will be performed: Dr. Alexander Pofelski shall check the repository for the following documentation:  SRS, VnV Plan, MG, MIS, User Guide. He shall mark 1 point for each of the above documents. He shall read through each of the above documents and
+	provide a grade between 1 and 5 for clarity of the writing. A score of 1 represents a document that is hard to understand, and a score of 5 represents a document that is easy to understand. The user should also grade the traceability of each document. A score of 1 represents no links within the report, and a score of 5 represents many links between sections of the report. The user shall then divide the sum of the scores for all of the reports by 5.
+	 A final average grade of 3 will indicate that the users found the system to have average Maintainability. The higher the score,the better the perception of Maintainability. This approach is suggested by \cite{LatticeB41:online}. 
+					
 \end{enumerate}
-
-
-\subsubsection{Area of Testing2}
-
-...
 
 \subsection{Traceability Between Test Cases and Requirements}
 
 \wss{Provide a table that shows which test cases are supporting which
   requirements.}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline        
+		& R1 & R2 & R3 & R4 & R5 & R6 & R7 & NR1 & NR2 \\
+		\hline
+		Test1        & X& & & X& & & X& &  \\ \hline
+		Test2             & & X& & X& X& & & X&  \\ \hline
+		Test3             & & & X& X& & X& & & \\ \hline
+		Test4      &X &X &X &X & & &X&X&X\\ \hline
+		Test5         & &X & & &X & & &X &X  \\ \hline
+		Test6         & & &X & & &X & &X & \\ \hline
+		Test7   & X& & & X& & & X& & \\ \hline
+		Test8        & & & &X &X &X & &X & \\ \hline
+		Test9         & &X & & &X & & & &X   \\ \hline
+		Test10        &X & & &X & & &X & &   \\ \hline
+		Test11         &X &X &X &X &X &X &X &X &X  \\ \hline
+		Test12          &X &X &X &X &X &X &X &X &X   \\ \hline
+		Test13          &X &X &X &X &X &X &X &X &X  \\ \hline
+		Test14          &X &X &X &X &X &X &X &X &X   \\ \hline
+		Test15          &X &X &X &X &X &X &X &X &X   \\ \hline
+		Test16          &X &X &X &X &X &X &X &X &X   \\ \hline
+	\end{tabular}
+\end{table}
 
 \section{Unit Test Description}
 
@@ -627,8 +698,41 @@ This is where you can place additional information.
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 
-\subsection{Usability Survey Questions?}
+\subsection{Usability Survey Questions?} \label{usab}
 
-\wss{This is a section that would be appropriate for some projects.}
-
+Using the following rubric please rate the five statements found below (this rubric is suggested by \cite{LatticeB41:online}):\\
+\textbf{1. The formatting of the input file was easy to understand.} \\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\ 
+\\
+\textbf{2. The location to place the input file was easy to find.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\ 
+\\
+\textbf{3. Navigating to the correct module was straightforward.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\
+\\
+\textbf{4. The MG and MIS of this product explain the modules well.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\
+\\
+\textbf{5. I would recommend this product.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\
 \end{document}
