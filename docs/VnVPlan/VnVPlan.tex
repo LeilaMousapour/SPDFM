@@ -1,0 +1,634 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+\usepackage{amssymb}
+\input{Comments}
+\input{Common}
+
+\begin{document}
+
+\title{Project Title: System Verification and Validation Plan for \progname{}} 
+\author{S. Shayan Mousavi M.}
+\date{\today}
+	
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+Oct 17 2020& 1.0 & First Draft\\
+\bottomrule
+\end{tabularx}
+
+\newpage
+
+\tableofcontents
+
+\listoftables
+
+\listoffigures
+
+\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  T & Test\\
+  VnV & verification and validation\\
+  \progname{} & Surface Plasmon Dynamics Finite Method\\
+  \bottomrule
+\end{tabular}\\
+The complete table of symbols, abbreviations and acronyms can be found in the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document of the software. 
+\newpage
+
+\pagenumbering{arabic}
+
+This document provides the information on validation and verification plans implemented for the \progname{} software. In this regard,the general approaches and plans are initially discussed and afterwards specific test cases and approaches for validation and verification of functional and nonfunctional requirements (can be found in \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS}) are reviewed. VnV plans here are a combination of manual (assigned to a member of the VnV team to assess) and automated testing approaches to evaluate the correctness of the information (whether input or output) or satisfaction of a goal in \progname{}.    
+
+\section{General Information}
+
+\subsection{Summary}
+
+The \progname{} software, which its VnV plan is discussed in this document, is a software for calculating plasmon-enhanced electric field and electric current in a meshed geometry. This software should be able to setup an optical source (given the related parameters) and study how electric field and current densities in the dielectric are affected. The calculations in this software are based on the newly established theory of surface plasmon oscillations, nonlocal hydrodynamic theory of surface plasmons \cite{hiremath2012numerical}.   
+
+\subsection{Objectives}
+\label{obj}
+
+This document tries to address the most important areas of the \progname{} software that can act like bottle necks of the system and make sure these areas function properly. In this regard, following chapters will discuss how these key aspects which include, setting up a light source, having properly meshed geometry, well defined dielectric environment, and theoretical formulation used. These areas are reflected within the functional and nonfunctional system requirements in Chapter 5 of the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document.  
+In this software some python libraries are implemented such as FEniCS and Meshio which their validity is accepted will not be checked here. 
+
+\subsection{Relevant Documentation}
+
+The relevant documentation for \progname{}, including the problem statement (\cite{SPDFMdoc22:online}), SRS (\cite{SPDFMdoc90:online}), SRS checklist (\cite{BlankPro77:online}), VnV report, MG, and MIS can be found in the devoted \href{https://github.com/shmouses/SPDFM}{GitHub repository} to this software. For theoretical aspects \cite{hiremath2012numerical}, \cite{monk2003finite}, and \cite{maier2007plasmonics} are the major important resources used in this software.  
+
+
+\section{Plan}
+	
+\subsection{Verification and Validation Team}
+
+The VnV team in this work includes S. Shayan Mousavi M., responsible for reviewing all the documentations, providing test cases and their execution, verifying the theoretical aspects and their implementation; Dr. Spencer Smiths (CAS741 instructor), and S. Parsa Tayefeh Morsal (domain expert), responsible for reviewing the design of the software, all documentations, and the documenting style itself; Naveen Ganesh Muralidharan (secondary reviewer) responsible for reviewing SRS document; Siddharth (Sid) Shinde (secondary reviewer) responsible for reviewing VnV document; Gabriela Sánchez Díaz (secondary reviewer) responsible for reviewing MG and MIS documents. The theoretical aspects and finite element method implemented in \progname{} is verified by Dr. Gianluigi Botton (supervisor), and Dr. Alexander Pofelski (field expert contributor).
+
+
+
+\subsection{SRS Verification Plan}
+
+The \progname{} shall be verified in the following ways:\\
+\\
+ Initial reviews from assigned members of the VnV team (Dr. Spencer Smith, S. Parsa Tayefeh Morsal, Naveen Ganesh Muralidharan, and Shayan Mousavi). In this regard, the document shall be manually reviewed using the \href{https://gitlab.cas.mcmaster.ca/smiths/cas741/-/blob/master/BlankProjectTemplate/docs/SRS/SRS-Checklist.pdf}{SRS checklist} (\cite{BlankPro77:online}) upon its initial version.\\
+ \\
+ Secondary review by the author (Shayan Mousavi). The SRS document shall be reviewed after receiving initial reviews, and completion of \href{https://github.com/shmouses/SPDFM/tree/master/docs/VnV}{VnV} document.\\  
+ \\
+ Final review by the author (Shayan Mousavi) and the instructor (Dr. Spencer Smith). The document shall be manually reviewed according to the  \href{https://gitlab.cas.mcmaster.ca/smiths/cas741/-/blob/master/BlankProjectTemplate/docs/SRS/SRS-Checklist.pdf}{SRS checklist} (\cite{BlankPro77:online})  after MG and MIS development.\\ 
+ \\
+ Review of theoretical aspects by the field experts (Dr. Gianluigi Botton, Dr. Alexander Pofelski, and Shayan Mousavi). Theories used in the SRS document shall be reviewed manually with respect to the governing relations in the realm of plasmonic physics (\cite{maier2007plasmonics}, \cite{hiremath2012numerical}, \cite{monk2003finite}).\\
+ \\ 
+ Feedback received from interested contributors through issue tracker in GitHub platform will also be used to improve this document. 
+ 
+
+\subsection{Design Verification Plan}
+
+The design shall be verified by ensuring that key aspects in \progname{} are, as listed in Section \ref{obj}. In this regard, the system functional requirements shall be tested initially, as outlined in \ref{func}, and in following the nonfunctional requirements will be review, as outlined in \ref{nonfunc}.
+
+\subsection{Implementation Verification Plan}
+
+\wss{You should at least point to the tests listed in this document and the unit
+  testing plan.}
+
+\wss{In this section you would also give any details of any plans for static verification of
+  the implementation.  Potential techniques include code walkthroughs, code
+  inspection, static analyzers, etc.}
+
+The implementation shall be verified in the following ways:\\
+\\
+Code Walkthrough by author:  Module unit code shall be inspected for functional errors by the author (Shayan Mousavi) after MIS document is developed.\\  
+\\
+Code Walkthrough by contributors: Module unit code shall be inspected for functional errors by Dr. Alexander Pofelski after MIS document is developed.\\
+\\
+System Tests:  System tests will be carried out as listed in Section \ref{systest}. The functional and nonfunctional requirements shall be by those listed in the outline of each test. These tests are conducted either manually or automatically which is outlined for each test individual in Chapter \ref{systest}. 
+
+\subsection{Automated Testing and Verification Tools}
+
+By predetermining some user inputs, an automated testing approach can be
+considered. The most of the functional requirement system tests will be executed and
+validated automatically; these tests are outlined in Section \ref{func}. The goal of testing is $100\%$ code coverage. However, some system tests () require at least a manual assessment of the test results and
+are thus removed from the automated scope.
+\subsection{Software Validation Plan}
+
+\wss{If there is any external data that can be used for validation, you should
+  point to it here.  If there are no plans for validation, you should state that
+  here.} 
+Metallic Nanoparticle 
+
+\section{System Test Description}
+\label{systest}
+
+\subsection{Tests for Functional Requirements}
+\label{func}
+The subsections below are designed to cover all the functional requirements of the system which are listed in Chapter 5 of the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document. coverage of each functional requirement is indicated in each subsection.
+
+\subsubsection{Input Verification (and/or Validation) tests}
+
+
+This section covers verification and validation of the user's inputs which are reflected in R2, R4, R5.
+		
+\paragraph{Test R 2: Correctness of the light source related input data}
+\begin{enumerate}		
+
+%----------------------------------------------------------------T1
+\item{\textbf{Test 1:} validity of \textbf{p} vector\\}
+
+Control: Automatic
+					
+Initial State: N/A
+					
+Input: Incident light polarity: \textbf{p} = (a, 0, 0)\\
+\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0)
+					
+Output: An error should be print out saying "Invalid parameter p: p should be a 3D vector of floating numbers"  
+
+Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
+ 				
+How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test. 
+\\
+\\
+%----------------------------------------------------------------T2
+%
+\item{\textbf{Test 2:} validity of \textbf{d} vector \\}
+
+Control: Automatic
+
+Initial State: N/A
+
+Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 0, x)
+
+Output: An error should be print out saying "Invalid parameter d: d should be a 3D vector of floating numbers"  
+
+Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D unit vector in $\Re^3$ which are perpendicular to each other.
+
+How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test. 
+\\
+\\
+%----------------------------------------------------------------T3
+
+\item{\textbf{Test 3:} validation of \textbf{d} vector unity \\}
+
+Control: Automatic
+
+Initial State: N/A
+
+Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0.2)
+
+Output: An error should be print out saying "Invalid parameter d: d should be a 3D unit vector of floating numbers"  
+
+Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
+
+How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
+\\
+\\
+%----------------------------------------------------------------T4
+
+\item{\textbf{Test 4:} validation of \textbf{p} and \textbf{d} vectors orthogonality \\}
+
+Control: Automatic
+
+Initial State: N/A
+
+Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+\rule{1.15cm}{0pt} Direction: \textbf{d} = (1, 0, 0)
+
+Output: An error should be print out saying "Invalid parameters p and d: orthogonality of p and d vectors is not followed"  
+
+Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
+
+How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
+\\
+\\
+%----------------------------------------------------------------T5
+
+\item{\textbf{Test 5:} validation of accepting correct p and d input\\}
+
+Control: Automatic
+
+Initial State: N/A
+
+Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0)
+
+Output: This message should be appear: "Valid polarity and direction vectors" and software should move on
+
+Test Case Derivation: User will be informed of correctness of the input.
+
+How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
+\\
+\\
+%----------------------------------------------------------------T6
+
+\item{\textbf{Test 6:} validation of wavelength input\\}
+
+Control: Automatic
+
+Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
+\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
+\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
+
+Input: wavelength = 100
+
+Output: An error should be print out saying "Out of range wavelength input: Input wavelength should be in nm and between 200 nm to 6000 nm" 
+
+Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
+
+How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test.
+\\
+\\
+%----------------------------------------------------------------T7
+\item{\textbf{Test 7:} validation of wavelength input\\}
+
+Control: Automatic
+
+Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
+\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
+\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
+
+Input: wavelength = 6200
+Output: An error should be print out saying "Out of range wavelength input: Input wavelength should be in nm and between 200 nm to 6000 nm" 
+
+Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
+
+How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test.
+\\
+\\
+%----------------------------------------------------------------T8
+\item{\textbf{Test 8:} validation of wavelength input\\}
+
+Control: Automatic
+
+Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
+\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
+\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
+
+Input: wavelength = 700
+
+Output: A confirmation massage should be showed up: "The input wavelength is valid" and software must move on.
+
+Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
+
+How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test. 
+\\
+\\
+\end{enumerate}
+
+\paragraph{Test R 4: Correctness of the materials properties data entry}
+\begin{enumerate}
+%---------------------------------------------------------------T9
+\item{\textbf{Test 9:} \\}
+
+Control: Automatic
+
+Initial State: As materials properties as assumed to be received by another input module no initial states regarding the light source are required.
+
+Input: All the material related parameters are written in a text file as instructed in the \href{URL}{text} input_instruction.text
+
+Output: 
+
+Test Case Derivation: Although some constraints on material parameters can be considered, \progname{} has no limitations on these values other that their type and their sign. In this regards,   
+
+How test will be performed: Using Pytest library the material properties which are written in a csv file that shall be found in 
+
+ 
+\end{enumerate}
+
+
+\subsubsection{Output Verification (and/or Validation) tests}
+\paragraph{Test R 1: Software providing the user with information }
+
+\begin{enumerate}
+	
+	\item{\textbf{Test 1:} Instruction print out\\}
+	
+	Control: Manual
+	
+	Initial State: N/A
+	
+	Input: N/A
+	
+	Output: 
+	"To initiate SPDFM software simulations user need to provide the software with following information:\\
+	p = (p1, p2, p3) : 3D light source polarity vector, \{p1, p2, p3\} in R;\\
+	d = (d1, d2, d3) : 3D light source propagation direction unit vector, \{d1, d2, d3\} in R;\\
+	p and d must be perpendicular;\\ 
+	Wavelength = wl : light source spatial wavelength (nm), wl in R;\\
+	Frequency = freq : light source angular frequency (THz), freq in R;\\
+	Time step = delt\_t : time step (fs), delta\_t in R;\\
+	Final time = t\_final : (fs), t\_final in R;\\
+	Fermi velocity in the medium = v\_f : (m/s), v\_f in R;\\
+	Dielectric information;\\
+	Mesh file : address of the .gmsh file."
+	
+	Test Case Derivation: As soon as the software is executed, the above paragraph should be shown to notify the user of the 
+	
+	How test will be performed: Shayan Mousavi is responsible to check and verify functionality of this feature.   
+	
+	
+\end{enumerate}
+
+\paragraph{Test R 2: Correctness of the light source related data entry}
+
+\paragraph{Test R 3: Correctness of the light source electric field calculation}
+
+\begin{enumerate}
+	
+	\item{\textbf{Test 11:} calculation of the light source electric field \\}
+	
+	Control: Automated 
+	
+	Initial State:  \textbf{p}, \textbf{d}, and wavelength are previously given to the software. \\
+	\rule{2.3cm}{0pt} \textbf{p}=(1,0,0)\\
+	\rule{2.3cm}{0pt} \textbf{d}=(0,1,0)\\
+	\rule{2.3cm}{0pt} wavelength=700 nm\\
+	\rule{2.3cm}{0pt} The location vector, r, and time, t, will be given as below.  
+	
+	Input: R = $\{\textbf{r}=(0.1*r_x,0,0)| \forall r_x \in \aleph, r_x \in [0,10]\}$\\
+	\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$
+	
+	Output: For all the elements in sets R and T the output for the $\|E_i-E_{i}^t\|$ should be equal zero.
+	 	
+	Test Case Derivation: In this test $E_i$ is the electric field of the incident beam calculated by the software and $E_i^t$ is the electric field calculated in the test function following the equation $E_i^t = cos(k\  \textbf{d.} \textbf{r} - \omega t) - i \ sin(k\  \textbf{d.} \textbf{r} - \omega t)$   
+	
+	How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
+	
+	
+\item{\textbf{Test 12:} Light source electric field evolution\\}
+
+Control: Manual 
+
+Initial State:  \textbf{p}, \textbf{d}, and wavelength are previously given to the software. \\
+\rule{2.3cm}{0pt} \textbf{p}=(1,0,0)\\
+\rule{2.3cm}{0pt} \textbf{d}=(0,1,0)\\
+\rule{2.3cm}{0pt} wavelength=700 nm\\
+\rule{2.3cm}{0pt} The location vector, r, and time, t, will be given as below.  
+
+Input: R = $\{\textbf{r}=(0.1*r_x,0,0)| \forall r_x \in \aleph, r_x \in [0,10]\}$\\
+\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$
+
+Output: for t=0, plot of evolution of electric field by R. for r=(0, 0, 0), plot of evolution of electric field in time.
+
+Test Case Derivation: In this test $E_i = cos(k\  \textbf{d.} \textbf{r} - \omega t) - i \ sin(k\  \textbf{d.} \textbf{r} - \omega t)$ is plotted with respect to time and space and the examiner is responsible to see if the behaviour of the function is as expected or not.   
+
+How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_plot\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
+
+\paragraph{Test R 3: Correctness of the measurment}
+	
+	
+
+
+
+	
+	
+\end{enumerate}
+
+
+
+\subsubsection{Area of Testing2}
+
+...
+
+\subsection{Tests for Nonfunctional Requirements}
+\label{nonfunc}
+
+\wss{The nonfunctional requirements for accuracy will likely just reference the
+  appropriate functional tests from above.  The test cases should mention
+  reporting the relative error for these tests.}
+
+\wss{Tests related to usability could include conducting a usability test and
+  survey.}
+
+\subsubsection{Area of Testing1}
+		
+\paragraph{Title for Test}
+
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: 
+					
+Initial State: 
+					
+Input/Condition: 
+					
+Output/Result: 
+					
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
+
+\end{enumerate}
+
+\subsubsection{Area of Testing1}
+
+\paragraph{Title for Test}
+
+\begin{enumerate}
+	
+	\item{test-id1\\}
+	
+	Type: 
+	
+	Initial State: 
+	
+	Input/Condition: 
+	
+	Output/Result: 
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}
+	
+	Type: Functional, Dynamic, Manual, Static etc.
+	
+	Initial State: 
+	
+	Input: 
+	
+	Output: 
+	
+	How test will be performed: 
+	
+\end{enumerate}
+
+
+\subsubsection{Area of Testing2}
+
+...
+
+\subsection{Traceability Between Test Cases and Requirements}
+
+\wss{Provide a table that shows which test cases are supporting which
+  requirements.}
+
+\section{Unit Test Description}
+
+\wss{Reference your MIS and explain your overall philosophy for test case
+  selection.}  
+\wss{This section should not be filled in until after the MIS has
+  been completed.}
+
+\subsection{Unit Testing Scope}
+
+\wss{What modules are outside of the scope.  If there are modules that are
+  developed by someone else, then you would say here if you aren't planning on
+  verifying them.  There may also be modules that are part of your software, but
+  have a lower priority for verification than others.  If this is the case,
+  explain your rationale for the ranking of module importance.}
+
+\subsection{Tests for Functional Requirements}
+
+\wss{Most of the verification will be through automated unit testing.  If
+  appropriate specific modules can be verified by a non-testing based
+  technique.  That can also be documented in this section.}
+
+\subsubsection{Module 1}
+
+\wss{Include a blurb here to explain why the subsections below cover the module.
+  References to the MIS would be good.  You will want tests from a black box
+  perspective and from a white box perspective.  Explain to the reader how the
+  tests were selected.}
+
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+
+\item{...\\}
+    
+\end{enumerate}
+
+\subsubsection{Module 2}
+
+...
+
+\subsection{Tests for Nonfunctional Requirements}
+
+\wss{If there is a module that needs to be independently assessed for
+  performance, those test cases can go here.  In some projects, planning for
+  nonfunctional tests of units will not be that relevant.}
+
+\wss{These tests may involve collecting performance data from previously
+  mentioned functional tests.}
+
+\subsubsection{Module ?}
+		
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input/Condition: 
+					
+Output/Result: 
+					
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
+
+\end{enumerate}
+
+\subsubsection{Module ?}
+
+...
+
+\subsection{Traceability Between Test Cases and Modules}
+
+\wss{Provide evidence that all of the modules have been considered.}
+				
+\bibliographystyle{plainnat}
+
+\bibliography{../../refs/References}
+
+\newpage
+
+\section{Appendix}
+
+This is where you can place additional information.
+
+\subsection{Symbolic Parameters}
+
+The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+Their values are defined in this section for easy maintenance.
+
+\subsection{Usability Survey Questions?}
+
+\wss{This is a section that would be appropriate for some projects.}
+
+\end{document}
