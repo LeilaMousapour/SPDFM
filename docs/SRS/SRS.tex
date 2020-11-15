@@ -827,25 +827,28 @@
 	\noindent \begin{itemize}
 		
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_2}:] Verify the
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_1}:] Verify the
 		format of the inputs with respect to the criteria provided in table \ref{TblInputVar} (IM\ref{IM:source}).
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_3}:] Calculate the
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_2}:] Calculate the
 		electric field of the light source ($\textbf{E}_i$)
 		(IM\ref{IM:source}).
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_4}:] Verify
-		the format of the inputs $\gamma$, $\nu_f$, $\varepsilon_0$, $\omega_p$, and
-		$\mu_{0}$ to be scalars in $\Re$ and $\varepsilon_{local}$ to be a scalar in
-		$\Bbb C$ (IM\ref{IM:solve}).
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_3}:] Calculate the
+		plasmon enhance electric field and current density in the given geometry and illumination condition
+		(IM\ref{IM:solve}).
+	%	\item[R\refstepcounter{reqnum}\thereqnum \label{R_4}:] Verify
+	%	the format of the inputs $\gamma$, $\nu_f$, $\varepsilon_0$, $\omega_p$, and
+	%	$\mu_{0}$ to be scalars in $\Re$ and $\varepsilon_{local}$ to be a scalar in
+	%	$\Bbb C$ (IM\ref{IM:solve}).
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_5}:]Verify that all data
-		inputs for $\Omega$ are of the correct dimensionality and composed of Real
-		numbers (IM\ref{IM:solve}).
+	%	\item[R\refstepcounter{reqnum}\thereqnum \label{R_5}:]Verify that all data
+	%	inputs for $\Omega$ are of the correct dimensionality and composed of Real
+	%	numbers (IM\ref{IM:solve}).
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_6}:] Verify that all data
-		inputs for $\Omega$ are of the correct dimensionality and composed of Real
-		numbers (IM\ref{IM:solve}).
+	%	\item[R\refstepcounter{reqnum}\thereqnum \label{R_6}:] Verify that all data
+	%	inputs for $\Omega$ are of the correct %dimensionality and composed of Real
+	%	numbers (IM\ref{IM:solve}).
 		
 		
 		
@@ -853,7 +856,9 @@
 	
 	\subsection{Nonfunctional Requirements}
 	
-	\begin{itemize} \item[NR 1 \label{NR_RAM}:] The software should run on a modern
+	\begin{itemize} 
+		
+		\item[NR 1 \label{NR_RAM}:] The software should run on a modern
 		desktop computer with a descent CPU and at least 8 GB of RAM.
 		
 		\item[NR 2 \label{NR_data}:] The calculated data at each step of the process
