@@ -1,0 +1,878 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{amsmath, mathtools}
+
+\usepackage[round]{natbib}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{xr}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{xfrac}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[section]{placeins}
+\usepackage{caption}
+\usepackage{fullpage}
+
+\hypersetup{
+bookmarks=true,     % show bookmarks bar?
+colorlinks=true,       % false: boxed links; true: colored links
+linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+citecolor=blue,      % color of links to bibliography
+filecolor=magenta,  % color of file links
+urlcolor=cyan          % color of external links
+}
+
+\usepackage{array}
+
+\externaldocument{../../SRS/SRS}
+
+\input{Comments}
+\input{Common}
+
+\begin{document}
+
+\title{Module Interface Specification for \progname{}}
+
+\author{Author Name}
+
+\date{\today}
+
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+Date 1 & 1.0 & Notes\\
+Date 2 & 1.1 & Notes\\
+\bottomrule
+\end{tabularx}
+
+~\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+See SRS Documentation at \wss{give url}
+
+\wss{Also add any additional symbols, abbreviations or acronyms}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\pagenumbering{arabic}
+
+\section{Introduction}
+
+The following document details the Module Interface Specifications for \progname{} program. \progname{} is a software for simulating surface plasmon enhanced electric field and current density in meshed geometry. 
+
+Complementary documents include the System Requirement Specifications
+and Module Guide.  The full documentation and implementation can be
+found at \href{https://github.com/shmouses/SPDFM}{SPDFM repository} on github.  
+
+\section{Notation}
+
+\wss{You should describe your notation.  You can use what is below as
+  a starting point.}
+
+The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
+with the addition that template modules have been adapted from
+\cite{GhezziEtAl2003}.  The mathematical notation comes from Chapter 3 of
+\citet{HoffmanAndStrooper1995}.  For instance, the symbol := is used for a
+multiple assignment statement and conditional rules follow the form $(c_1
+\Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
+
+The following table summarizes the primitive data types used by \progname{}. 
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\noindent 
+\begin{tabular}{l l p{7.5cm}} 
+\toprule 
+\textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
+\midrule
+character & char & a single symbol or digit\\
+integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
+natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
+real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
+imaginary& $\mathbb{I}$ & any number of form $i\times \mathbb{R}$ where i is $\sqrt{-1}$ \\
+\bottomrule
+\end{tabular} 
+\end{center}
+
+\noindent
+The specification of \progname{} \ uses some derived data types: sequences, strings, and
+tuples. Sequences are lists filled with elements of the same data type. Strings
+are sequences of characters. Tuples contain a list of values, potentially of
+different types. In addition, \progname{} \ uses functions, which
+are defined by the data types of their inputs and outputs. Local functions are
+described by giving their type signature followed by their specification.
+
+\section{Module Decomposition}
+
+The following table is taken directly from the Module Guide document for this project.
+
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+		\toprule
+		\textbf{Level 1} & \textbf{Level 2}\\
+		\midrule
+		
+		{Hardware-Hiding Module} & ~ \\
+		\midrule
+		
+		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control Module\\ 
+		& Specification Parameters Module\\
+		& Input Parameters Modules\\
+		& Mesh Input Module\\
+		& SPD Calculations Control Module\\
+		& Output Module\\ 
+		\midrule
+		
+		\multirow{3}{0.3\textwidth}{Software Decision Module} 
+		& Frequency Domain Imaginary-PDE Solver Module\\
+		& Frequency Domain Real-PDE Solver Module\\
+		& Data Structure Module\\
+		\bottomrule
+		
+	\end{tabular}
+	\caption{Module Hierarchy}
+	\label{TblMH}
+\end{table}
+
+\newpage
+~\newpage
+
+\section{MIS of \progname{} Control Module} \label{Module} \wss{Use labels for
+  cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+main
+\wss{Short name for the module}
+
+\subsection{Uses}
+\begin{itemize}
+	\item Input Modules
+	\subitem Input Parameters
+	\subitem Mesh Input
+	\item Processing Modules
+	\subitem Mesh Generator Module
+	\subitem SPD Calculations Control Module
+	\item Frequency Domain Solution Output Module\\
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+main & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\wss{Not all modules will have state variables.  State variables give the module
+  a memory.}
+
+\subsubsection{Environment Variables}
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+  when the module has external interaction with the environment, such as for a
+  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\wss{Try to minimize assumptions and anticipate programmer errors via
+  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \wss{accessProg}():
+\begin{itemize}
+\item transition: \wss{if appropriate} 
+\item output: \wss{if appropriate} 
+\item exception: \wss{if appropriate} 
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+  have a state transition.  In this case a state transition can only occur if
+  the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+  will have one or the other.}
+
+\subsubsection{Local Functions}
+
+\wss{As appropriate} \wss{These functions are for the purpose of specification.
+  They are not necessarily something that is going to be implemented
+  explicitly.  Even if they are implemented, they are not exported; they only
+  have local scope.}
+
+\newpage
+%
+%
+%
+%
+%
+\section{MIS of Input Parameter Module} \label{ICM} \wss{Use labels for
+	cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+InputParam
+
+\subsection{Uses}
+\begin{itemize}
+	\item Specification Parameters Module
+	\item Data Structure 
+
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{3cm} p{2cm} p{2cm} p{6cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		ParamLoad & string & - & FileError \\
+		
+		verifyPol & - & - & PolarizationValueError, PolarizationRangeError\\
+		
+		verifyDir & - & - & DirectionValueError, DirectionNormalityError, LightOrthogonalityError\\
+		
+		verifyWL & - & - & WavelengthValueError, WavelengthRangeError\\
+		
+		verifyT & - & - & TimeRangeError, TimeStepValueError, TimeStepRangeError\\
+	
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+data: object
+
+\subsubsection{Environment Variables}
+InputParamFile: A sequence of strings. 
+
+\subsubsection{Assumptions}
+\begin{itemize}
+	\item The DataStructure will be initiated before inputting the data.
+	
+	\item ParamLoad will be called before the values of any state variables will be accessed.
+	
+	\item The file contains the string equivalents of the numeric values for each input parameter
+	in order, each on a new line. The order of the input data is the same as in the table in R1 of the SRS document. 
+	
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+Function to load, verify, and store input data (R1 and R2 from SRS).
+
+\subsubsection*{ParamLoad(pathLS,pathMP):}
+\begin{itemize}
+	\item transition: pathLS (light source data) and pathMP (material properties) are the file paths for the input files. The following procedure is performed:
+	\subitem -- Verify the format of the files to be .txt.\\
+	\subitem -- From pathLS file, p (polarization of the incident light, $\mathbb{R}^3$ vector), d (direction of the incident light, $\mathbb{R}^3$ vector), wl (wavelength of the source), t (illumination time length, $\mathbb{R}$), and nst (number of time steps, $\mathbb{N}$) are extracted.\\
+	\subitem -- verifyPol\\
+	\subitem -- verifyDir\\
+	\subitem -- verifyWL\\
+	\subitem -- verifyT\\
+	\subitem -- Store p, d, wl, t, nst in the data structure as data.p, data.d, data.wl, data.t, and data.nst .
+	\item output: None
+	
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+	\ \ \ \ \ \ If the file addressed by pathLS or path MP doesn't exist & $=>$ badFilePath\\
+	\ \ \ \ \ \ If the file format is not .txt & $=>$ badFileFormat\\
+	\end{longtable*}
+
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\subsubsection*{verifyPol:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+		\begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ ($\exists p_i \in\ \textbf{p}:\ p_i \notin \mathbb{R})$ & $=>$ PolarizationValueError\\
+		\ \ \ \ \ \ $\|p\| > p_{max}$ or $\|p\| < p_{min}$  & $=>$ PolarizationRangeError\\
+	\end{longtable*}
+
+\end{itemize}
+
+\subsubsection*{verifyDir:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ ($\exists d_i\  \in \ \textbf{d}:\ d_i \notin \mathbb{R})$ & $=>$ DirectionValueError\\
+		\ \ \ \ \ \ $\|d\|\ \neq\ 1$ & $=>$ DirectionRangeError\\
+		\ \ \ \ \ \ $d . p != 0$ & $=>$ LightOrthogonalityError\\
+	\end{longtable*}
+	
+\end{itemize}
+
+\subsubsection*{verifyWL:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ $wl\  \notin \  \mathbb{R}$ & $=>$ WavelenthValueError\\
+		\ \ \ \ \ \ $ wl\ >\ wl_{max}$ \ \ or \ \ $wl\ <\ wl_{min}$ & $=>$ WavelengthRangeError\\
+	\end{longtable*}
+	
+\end{itemize}
+
+\subsubsection*{verifyT:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ $t\  \notin \  \mathbb{R}$ & $=>$ TimeValueError\\
+		\ \ \ \ \ \ $ t\ >\ t_{max}$ \ \ or \ \ $t\ <\ t_{min}$ & $=>$ TimeRangeError\\
+		\ \ \ \ \ \ $ nst\ \notin \  \mathbb{N}$ & $=>$ TimeStepValueError\\
+		\ \ \ \ \ \ $ \frac{t}{nst}\ >\ dt_{max}$ \ \ or \ \ $\frac{t}{nst}\ <\ dt_{min}$ & $=>$ TimeStepRangeError\\
+	\end{longtable*}
+	
+\end{itemize}
+
+\newpage
+%
+%
+%
+%
+%
+\section{MIS of Specific Parameters Module} \label{SPM} \wss{Use labels for
+	cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+
+\subsection{Module}
+SpecParam
+
+\subsection{Uses}
+N/A
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+From Table 2 in SRS
+
+$p_{min}$ := -10
+
+$p_{max}$ := 10
+
+$t_{min}$ := $10^{-15}$
+		
+$t_{max}$ := $10^{-12}$
+
+$dt_{min}$ := $10^{-15}$
+
+$dt_{max}$ := $10^{-12}$		
+
+$R(\Omega)_{min}$ := $10^{-8}$
+
+$R(\Omega)_{max}$ := $10^{-7}$
+
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		SpecParam & - & - & - \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+N/A
+
+\newpage
+%
+%
+%
+%
+
+\section{MIS of Mesh Input Module} \label{MIM} 
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+GmshInput
+
+\subsection{Uses}
+\begin{itemize}
+	\item Data Structure
+	
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		GmshInput & string & - & FileError \\
+		MeshConvert & object & - & -\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+Data: object
+
+\subsubsection{Environment Variables}
+inputMesh: A .mesh file containing the data related to the meshed geometry.
+
+\subsubsection{Assumptions}
+
+None.
+
+\subsubsection{Access Routine Semantics}
+
+\subsubsection*{gmshInput(pathMESH):}
+\begin{itemize}
+	\item transition: pathMESH is the file path for the input mesh file. The following procedure is performed:
+	\subitem -- Verify the format of the file to be .mesh.
+	\subitem -- Load mesh object, GMESH, from the input file. 
+	\subitem -- MeshConvert
+	\subitem -- Geometry is stored in the data structure as data.Mesh.
+	
+	\item output: None.
+	\item exception: 
+		\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ If the file addressed by pathMESH doesn't exist & $=>$ badMeshFilePath\\
+		\ \ \ \ \ \ If the file format is not .mesh & $=>$ badMeshFileFormat\\
+	\end{longtable*}
+	 
+\end{itemize}
+
+
+\subsubsection{Local Functions}
+
+\subsubsection*{MeshConvert(GMSH):}
+\begin{itemize}
+	\item transition: 
+	\subitem -- load input mesh, GMSH.
+	\subitem -- convert mesh input format:
+	\subsubitem data.XMesh = mesh.convert(GMSH) 
+	\item output: None. 
+	\item exception: None.
+\end{itemize}
+
+\newpage
+%
+%
+%
+%
+\section{MIS of SPD Simulator Module} \label{SSM} 
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+SPDSimulator
+
+\subsection{Uses}
+\begin{itemize}
+	\item Frequency Domain Imaginary-PDE Solver Module
+	\item Frequency Domain Real-PDE Solver Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		SPDSimulator & - & - & - \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+Data: object
+
+\subsubsection{Environment Variables}
+N/A
+ 
+\subsubsection{Assumptions}
+None.
+
+\subsubsection{Access Routine Semantics}
+
+\subsubsection*{SPDSimulator():}
+\begin{itemize}
+	\item transition: 
+	\subitem -- Load the inputs from the data object
+	\subitem -- Setup the Nedelec Ansatz function space for a single parameter: 
+	\subsubitem FS = FunctionSpace(data.XMesh,"N1curl", 2)
+	\subitem -- Setup the space element. As shown in IM2 in the SRS the system of equations that needs to be solved here is a compound system of equations that has two unknown parameters electric field density and electric current density vectors. Each of these parameters are complex, therefore. each need to be split into imaginary and real parts: 
+	\subsubitem element = MixedElement([FS, FS, FS, FS])
+	\subitem -- Define the combined Function Space:
+	\subsubitem  ComboV = FunctionSpace(mesh, element)
+	\subitem -- define the the test function: 
+	\subsubitem $E^{test}_r$, $E^{test}_i$, $J^{test}_r$, $J^{test}_r$ = TestFunction(ComboV) 
+	\subitem -- define the the trial function: 
+	\subsubitem U = Function(ComboV)
+	\subsubitem $E^{trial}_r$, $E^{trial}_i$, $J^{trial}_r$, $J^{trial}_r$ = split(U) 
+	\subitem -- Call Frequency Domain PDE Solver Module
+	\item output: None. 
+	\item exception: None.
+\end{itemize}
+
+\subsubsection{Local Functions}
+None.
+
+
+
+\newpage
+%
+%
+%
+%
+\section{MIS of Frequency Domain PDE Solver Module:} \label{GRM} \wss{Use labels for
+	cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+FreqSolver
+
+
+\subsection{Uses}
+\begin{itemize}
+	\item Data Structure Modules
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		FreqSolver & - & - & - \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+data: object
+
+\subsubsection{Environment Variables}
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+	when the module has external interaction with the environment, such as for a
+	device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\wss{Try to minimize assumptions and anticipate programmer errors via
+	exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \wss{accessProg}():
+\begin{itemize}
+	\item transition: \wss{if appropriate} 
+	\item output: \wss{if appropriate} 
+	\item exception: \wss{if appropriate} 
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+	have a state transition.  In this case a state transition can only occur if
+	the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+	will have one or the other.}
+
+\subsubsection{Local Functions}
+
+\wss{As appropriate} \wss{These functions are for the purpose of specification.
+	They are not necessarily something that is going to be implemented
+	explicitly.  Even if they are implemented, they are not exported; they only
+	have local scope.}
+
+\newpage
+%
+%
+%
+%
+\section{MIS of Data Structure Module} \label{LSRM} 
+
+\subsection{Module}
+data
+
+\subsection{Uses}
+\begin{itemize}
+\item Hardware Hiding module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+	\hline
+	\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+	\hline
+	store & string & - & - \\
+	load & string & object & -\\
+	StoreMesh & object & - & - \\
+	loadMesh & - & object& - \\
+	\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+data:object 
+\begin{itemize}
+	\item data.p = [$p_x,\ p_y,\ p_z]$ $\in$ $\mathbb{R}^3$
+	\item data.d = [$d_x,\ d_y,\ d_z]$ $\in$ $\mathbb{R}^3$
+	\item data.wl = wl $\in \mathbb{R}$
+	\item data.t = t $\in \mathbb{R}$	
+	\item data.Nst = nst $\in \mathbb{N}$
+	\item data.eps0 = eps0 $\in \mathbb{R}$
+	\item data.mu0 = mu0 $\in \mathbb{R}$
+	\item data.beta = beta $\in \mathbb{R}$
+	\item data.gamma = gamma $\in \mathbb{R}$
+	\item data.pfreq = pfreq $\in \mathbb{R}$
+	\item data.Xmesh = Mesh object
+	\item data.$E_i$ = [list] $\in \mathbb{R}^{Nst}$ 
+	\item data.$E_r$ = [list] $\in \mathbb{R}^{Nst}$ 
+	\item data.$J_i$ = [list] $\in \mathbb{R}^{Nst}$ 
+	\item data.$J_r$ = [list] $\in \mathbb{R}^{Nst}$ 
+	
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+N/A
+\subsubsection{Assumptions}
+
+None.
+
+\subsubsection{Access Routine Semantics}
+
+\subsubsection*{store(a,b):}
+\begin{itemize}
+\item transition: data.a = b 
+\item output: 
+\item exception:  
+\end{itemize}
+
+
+\subsubsection*{load(a):}
+\begin{itemize}
+	\item transition:  
+	\item output: data.a
+	\item exception:  
+\end{itemize}
+
+
+\subsubsection*{storeMatrix(a):}
+\begin{itemize}
+	\item transition: data.XMatrix = a 
+	\item output: 
+	\item exception:  
+\end{itemize}
+
+\subsubsection*{LoadMatrix():}
+\begin{itemize}
+	\item transition:  
+	\item output: data.XMatrix
+	\item exception:  
+\end{itemize}
+
+
+
+\subsubsection{Local Functions}
+
+None.
+
+\newpage
+%
+%
+%
+%
+\section{MIS of Output Module} \label{MPM} \wss{Use labels for
+	cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+Output
+
+\subsection{Uses}
+\begin{itemize}
+	\item Data Structure Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		VtkSaver & - & Vtk & - \\
+		AmpOut & - & string & - \\
+		listOut & - & string & - \\
+		
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\wss{Not all modules will have state variables.  State variables give the module
+	a memory.}
+
+\subsubsection{Environment Variables}
+
+\wss{This section is not necessary for all modules.  Its purpose is to capture
+	when the module has external interaction with the environment, such as for a
+	device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\wss{Try to minimize assumptions and anticipate programmer errors via
+	exceptions, but for practical purposes assumptions are sometimes appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \wss{accessProg}():
+\begin{itemize}
+	\item transition: \wss{if appropriate} 
+	\item output: \wss{if appropriate} 
+	\item exception: \wss{if appropriate} 
+\end{itemize}
+
+\wss{A module without environment variables or state variables is unlikely to
+	have a state transition.  In this case a state transition can only occur if
+	the module is changing the state of another module.}
+
+\wss{Modules rarely have both a transition and an output.  In most cases you
+	will have one or the other.}
+
+\subsubsection{Local Functions}
+
+\wss{As appropriate} \wss{These functions are for the purpose of specification.
+	They are not necessarily something that is going to be implemented
+	explicitly.  Even if they are implemented, they are not exported; they only
+	have local scope.}
+
+\newpage
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+
+
+\bibliographystyle {plainnat}
+\bibliography {../../../refs/References}
+
+\newpage
+
+\section{Appendix} \label{Appendix}
+
+\wss{Extra information if required}
+
+\end{document}
