@@ -159,12 +159,10 @@ change.
 \begin{description}
 \item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
   hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the initial input data.
-\item[\refstepcounter{acnum} \actheacnum \label{acLight}:] The type of the light source (pulsed sources instead of planewave).
-\item[\refstepcounter{acnum} \actheacnum \label{acGeo}:] The type of input geometry.
-\item[\refstepcounter{acnum} \actheacnum \label{acMatprop}:] The method of inputting material properties.
-\item[\refstepcounter{acnum} \actheacnum \label{acForm}:] Nonlocal hydrodynamic formulations.
-\item[\refstepcounter{acnum} \actheacnum \label{acFEM}:] Finite element method.
+\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the input data.
+\item[\refstepcounter{acnum} \actheacnum \label{acMeshIn}:] Format of the Mesh input data.
+\item[\refstepcounter{acnum} \actheacnum \label{acFiniteElement}:] Type of the finite element.
+\item[\refstepcounter{acnum} \actheacnum \label{acFEM}:] Finite element solver. 
 \item[\refstepcounter{acnum} \actheacnum \label{acData}:] Internal data structure.
 \item[\refstepcounter{acnum} \actheacnum \label{acFEM}:] The format of the output data.
 
@@ -183,7 +181,7 @@ decisions will be changed.
 \begin{description}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
   (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \actheacnum \label{acForm}:] Nonlocal surface plasmon hydrodynamic formulations.
 \end{description}
 
 
@@ -199,23 +197,20 @@ actually be implemented.
 
 \item [\refstepcounter{mnum} \mthemnum \label{mSC}:] \progname{} Control Module.
 
-\item [\refstepcounter{mnum} \mthemnum \label{mSP}:] Specification Parameters Module\\
+\item [\refstepcounter{mnum} \mthemnum \label{mDS}:] Data Structure Module.
 
-\item [\refstepcounter{mnum} \mthemnum \label{mIC}:] Input Parameters Module.
+\item [\refstepcounter{mnum} \mthemnum \label{mIP}:] Input Parameters Module.
+
+\item [\refstepcounter{mnum} \mthemnum \label{mCP}:] Constant Parameter Module.
 
 \item [\refstepcounter{mnum} \mthemnum \label{mMI}:] Mesh Input Module.
 
+\item [\refstepcounter{mnum} \mthemnum \label{mSS}:] SPD Simulator Module.
 
-\item [\refstepcounter{mnum} \mthemnum \label{mSCC}:] SPD Simulator Module.
 
+\item [\refstepcounter{mnum} \mthemnum \label{mFD}:] Frequency Domain PDE Solver Module.
 
-\item [\refstepcounter{mnum} \mthemnum \label{mFDI}:] Frequency Domain Imaginary-PDE Solver Module.
-
-\item [\refstepcounter{mnum} \mthemnum \label{mFDr}:] Frequency Domain Real-PDE Solver Module.
-
-\item [\refstepcounter{mnum} \mthemnum \label{mFDO}:] Frequency Domain Solution Output Module.
-
-\item [\refstepcounter{mnum} \mthemnum \label{mDS}:] Data Structure Module.
+\item [\refstepcounter{mnum} \mthemnum \label{mOut}:] Output Module.
 
 \end{description}
 
@@ -230,19 +225,17 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control Module\\ 
-& Specification Parameters Module\\
-& Input Parameters Modules\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control Module\\
+& Input Parameters Modules\\ 
+& Constan Parameters Module\\
 & Mesh Input Module\\
 & Material Property Reading Module\\
-& SPD Calculations Control Module\\
-& Frequency Domain Solution Output Module\\ 
+& SPD Simulator Module\\
+& Frequency Domain PDE Solver Module\\ 
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & Mesh Generator Module\\
-& Mesh Converter Module\\
-& Frequency Domain Imaginary-PDE Solver Module\\
-& Frequency Domain Real-PDE Solver Module\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} 
+& Frequency Domain PDE Solver Module\\
 & Data Structure Module\\
 \bottomrule
 
@@ -272,7 +265,7 @@ Modules are decomposed according to the principle of ``information hiding''
 proposed by \citet{ParnasEtAl1984}. The \emph{Secrets} field in a module
 decomposition is a brief statement of the design decision hidden by the
 module. The \emph{Services} field specifies \emph{what} the module will do
-without documenting \emph{how} to do it. For each module, a suggestion for the
+without documenting \emph{how} to do it. For each module, a suggestion for the 
 implementing software is given under the \emph{Implemented By} title. If the
 entry is \emph{OS}, this means that the module is provided by the operating
 system or by standard programming language libraries.  \emph{\progname{}} means the
@@ -314,75 +307,44 @@ to be implemented.
 \end{description}
 
 
-\subsubsection{Input Control Module(\mref{mIC})}
+\subsubsection{Input Parameters Module(\mref{mIP})}
 
 \begin{description}
-	\item[Secrets:]Input flow of \progname{}.
-	\item[Services:]Calls the different input modules in the appropriate order.
-	\item[Implemented By:] \progname{}
-\end{description}
-Input Instruction Module.
- Geometry Reading Module.
- Light Source Reading Module.
-Material Property Reading Module.
-
-\subsubsection{Input Instruction Module(\mref{mII})}
-
-\begin{description}
-	\item[Secrets:]Provide instruction flow of \progname{}.
-	\item[Services:]Providing a using a brief instruction of how to input data to the \progname{}.
+	\item[Secrets:]Input required parameters for \progname{} to run the simulation.
+	\item[Services:]Inputting information required for setting up the light source (the boundary condition for solving PDE equations discussed in the SRS document), material properties of the different domains in the meshed geometry. 
 	\item[Implemented By:] \progname{}
 \end{description}
 
 
-\subsubsection{Geometry Reading Module(\mref{mGR})}
+\subsubsection{Constant Parameters Module(\mref{mCP})}
 
 \begin{description}
-	\item[Secrets:]Inputs the meshed geometry.
-	\item[Services:]Loads, verifies and stores the input mesh data into the appropriate data structure.
+	\item[Secrets:] The constant values used in the code. 
+	\item[Services:] Storing all the constant values, including values mention in the table of specification parameters in the SRS document, for being called where needed at different modules.
 	\item[Implemented By:] \progname{}
 \end{description}
 
-
-\subsubsection{Light Source Reading Module(\mref{mLS})}
+\subsubsection{Mesh Input Module(\mref{mMI})}
 
 \begin{description}
-	\item[Secrets:]Input the light source related parameters.
-	\item[Services:]Loads, verifies and stores the input light source data into the appropriate data structure.
+	\item[Secrets:]Input mesh geometry.
+	\item[Services:]Inputting the meshed geometry. Converting the format of the input data (.mesh) to a readable format (.XML) for the PDE solver (\hyperref{https://fenicsproject.org/}{}{}{FEniCS}) used in \progname{}.  
 	\item[Implemented By:] \progname{}
 \end{description}
 
-
-\subsubsection{Material Property Reading Module(\mref{mMP})}
+\subsubsection{SPD Simulator Module(\mref{mSS})}
 
 \begin{description}
-	\item[Secrets:]Input the material properties.
-	\item[Services:]Loads, verifies and stores the input material properties data into the appropriate data structure.
+	\item[Secrets:]Control flow of the different PDE solving units.
+	\item[Services:]Although at the current version of the software there is only one PDE solving module (M\ref{mFD}), SPD Simulator module considers future expansions of the code. This module controls the flow of different PDE solving modules as some of them need to be run using results of other modules. 
 	\item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Mesh Generator Module(\mref{mMP})}
+\subsubsection{Mesh Output Module(\mref{mOut})}
 
 \begin{description}
-	\item[Secrets:]Generate the finite element mesh from the input geometry mesh.
-	\item[Services:]Uses the provided geometry .XML mesh to generate the finite element mesh space. 
-	\item[Implemented By:] FEniCS and \progname{}
-\end{description}
-
-\subsubsection{Mesh Coverts Module(\mref{mMC})}
-
-\begin{description}
-	\item[Secrets:]Convert the mesh data into the desired format for generating finite element mesh space.
-	\item[Services:]Converts the input .msh mesh into the .XML format mesh. 
-	\item[Implemented By:] \progname{}
-\end{description}
-
-
-\subsubsection{Finite Element Space Setup Module(\mref{mMC})}
-
-\begin{description}
-	\item[Secrets:]Define the appropriate finite element method function space .
-	\item[Services:]Converts the input .msh mesh into the .XML format mesh. 
+	\item[Secrets:]Output data.
+	\item[Services:]Storing the calculated electric field and current density in external vtk files.
 	\item[Implemented By:] \progname{}
 \end{description}
 
@@ -400,7 +362,26 @@ Material Property Reading Module.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+
+\subsubsection{Frequency Domain PDE Solver Module(\mref{mFD})}
+
+\begin{description}
+	\item[Secrets:]Solving the non-local hydrodynamic electromagnetic equations in the frequency domain  
+	\item[Services:]Calculating electric field and current density at different frequencies. 
+	\item[Implemented By:] \progname{}
+\end{description}
+
+
+\subsubsection{Data Structure Module(\mref{mOut})}
+
+\begin{description}
+	\item[Secrets:]Data format for all parameters in \progname{}.
+	\item[Services:]Provides convenient format to store, read and manipulate all elements (pixel)
+	from an image.
+	\item[Implemented By:] \progname{}
+\end{description}
+
+
 
 \section{Traceability Matrix} \label{SecTM}
 

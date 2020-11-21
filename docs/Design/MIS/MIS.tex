@@ -84,8 +84,6 @@ found at \href{https://github.com/shmouses/SPDFM}{SPDFM repository} on github.
 
 \section{Notation}
 
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
 
 The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
 with the addition that template modules have been adapted from
@@ -144,8 +142,7 @@ The following table is taken directly from the Module Guide document for this pr
 		\midrule
 		
 		\multirow{3}{0.3\textwidth}{Software Decision Module} 
-		& Frequency Domain Imaginary-PDE Solver Module\\
-		& Frequency Domain Real-PDE Solver Module\\
+		& Frequency Domain PDE Solver Module\\
 		& Data Structure Module\\
 		\bottomrule
 		
@@ -157,26 +154,19 @@ The following table is taken directly from the Module Guide document for this pr
 \newpage
 ~\newpage
 
-\section{MIS of \progname{} Control Module} \label{Module} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of \progname{} Control Module} \label{Module} 
 
 \subsection{Module}
 main
-\wss{Short name for the module}
 
 \subsection{Uses}
 \begin{itemize}
+	\item Data Structure
 	\item Input Modules
-	\subitem Input Parameters
-	\subitem Mesh Input
-	\item Processing Modules
-	\subitem Mesh Generator Module
-	\subitem SPD Calculations Control Module
-	\item Frequency Domain Solution Output Module\\
+	\subitem Input Parameters Module
+	\subitem Mesh Input Module
+	\item SPD Calculations Control Module
+	\item Output Module\\
 \end{itemize}
 
 \subsection{Syntax}
@@ -196,45 +186,38 @@ main & - & - & - \\
 \end{center}
 
 \subsection{Semantics}
+\progname{} Control Module is design to control the process flow in the software.
 
 \subsubsection{State Variables}
 
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+None
 
 \subsubsection{Environment Variables}
 
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None
 
 \subsubsection{Assumptions}
 
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\subsubsection*{main():}
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item transition:
+
+\subitem Initiate global data object: doing so provides an empty closet that let me store data in it at different modules.  
+\subitem ParamLoad: calling this module initiates reading environmental variables.
+\subitem GmshInput: calling this module initiates loading the mesh geometry
+\subitem SPDsimulator: controls process flow in the PDE solver. 
+\subitem SPDoutput: exports the final results of the simulation
+\item output: None
+\item exception: None
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
 \subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+None
 
 \newpage
 %
@@ -242,15 +225,10 @@ main & - & - & - \\
 %
 %
 %
-\section{MIS of Input Parameter Module} \label{ICM} \wss{Use labels for
-	cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
+\section{MIS of Input Parameter Module} \label{ICM}  
+	
 \subsection{Module}
-InputParam
+ParamLoad
 
 \subsection{Uses}
 \begin{itemize}
@@ -262,7 +240,7 @@ InputParam
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
-None.
+None
 
 \subsubsection{Exported Access Programs}
 
@@ -280,6 +258,14 @@ None.
 		verifyWL & - & - & WavelengthValueError, WavelengthRangeError\\
 		
 		verifyT & - & - & TimeRangeError, TimeStepValueError, TimeStepRangeError\\
+		
+		verifyEps & - & - & EpsValueError\\
+		
+		verifyMu & - & - & MuValueError\\
+		
+		verifyGamma & - & - & GammaValueError, GammaRangeError\\
+		
+		verifyPFreq & - & - & PFreqValueError, PFreRangeError\\
 	
 		\hline
 	\end{tabular}
@@ -292,11 +278,11 @@ None.
 data: object
 
 \subsubsection{Environment Variables}
-InputParamFile: A sequence of strings. 
+ParamLSfile: A file containing sequence of strings that provides data related to the light source. \\
+ParamMPfile: A file containing sequence of strings that provides data related to the materials properties.
 
 \subsubsection{Assumptions}
 \begin{itemize}
-	\item The DataStructure will be initiated before inputting the data.
 	
 	\item ParamLoad will be called before the values of any state variables will be accessed.
 	
@@ -309,16 +295,23 @@ InputParamFile: A sequence of strings.
 
 Function to load, verify, and store input data (R1 and R2 from SRS).
 
-\subsubsection*{ParamLoad(pathLS,pathMP):}
+\subsubsection*{ParamLoad(pathLS, pathMP):}
+Still not clear how to get pathLS and PathMP
+
 \begin{itemize}
-	\item transition: pathLS (light source data) and pathMP (material properties) are the file paths for the input files. The following procedure is performed:
+	\item transition: pathLS (light source data) and pathMP (material properties) are the file paths for the input files(InputParamFiles). The following procedure is performed:
 	\subitem -- Verify the format of the files to be .txt.\\
-	\subitem -- From pathLS file, p (polarization of the incident light, $\mathbb{R}^3$ vector), d (direction of the incident light, $\mathbb{R}^3$ vector), wl (wavelength of the source), t (illumination time length, $\mathbb{R}$), and nst (number of time steps, $\mathbb{N}$) are extracted.\\
+	\subitem -- From ParamLSfile (located at pathLS), p (polarization of the incident light, $\mathbb{R}^3$ vector), d (direction of the incident light, $\mathbb{R}^3$ vector), wl (wavelength of the source), t (illumination time length, $\mathbb{R}$), and nst (number of time steps, $\mathbb{N}$) are extracted.\\
 	\subitem -- verifyPol\\
 	\subitem -- verifyDir\\
 	\subitem -- verifyWL\\
 	\subitem -- verifyT\\
-	\subitem -- Store p, d, wl, t, nst in the data structure as data.p, data.d, data.wl, data.t, and data.nst .
+	\subitem -- Store p, d, wl, t, nst in the data structure as data.p, data.d, data.wl, data.t, and data.Nst.
+	\subitem --From ParamMSfile (located at pathMP), eps0 (environment permittivity, $\mathbb{R}$), mu0 (environment permeability, $\mathbb{R}$), gamma (plasmon damping term, $\mathbb{R}$), plasmonfreq (plasmon frequency of the medium, $\mathbb{R}$) are extracted.\\
+	\subitem -- verifyEps\\
+	\subitem -- verifyMu\\
+	\subitem -- verifyGamma\\
+	\subitem -- verifyPFreq\\
 	\item output: None
 	
 	\item exception: 
@@ -378,18 +371,56 @@ Function to load, verify, and store input data (R1 and R2 from SRS).
 	
 \end{itemize}
 
+\subsubsection*{verifyEps:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ $eps0\  \notin \  \mathbb{R}$ & $=>$ EpsValueError\\
+	\end{longtable*}
+	
+\end{itemize}
+
+\subsubsection*{verifyMu:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ $Mu0\  \notin \  \mathbb{R}$ & $=>$ MuValueError\\
+	\end{longtable*}
+	
+\end{itemize}
+
+
+\subsubsection*{verifyGamma:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ $t\  \notin \  \mathbb{R}$ & $=>$ TimeValueError\\
+		\ \ \ \ \ \ $ gamma\ >\ gamma_{max}$ \ \ or \ \ $gamma\ <\ gamma_{min}$ & $=>$ GammaRangeError\\
+			\end{longtable*}
+	
+\end{itemize}
+
+
+\subsubsection*{verifyPFreq:}
+\begin{itemize}
+	\item output: None
+	\item exception: 
+	\noindent \begin{longtable*}[l]{l l}
+		\ \ \ \ \ \ $plasmonfreq\  \notin \  \mathbb{R}$ & $=>$ PFreqValueError\\
+		\ \ \ \ \ \ $ plasmonfreq\ >\ plasmonfreq_{max}$ \ \ or \ \ $plasmonfreq\ <\ plasmonfreq_{min}$ & $=>$ PFreqError\\
+	\end{longtable*}
+	
+\end{itemize}
 \newpage
 %
 %
 %
 %
 %
-\section{MIS of Specific Parameters Module} \label{SPM} \wss{Use labels for
-	cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Specific Parameters Module} \label{SPM} 
 
 
 \subsection{Module}
@@ -488,6 +519,10 @@ None.
 
 \subsubsection{Access Routine Semantics}
 
+Function to load, convert and verify the mesh file (R1, R2)
+
+Still not clear how to get pathMESH!
+
 \subsubsection*{gmshInput(pathMESH):}
 \begin{itemize}
 	\item transition: pathMESH is the file path for the input mesh file. The following procedure is performed:
@@ -525,17 +560,12 @@ None.
 %
 \section{MIS of SPD Simulator Module} \label{SSM} 
 
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
 \subsection{Module}
 SPDSimulator
 
 \subsection{Uses}
 \begin{itemize}
-	\item Frequency Domain Imaginary-PDE Solver Module
-	\item Frequency Domain Real-PDE Solver Module
+	\item Frequency Domain PDE Solver Module
 \end{itemize}
 
 \subsection{Syntax}
@@ -567,23 +597,13 @@ N/A
 None.
 
 \subsubsection{Access Routine Semantics}
+Functions to calculate the Electric field and Electric Current
+density in the give mesh and illumination (satisfies R3, R4). At this moment only Frequency domain is being solved SPDsimulator only calls for FreqSolver(). 
 
 \subsubsection*{SPDSimulator():}
 \begin{itemize}
-	\item transition: 
-	\subitem -- Load the inputs from the data object
-	\subitem -- Setup the Nedelec Ansatz function space for a single parameter: 
-	\subsubitem FS = FunctionSpace(data.XMesh,"N1curl", 2)
-	\subitem -- Setup the space element. As shown in IM2 in the SRS the system of equations that needs to be solved here is a compound system of equations that has two unknown parameters electric field density and electric current density vectors. Each of these parameters are complex, therefore. each need to be split into imaginary and real parts: 
-	\subsubitem element = MixedElement([FS, FS, FS, FS])
-	\subitem -- Define the combined Function Space:
-	\subsubitem  ComboV = FunctionSpace(mesh, element)
-	\subitem -- define the the test function: 
-	\subsubitem $E^{test}_r$, $E^{test}_i$, $J^{test}_r$, $J^{test}_r$ = TestFunction(ComboV) 
-	\subitem -- define the the trial function: 
-	\subsubitem U = Function(ComboV)
-	\subsubitem $E^{trial}_r$, $E^{trial}_i$, $J^{trial}_r$, $J^{trial}_r$ = split(U) 
-	\subitem -- Call Frequency Domain PDE Solver Module
+	\item transition:
+	\subitem FreqSolver() 
 	\item output: None. 
 	\item exception: None.
 \end{itemize}
@@ -598,12 +618,7 @@ None.
 %
 %
 %
-\section{MIS of Frequency Domain PDE Solver Module:} \label{GRM} \wss{Use labels for
-	cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Frequency Domain PDE Solver Module:} 
 
 \subsection{Module}
 FreqSolver
@@ -649,26 +664,33 @@ data: object
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
-\begin{itemize}
-	\item transition: \wss{if appropriate} 
-	\item output: \wss{if appropriate} 
-	\item exception: \wss{if appropriate} 
-\end{itemize}
-
-\wss{A module without environment variables or state variables is unlikely to
-	have a state transition.  In this case a state transition can only occur if
-	the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-	will have one or the other.}
+\subsubsection*{FreqSolver():}
+\subitem -- Load the inputs from the data object
+\subitem -- Setup the Nedelec Ansatz function space for a single parameter: 
+\subsubitem FS = FunctionSpace(data.XMesh,"N1curl", 2)
+\subitem -- Setup the space element. As shown in IM2 in the SRS the system of equations that needs to be solved here is a compound system of equations that has two unknown parameters electric field density and electric current density vectors. Each of these parameters are complex, therefore. each need to be split into imaginary and real parts: 
+\subsubitem element = MixedElement([FS, FS, FS, FS])
+\subitem -- Define the combined Function Space:
+\subsubitem  ComboV = FunctionSpace(mesh, element)
+\subitem -- define the the test function: 
+\subsubitem $E^{test}_r$, $E^{test}_i$, $J^{test}_r$, $J^{test}_r$ = TestFunction(ComboV) 
+\subitem -- define the the trial function: 
+\subsubitem U = Function(ComboV)
+\subsubitem $E^{trial}_r$, $E^{trial}_i$, $J^{trial}_r$, $J^{trial}_r$ = split(U) 
+\subitem -- AtTheBoundary()
+\subitem -- Load the variational form of equation system: 
+F = f(data.Matprop, BoundariC, U, ComboV)
+\subitem -- For all the frequencies in the domain,data.freq[k] (need to specify domain somewhere):
+\subsubitem:  Solve (F==0,U)
+\subsubitem data.$E_r$[k], data.$E_i$[k], data.$J_r$[k], data.$J_r$ = split(U) 
 
 \subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-	They are not necessarily something that is going to be implemented
-	explicitly.  Even if they are implemented, they are not exported; they only
-	have local scope.}
+\subsubsection*{AtTheBoundary():}
+\begin{itemize}
+	\item transition: sets the Dirichlet boundary condition in the infinity, Neumann in the surrounding, and scattering at the interface. Light source data is used here.
+	
+\end{itemize}
 
 \newpage
 %
@@ -721,6 +743,8 @@ data:object
 	\item data.gamma = gamma $\in \mathbb{R}$
 	\item data.pfreq = pfreq $\in \mathbb{R}$
 	\item data.Xmesh = Mesh object
+	\item data.BoundaryC = BC object
+	\item data.freq = [list]  $\in \mathbb{R}^{Nst}$ 
 	\item data.$E_i$ = [list] $\in \mathbb{R}^{Nst}$ 
 	\item data.$E_r$ = [list] $\in \mathbb{R}^{Nst}$ 
 	\item data.$J_i$ = [list] $\in \mathbb{R}^{Nst}$ 
