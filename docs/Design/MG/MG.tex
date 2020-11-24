@@ -160,11 +160,12 @@ change.
 \item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
   hardware on which the software is running.
 \item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the input data.
-\item[\refstepcounter{acnum} \actheacnum \label{acMeshIn}:] Format of the Mesh input data.
+\item[\refstepcounter{acnum} \actheacnum \label{acMeshIn}:] Format of the input mesh data.
 \item[\refstepcounter{acnum} \actheacnum \label{acFiniteElement}:] Type of the finite element.
 \item[\refstepcounter{acnum} \actheacnum \label{acFEM}:] Finite element solver. 
 \item[\refstepcounter{acnum} \actheacnum \label{acData}:] Internal data structure.
-\item[\refstepcounter{acnum} \actheacnum \label{acFEM}:] The format of the output data.
+\item[\refstepcounter{acnum} \actheacnum \label{acOut}:] The format of the output data.
+\item[\refstepcounter{acnum} \actheacnum \label{acSControl}:] How the overall control of the calculations is orchestrated.
 
 
 \end{description}
@@ -199,7 +200,7 @@ actually be implemented.
 
 \item [\refstepcounter{mnum} \mthemnum \label{mDS}:] Data Structure Module.
 
-\item [\refstepcounter{mnum} \mthemnum \label{mIP}:] Input Parameters Module.
+\item [\refstepcounter{mnum} \mthemnum \label{mIP}:] Input Parameter Module.
 
 \item [\refstepcounter{mnum} \mthemnum \label{mCP}:] Constant Parameter Module.
 
@@ -226,12 +227,12 @@ actually be implemented.
 \midrule
 
 \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control Module\\
-& Input Parameters Modules\\ 
+& Input Parameter Modules\\ 
 & Constan Parameters Module\\
 & Mesh Input Module\\
-& Material Property Reading Module\\
 & SPD Simulator Module\\
-& Frequency Domain PDE Solver Module\\ 
+& Output Module\\ 
+
 \midrule
 
 \multirow{3}{0.3\textwidth}{Software Decision Module} 
@@ -250,14 +251,6 @@ The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table \ref{TblRT}.
 
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.  In scientific examples, the choice of algorithm
-could potentially go here, if that is a decision that is exposed by the
-interface.}
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -298,7 +291,7 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{\progname{} Control Module(\mref{mSC})}
+\subsubsection{\progname{} Control Module (\mref{mSC})}
 
 \begin{description}
 \item[Secrets:]Execution flow of \progname{}.
@@ -307,7 +300,7 @@ to be implemented.
 \end{description}
 
 
-\subsubsection{Input Parameters Module(\mref{mIP})}
+\subsubsection{Input Parameter Module (\mref{mIP})}
 
 \begin{description}
 	\item[Secrets:]Input required parameters for \progname{} to run the simulation.
@@ -316,7 +309,7 @@ to be implemented.
 \end{description}
 
 
-\subsubsection{Constant Parameters Module(\mref{mCP})}
+\subsubsection{Constant Parameters Module (\mref{mCP})}
 
 \begin{description}
 	\item[Secrets:] The constant values used in the code. 
@@ -324,7 +317,7 @@ to be implemented.
 	\item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Mesh Input Module(\mref{mMI})}
+\subsubsection{Mesh Input Module (\mref{mMI})}
 
 \begin{description}
 	\item[Secrets:]Input mesh geometry.
@@ -332,7 +325,7 @@ to be implemented.
 	\item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{SPD Simulator Module(\mref{mSS})}
+\subsubsection{SPD Simulator Module (\mref{mSS})}
 
 \begin{description}
 	\item[Secrets:]Control flow of the different PDE solving units.
@@ -372,7 +365,7 @@ to be implemented.
 \end{description}
 
 
-\subsubsection{Data Structure Module(\mref{mOut})}
+\subsubsection{Data Structure Module (\mref{mOut})}
 
 \begin{description}
 	\item[Secrets:]Data format for all parameters in \progname{}.
@@ -396,17 +389,10 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+R1 & M\ref{mDS}, M\ref{mIP}, M\ref{mMI}\\
+R2 & M\ref{mDS}, M\ref{mIP}, M\ref{mMI}, M\ref{mCP}\\
+R3 & M\ref{mDS}, M\ref{mSS}, M\ref{mFD}\\
+R4 & M\ref{mHH}, M\ref{mDS}, M\ref{mSS}, M\ref{mFD} M\ref{mOut}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -419,18 +405,14 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \toprule
 \textbf{AC} & \textbf{Modules}\\
 \midrule
-\acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+A\ref{acHardware} & M\ref{mHH}\\
+A\ref{acInput} & M\ref{mIP}\\
+A\ref{acMeshIn} & M\ref{mMI}\\
+A\ref{acFiniteElement} & M\ref{mSS}, M\ref{mFD}\\
+A\ref{acFEM} & M\ref{mFD}\\
+A\ref{acData} & M\ref{mDS}\\
+A\ref{acOut} & M\ref{mOut}\\
+A\ref{acSControl} & M\ref{mSC}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -452,7 +434,7 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics[width=0.7\textwidth]{MG-Chart.pdf}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}
