@@ -184,7 +184,11 @@ main & - & - & - \\
 \end{center}
 
 \subsection{Semantics}
-\progname{} Control Module is design to control the process flow in the software. With respect to the SRS document, current module organizes all other modules to satisfy all the requirements that specified in SRS. This module also help maintainability and expand-ability of \progname{} by classifying different parts of the code.
+\progname{} Control Module is design to control the process flow in the
+software. With respect to the SRS document, current module organizes all other
+modules to satisfy all the requirements that specified in SRS. This module also
+help maintainability and expandability of \progname{} by classifying different
+parts of the code.
 
 \subsubsection{State Variables}
 
@@ -581,7 +585,7 @@ None.
 
 \subsubsection{Access Routine Semantics}
 Functions to calculate the Electric field and Electric Current
-density in the given mesh and illumination (satisfies R3, R4 from SRS document). In fact, this module will control flow and order of the different PDE solver units. Although at the moment it seems like this module  only calls "Frequency Domain PDE Solver Module (Section \ref{FDSM})", it gives expand-ability to the software to have more PDE solver modules in the future. This module is aligned with the second non-functional requirement (NR2) from the SRS document which is maintainability and expand-ability of the software.
+density in the given mesh and illumination (satisfies R3, R4 from SRS document). In fact, this module will control flow and order of the different PDE solver units. Although at the moment it seems like this module  only calls "Frequency Domain PDE Solver Module (Section \ref{FDSM})", it gives expandability to the software to have more PDE solver modules in the future. This module is aligned with the second non-functional requirement (NR2) from the SRS document which is maintainability and expandability of the software.
 
 \subsubsection*{SPDSimulator():}
 \begin{itemize}
