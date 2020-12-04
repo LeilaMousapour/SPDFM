@@ -274,16 +274,14 @@ uniform illumination of an electromagnetic wave.
 	\item Use required hardware and devices for interacting with software.
 		\end{itemize}
 		
-		\item FEniCS toolbox Responsibilities: \begin{itemize} \item Calculate the
-			solution to the provided system of equations and mesh by \progname{}.
+		\item External Finite Element Solver (FEniCS Toolbox) Responsibilities: \begin{itemize} \item Solve the partial differential equation system, on the mesh provided by \progname{}.
 		\end{itemize}
 		
 		
-		\item \progname{} Responsibilities: \begin{itemize} \item Inform user of their
-			responsibilities in using \progname{} \item Read input files and inform user if
-			the file formats are wrong or information are missing. \item Interact with
-			FEniCS toolbox. \item Display the calculated data. \item Export data in the
-			correct format(s). \end{itemize} \end{itemize}
+		\item \progname{} Responsibilities: \begin{itemize} 
+			\item Read input files and inform user if
+			the file formats are wrong or information are missing. \item Interact with the external finite element solver. \item Output calculated electric field and current density.
+		\end{itemize} \end{itemize}
 	
 	\subsection{User Characteristics} \label{SecUserCharacteristics} The end user
 of \progname{} should have a relatively strong background in  Physics
