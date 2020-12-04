@@ -730,7 +730,9 @@
 			&	\begin{equation} \label{eq:FEniCS} \begin{gathered} \begin{cases}
 						
 						-\int_\Omega
-						\beta^2(\nabla.\psi)(\nabla.\textbf{J}_{HD})dV+\omega(\omega+i\gamma)\int_{\Omega} \psi. \textbf{J}_HD dV - \\ \ i\omega \omega^2_p \int_\Omega \psi.\varepsilon_{0}\textbf{E}dV = 0 \\ \\ \int_\Omega ((\nabla \times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omega^2 \phi.\epsilon_{local} \textbf{E}) dV + \\ \ \int_{\partial \Omega} \phi.(\textbf{n} \times (\mu^{-1}_0 \nabla \times \textbf{E}))dA = i\omega \int_\Omega \phi. \textbf{J}_{HD} dV
+						\beta^2(\nabla.\psi)(\nabla.\textbf{J}_{HD})dV+\omega(\omega+i\gamma)\int_{\Omega} \psi. \textbf{J}_HD dV - \\ \ i\omega \omega^2_p \int_\Omega \psi.\varepsilon_{0}\textbf{E}dV = 0 \\
+						
+						 \\ \int_\Omega ((\nabla \times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omega^2 \phi.\epsilon_{local} \textbf{E}) dV + \\ \ \int_{\partial \Omega} \phi.(\textbf{n} \times (\mu^{-1}_0 \nabla \times \textbf{E}))dA = i\omega \int_\Omega \phi. \textbf{J}_{HD} dV
 						
 						\\ \\ \int_\Omega ((\nabla \times \phi).(\mu^{-1}_{0} \nabla \times
 						\textbf{E})- \omega^2\phi \epsilon_{local} \textbf{E}_i)dV + \int_{\partial
@@ -862,12 +864,9 @@
 		\item[NR 1 \label{NR_RAM}:] The software should run on a modern
 		desktop computer with a descent CPU and at least 8 GB of RAM.
 		
-		\item[NR 2 \label{NR_data}:] The calculated data at each step of the process
-		should be accessible to the user, so that user be able monitor the evolution
-		of the data.
+		\item[NR 2 \label{R_update}:] The software should be maintainable and
+		expandable by the original programmer and future users.
 		
-		\item[NR 3 \label{NR_Output}:] The user should be able to extract the final
-		data in whatever desirable format.
 		
 		\item[NR 3 \label{R_update}:] The software should be maintainable and
 		expandable by the original programmer and future users.
