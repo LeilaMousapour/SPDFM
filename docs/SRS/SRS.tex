@@ -104,7 +104,7 @@
 	\section*{Revision History}
 	
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X} \toprule {\bf Date} & {\bf Version}
-		& {\bf Notes}\\ \midrule 8/10/2020 & 1.0 & First Draft\\ %Date 2 & 1.1 & Notes\\
+		& {\bf Notes}\\ \midrule 8/10/2020 & 1.0 & First Draft\\ 18/12/2020 & 1.1 & Revision Applied\\
 		\bottomrule \end{tabularx}
 	
 	~\newpage
@@ -385,9 +385,7 @@ misinterpretations. Capability of programming in python to understand the data e
 	\end{itemize}
 	
 	\subsection{Solution Characteristics Specification}
-	
-	\begin{figure}[H] \includegraphics[scale=0.9]{RelationsBetweenTM_GD_IM_DD_A.pdf}
-	\end{figure}
+
 	
 	The instance models that govern \progname{} are presented in
 	Subsection~\ref{sec_instance}.  The information to understand the meaning of the
@@ -423,10 +421,7 @@ misinterpretations. Capability of programming in python to understand the data e
 		
 		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_leakage}:] Surface
 		charges propagate along the surface.
-		
-		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_time}:] The time
-		domain that surface plasmon activities are studies in the software is ranged
-		from femtoseconds to microseconds.
+
 		
 		
 	\end{itemize}
@@ -442,14 +437,14 @@ misinterpretations. Capability of programming in python to understand the data e
 			T\refstepcounter{theorynum}\thetheorynum \label{TM:source}\\ \hline Label&\bf
 			Electric field of a propagating plane wave (light source) \\ \hline Equation&
 			\begin{equation} \label{eq:planewave} \begin{gathered} \textbf{E}_{i}=
-					\textbf{p}\ [ cos(k\textbf{d.r}-\omega t)- i \ sin(k\textbf{d.r}-\omega t)] \end{gathered} 
+					\textbf{p}\ [ cos(k\textbf{d.r})- i \ sin(k\textbf{d.r})] \end{gathered} 
 			\end{equation} \\
 			
 			
-			\hline Description & The above equation calculates the electric field of a
+			\hline Description & The above equation calculates the electric field (\textbf{E}$_i$) of a
 			propagating plane wave (the light source) with a nonzero polarity vector $\bf
 			p$, with wave number $k$ ($m^{-1}$), with unit direction vector of $\bf d$,
-			and angular frequency of $\omega$ $(\si{\per \second})$. The calculated
+			 at location \textbf{r} in the space. The calculated
 			electric field is a 3D vector field. \\ \hline Source &
 			
 			\cite{monk2003finite}, section 1.3 \\ % The above web link should be
@@ -465,25 +460,24 @@ misinterpretations. Capability of programming in python to understand the data e
 			T\refstepcounter{theorynum}\thetheorynum \label{TM:J}\\ \hline Label&\bf
 			Nonlocal hydrodynamic current density (J$_{HD}$) formula \\ \hline Equation&
 			\begin{equation} \label{eq:Jnonlocal} \begin{gathered}
-					\dfrac{\partial^{2}}{\partial t^{2}}\textbf{J}_{HD}(\textbf{r},t)	+
-					\gamma\dfrac{\partial}{\partial t}\textbf{J}_{HD}(\textbf{r},t) -
-					\beta^{2}\nabla^{2}\textbf{J}_{HD}(\textbf{r},t) =
-					\varepsilon_{0}\omega^{2}_{p}\dfrac{\partial}{\partial t}
-					\textbf{E}(\textbf{r},t) \end{gathered}  \end{equation} \\
+					\beta^2 \nabla( \nabla \cdot \textbf{J}_{HD}(\textbf{r},\omega))	+
+					\omega ( \omega + i \gamma ) \textbf{J}_{HD}(\textbf{r},\omega) -
+					 =
+					i \omega \omega_p^2 \varepsilon_{0} \textbf{E}(\textbf{r},\omega) \end{gathered}  \end{equation} \\
 			
 			
 			\hline Description & The above partial differential equation represents the
 			relationship between hydrodynamic electric current density vector
-			$\textbf{J}_{HD}(\textbf{r},t)$ and electric field vector
-			$\textbf{E}(\textbf{r},t)$ in time and space domain. This equation is derived
-			from the definition electric current density vector and discussed in detail in
-			\cite{hiremath2012numerical}. Both $\textbf{J}_{HD}(\textbf{r},t)$ and
-			$\textbf{E}(\textbf{r},t)$ are in $\Bbb C^3$.\\ & In this equation $\gamma$
+			$\textbf{J}_{HD}(\textbf{r},\omega)$ and electric field vector
+			$\textbf{E}(\textbf{r},\omega)$ in frequency and space domain (\textbf{r} represent a location in the space, and $\omega$ is the frequency at which equation \ref{eq:Jnonlocal} is solved). This equation is derived
+			from the definition of the electric current density vector and is discussed in detail in
+			\cite{hiremath2012numerical}. Both $\textbf{J}_{HD}(\textbf{r},\omega)$ and
+			$\textbf{E}(\textbf{r},\omega)$ are in $\Bbb C^3$.\\ & In this equation $\gamma$
 			(plasmon damping term (\si{\per \second}) $\in \Re$), $\beta$ (Fermi
 			velocity (\si{\meter \per \second}) $\in \Re$), and $\omega_p$ (plasma
 			frequency, (\si{\per \second}) $\in$ $\Re$) are material properties that
-			depend on the chosen medium to study.\\ & $\varepsilon_0$ (permittivity
-			constant (\si{\farad \per \meter}) $\in$ $\Re$) is a constant with value of
+			depend on the chosen medium to study. $\omega$ is the excitation frequency (frequency of the light source, \si{\per \second}) $\in$ $\Re$). \\ & $\varepsilon_0$ (permittivity
+			constant (\si{\farad \per \meter}) $\in$ $\Re$) is a constant permittivity of the surrounding environment, this value for vacuum is
 			$8.85418781*10^{-12}$ \si{\farad \per \meter}. \\ \hline Source &
 			\cite{hiremath2012numerical} \\ % The above web link should be replaced with a
 			% proper citation to a publication
@@ -500,23 +494,21 @@ misinterpretations. Capability of programming in python to understand the data e
 			Number& T\refstepcounter{theorynum}\thetheorynum \label{TM:E}\\ \hline Label&\bf
 			Nonlocal hydrodynamic form of curl-curl equation of electric field (\textbf{E})
 			\\ \hline Equation& \begin{equation} \label{eq:Enonlocal} \begin{gathered}
-					\nabla\times[\dfrac{1}{\mu_{0}}\nabla\times \textbf{E}(\textbf{r},t)] +
-					\varepsilon_{0}\varepsilon_{loc}\dfrac{\partial^{2}}{\partial
-						t^{2}}\textbf{E}(\textbf{r},t) = -\dfrac{\partial}{\partial
-						t}\textbf{J}(\textbf{r},t) \end{gathered}  \end{equation} \\
+					\nabla\times[\dfrac{1}{\mu_{0}}\nabla\times \textbf{E}(\textbf{r},\omega)] + \omega^2
+					\varepsilon_{0}\varepsilon_{loc}(r,\omega)\textbf{E}(\textbf{r},\omega) = i \omega \textbf{J}_{HD}(\textbf{r}, \omega) \end{gathered}  \end{equation} \\
 			
 			
 			\hline Description & Above partial differential equation, similar to equation
 			\ref{eq:Jnonlocal}, shows the relationship between \textbf{E}(\textbf{r},t)
 			(electric field vector $\in \Bbb C$) and hydrodynamic electric current density
-			vector $\textbf{J}_{HD}(\textbf{r},t)$. However, equation \ref{eq:Enonlocal}
+			vector $\textbf{J}_{HD}(\textbf{r},t)$, in space (\textbf{r}) and frequency ($\omega$) domain. However, equation \ref{eq:Enonlocal}
 			is derived from  Maxwell's equations, the approach is explained in detail in
-			\cite{hiremath2012numerical}. \\ & In this equation $\mu_{0}$ (permeability
-			constant with value of $1.256637062 * 10^{-6}$ \si{\henry \per \meter}) and
-			$\varepsilon_{0}$ (permittivity constant with value of $8.85418781*10^{-12}$
-			\si{\farad \per \meter}) are constants. \\ &$\varepsilon_{loc}$ is
-			permeability of the medium ($\varepsilon_{loc}$ $\in \Bbb C$, \si{\farad \per
-				\meter}). \\ \hline Source & \cite{hiremath2012numerical} \\ % The above web
+			\cite{hiremath2012numerical}. \\ & In this equation $\mu_{0}$ is permeability
+			constant of the environment which is $1.256637062 \times 10^{-6}$ \si{\henry \per \meter} in vacuum;
+			$\varepsilon_{0}$ is the permittivity constant which is  $8.85418781 \times 10^{-12}$ 
+			\si{\farad \per \meter} in vacuum. \\ &$\varepsilon_{loc}$ is
+			permeability of the medium ($\varepsilon_{loc}$ $\in \Bbb C$, \si{\farad \per 
+				\meter}) which is dependant of both space and frequency. \\ \hline Source & \cite{hiremath2012numerical} \\ % The above web
 			% link should be replaced with a proper citation to a publication
 			\hline Ref.\ By & GD\ref{GD:weakE}, IM\ref{IM:solve}\\ \hline \end{tabular}
 	\end{minipage}\\
@@ -532,7 +524,7 @@ misinterpretations. Capability of programming in python to understand the data e
 			Label&\bf General boundary condition for the nonlocal hydrodynamic system  \\
 			\hline Equation& \begin{equation} \label{eq:boundary} \begin{gathered}
 					\begin{cases} \int_\Omega ((\nabla \times \phi).(\mu^{-1}_{0} \nabla \times
-						\textbf{E})- \omega^2\phi \epsilon_{local} \textbf{E}_i)dV + \int_{\partial
+						\textbf{E})- \omega^2\phi \varepsilon_{local} \textbf{E}_i)dV + \int_{\partial
 							\Omega} \phi . DtN(\textbf{E})dA\\ \ \ - i\omega \int_\Omega \phi .
 						\textbf{J}_{HD}dV =  -\int_{\partial \Omega} \phi.(n \times (\mu^{-1}_0 \nabla
 						\times \textbf{E}_i))dA + \int_{\partial \Omega} \phi.DtN(\textbf{E}_i)dA \\ \\
@@ -543,18 +535,17 @@ misinterpretations. Capability of programming in python to understand the data e
 			\hline Description & The upper equation is known as the weak formulation of
 			the boundary condition on the electric field in a nonlocal hydrodynamic
 			system. In this equation \textbf{n} is the unit normal vector of the surface
-			of the meshed volume ($\partial \Omega boundary$), $\phi$ in an arbitrary test
-			vector function in the meshed geometry ($\Omega$ domain), $\varepsilon_{loc}$
+			of the meshed volume, $\partial \Omega$ is the boundary, $\phi$ in an arbitrary test
+			vector function in the meshed geometry, $\Omega$ is the space domain, $\varepsilon_{loc}$
 			is permeability of the medium ($\varepsilon_{loc}$ $\in \Bbb C$, \si{\farad
 				\per \meter}), $\textbf{E}_i$ is the electric field of the incident light
-			source, and $\omega$ ($s^{-1}$) is the angular frequency of the light source.
+			source, and $\omega$ ($s^{-1}$) is the frequency of the light source.
 			\\ &$DtN$ is the Dirichlet to Neumann boundary condition which is discussed in
-			detail in \cite{monk2003finite}. \\ & The lower equation is also seen in
-			\ref{A_leakage} and indicates that electric current only propagates on the
-			surface of the mesh geometry ($\Omega$). \\ \hline Source &
+			detail in \cite{monk2003finite}. \\ & The lower equation indicates that electric current only propagates on the
+			surface of the meshed geometry ($\partial \Omega$). \\ \hline Source &
 			\cite{hiremath2012numerical}, \cite{monk2003finite} \\ % The above web link
 			% should be replaced with a proper citation to a publication
-			\hline Ref.\ By & DD\ref{DD:omega},IM\ref{IM:solve}\\ \hline \end{tabular}
+			\hline Ref.\ By & DD\ref{DD:omega}, IM\ref{IM:solve}\\ \hline \end{tabular}
 	\end{minipage}\\
 	
 	~\newline
@@ -569,9 +560,9 @@ misinterpretations. Capability of programming in python to understand the data e
 			formulation of the hydrodynamic current density  \\ \hline %
 			% Units&$MLt^{-3}T^0$\\
 			% \hline
-			SI Units& The SI unit for $|\textbf{J}|$ is \si{\ampere \per \metre}\\ \hline
+			SI Units& The SI unit for $|\textbf{J}_{HD}|$ is \si{\ampere \per \metre}\\ \hline
 			Equation& $-\int_\Omega
-			\beta^2(\nabla.\psi)(\nabla.\textbf{J}_{HD})dV+\omega(\omega+i\gamma)\int_{\Omega} \psi. \textbf{J}_HD dV - i\omega \omega^2_p \int_\Omega \psi.\varepsilon_{0}\textbf{E}dV = 0 $ \\ \hline Description & The weak formulation is a notation that is adopted for the finite element methods. Derivation of above equation is discussed in \cite{hiremath2012numerical}. This equation is a different notation of equation \ref{eq:Jnonlocal} which is known as weak formulation. \\ \hline Source & \cite{hiremath2012numerical}  \\ \hline Ref.\ By & T\ref{TM:J}, IM\ref{IM:solve}, DD\ref{DD:omega}\\ \hline \end{tabular} \end{minipage}\\
+			\beta^2(\nabla.\psi)(\nabla.\textbf{J}_{HD})dV+\omega(\omega+i\gamma)\int_{\Omega} \psi. \textbf{J}_{HD} dV - i\omega \omega^2_p \int_\Omega \psi.\varepsilon_{0}\textbf{E}dV = 0 $ \\ \hline Description & The weak formulation is a notation that is adopted for the finite element methods. Derivation of above equation is discussed in \cite{hiremath2012numerical}. This equation is a different notation of equation \ref{eq:Jnonlocal} in T \ref{TM:J}, which is known as the weak formulation of the equation. In this regard, \textbf{E} and \textbf{J}$_{HD}$ are respectively electric field and electric current density; $\psi$ in this equation is a test function; $\beta$ is the Fermi velocity proportionality; $\omega$ is the external stimulus frequency; $\omega_p$ is the plasma frequency; $\varepsilon_{0}$ is the permittivity constant.    \\ \hline Source & \cite{hiremath2012numerical}  \\ \hline Ref.\ By & IM\ref{IM:solve}, DD\ref{DD:omega}\\ \hline \end{tabular} \end{minipage}\\
 	
 	%----------------------------GD2
 	
@@ -585,13 +576,13 @@ misinterpretations. Capability of programming in python to understand the data e
 			% \hline
 			SI Units&\si{\watt\per\square\metre}\\ \hline Equation& $\int_\Omega ((\nabla
 			\times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omega^2
-			\phi.\epsilon_{local} \textbf{E}) dV + \int_{\partial \Omega} \phi.(\textbf{n}
+			\phi.\varepsilon_{local} \textbf{E}) dV + \int_{\partial \Omega} \phi.(\textbf{n}
 			\times (\mu^{-1}_0 \nabla \times \textbf{E}))dA = i\omega \int_\Omega \phi.
 			\textbf{J}_{HD} dV $ \\ \hline Description & The weak formulation is a notation
 			that is adopted for the finite element methods. Derivation of above equation is
 			discussed in \cite{hiremath2012numerical}. This equation is a different notation
-			of equation \ref{eq:Enonlocal} which is known as weak formulation. \\ \hline
-			Source & Citation here \\ \hline Ref.\ By &T\ref{TM:E}, IM\ref{IM:solve},
+			of equation \ref{eq:Enonlocal} in T \ref{TM:E} which is known as weak formulation.  In this regard, \textbf{E} and \textbf{J}$_{HD}$ are respectively electric field and electric current density; $\phi$ in this equation is a test function; $\omega$ is the external stimulus frequency; $\varepsilon_{local}$ is the permittivity of the medium; $\varepsilon_{0}$ is the surrounding permeability constant. \  \\ \hline
+			Source & Citation here \\ \hline Ref.\ By & IM\ref{IM:solve},
 			DD\ref{DD:omega}\\ \hline \end{tabular} \end{minipage}\\
 	
 	\subsubsection*{Detailed derivation of simplified rate of change of temperature}
@@ -617,10 +608,10 @@ misinterpretations. Capability of programming in python to understand the data e
 			\hline % Units& $Mt^{-3}$\\
 			% \hline
 			SI Units & $m^{-1}$\\ \hline Equation&$k=\frac{2\pi}{\lambda}$\\ \hline
-			Description & $\lambda$ is the wavelength of a given wave (m). k is Wave
-			number that indicates the  number of waves (cycles) per unit distance. \\
+			Description & $\lambda$ is the wavelength of a given wave (m). k is wave
+			number that indicates the  number of waves (cycles) per unit distance. This parameter is used in T\ref{TM:source} \\
 			\hline Sources& \url{https://en.wikipedia.org/wiki/Wavenumber} \\ \hline Ref.\
-			By & IM\ref{IM:source}, T\ref{TM:source} \\ \hline \end{tabular}
+			By & IM\ref{IM:source} \\ \hline \end{tabular}
 	\end{minipage}\\
 	
 	
@@ -637,8 +628,8 @@ misinterpretations. Capability of programming in python to understand the data e
 			SI Units &dimensionless\\ \hline Equation& N/A \\ \hline Description &
 			$\Omega$ is the 3D set of coordinate that shape a volume together and
 			$\partial \Omega$ is a set of coordinates in 3D space that form the interface
-			of $\Omega$ \\ \hline Sources& N/A\\ \hline Ref.\ By & IM\ref{IM:solve},
-			T\ref{TM:boundary}, GD\ref{GD:weakJ}, GD\ref{GD:weakE} \\ \hline \end{tabular}
+			of $\Omega$. See 	T\ref{TM:boundary}, GD\ref{GD:weakJ}, GD\ref{GD:weakE}. \\ \hline Sources& N/A\\ \hline Ref.\ By & IM\ref{IM:solve}
+		 \\ \hline \end{tabular}
 	\end{minipage}\\
 	
 	~\newline
@@ -655,8 +646,8 @@ misinterpretations. Capability of programming in python to understand the data e
 			% \hline
 			SI Units & $m^{-1}$\\ \hline Equation&$\beta^2 = \frac{3}{5} \nu_f^2$\\ \hline
 			Description & $\nu_f$ is the Fermi velocity of electron in the medium
-			($ms^{-1}$) \\ \hline Sources& \cite{hiremath2012numerical} \\ \hline Ref.\ By
-			& GD\ref{GD:weakJ}, T\ref{TM:J}, IM\ref{IM:solve} \\ \hline \end{tabular}
+			($ms^{-1}$). See GD\ref{GD:weakJ}, T\ref{TM:J}. \\ \hline Sources& \cite{hiremath2012numerical} \\ \hline Ref.\ By
+			& IM\ref{IM:solve} \\ \hline \end{tabular}
 	\end{minipage}\\
 	
 	~\newline
@@ -689,12 +680,11 @@ misinterpretations. Capability of programming in python to understand the data e
 			of the incident light (\textbf{d} = $(d_x,d_y,d_z)$, $\textbf{d}\in \Bbb
 			R^3$).\\ &$\lambda$ is the wavelength of the light source ($\si{\meter}$).\\
 			&k=$\frac{2 \pi}{\lambda}$ is the wave number of the propagating wave ($\si{\per
-				\meter}$).\\ & $\omega$ is the angular frequency of the light source and can
+				\meter}$); see DD\ref{DD:wavenumber}.\\ & $\omega$ is the angular frequency of the light source and can
 			accept any positive value and zero ($\si{\per \second}$).\\ &$\textbf{E}_i$ is
 			the 3D electric vector field calculated using Equation \ref{eq:planewave} in
 			T\ref{TM:source} ($\textbf{E}_i=(E_x,E_y,E_z)$, $\textbf{E}_i\in \Bbb C^3$). \\
-			\hline Sources& \cite{monk2003finite} \\ \hline Ref.\ By &  T\ref{TM:source},
-			DD\ref{DD:wavenumber}\\ \hline \end{tabular} \end{minipage}\\
+			\hline Sources& \cite{monk2003finite} \\ \hline Ref.\ By & IM\ref{IM:solve}\\ \hline \end{tabular} \end{minipage}\\
 	
 	%~\newline
 	
@@ -715,15 +705,15 @@ misinterpretations. Capability of programming in python to understand the data e
 			Description & $\gamma$ is the surface plasmon damping coefficient ($s^{-1}$).\\
 			& $\beta$ is the fermi velocity ($\si{\meter \per \second}$). This material
 			property is used for calculating Fermi velocity proportionality coefficient
-			$\beta$ using equation \ref{eq:beta}  (\ref{DD:beta}).\\ & $\varepsilon_{0}$ is
+			$\beta$ using equation in DD\ref{DD:beta}.\\ & $\varepsilon_{0}$ is
 			permittivity constant ($\si{\farad \per \meter}$). \\ & $\omega_p$ is the plasma
 			frequency of the target material ($\si{\per \second}$).\\ & $\mu_{0}$ is the
 			permeability constant ($\si{\henry \per \meter}$). \\ & $\varepsilon_{local}$ is
 			the local permittivity ($\si{\farad \per \meter}$).
 			$\textbf{E}_i$ is the electric field of the incident light in $\Bbb C$, which is obtained in IM\ref{IM:source}.
 			\\ & Using above values, and
-			weak form of equations T\ref{TM:J} and T\ref{TM:E}, (GD\ref{GD:weakJ} and
-			GD\ref{GD:weakE}) and the boundary conditions in T\ref{TM:boundary} forms a
+			weak form of equations in T\ref{TM:J}, and T\ref{TM:E}, (GD\ref{GD:weakJ} and
+			GD\ref{GD:weakE}) and the boundary conditions in T\ref{TM:boundary} (\textbf{E}$_i$ is calculated in IM\ref{IM:source}), forms a
 			system of equation that FEniCS can solve using finite element method and obtains
 			the electric current density $\textbf{J}_HD(\textbf{r},t)$ and electric field
 			$\textbf{E}(\textbf{r},t)$ on the meshed geometry.\\
@@ -733,10 +723,10 @@ misinterpretations. Capability of programming in python to understand the data e
 						-\int_\Omega
 						\beta^2(\nabla.\psi)(\nabla.\textbf{J}_{HD})dV+\omega(\omega+i\gamma)\int_{\Omega} \psi. \textbf{J}_HD dV - \\ \ i\omega \omega^2_p \int_\Omega \psi.\varepsilon_{0}\textbf{E}dV = 0 \\
 						
-						 \\ \int_\Omega ((\nabla \times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omega^2 \phi.\epsilon_{local} \textbf{E}) dV + \\ \ \int_{\partial \Omega} \phi.(\textbf{n} \times (\mu^{-1}_0 \nabla \times \textbf{E}))dA = i\omega \int_\Omega \phi. \textbf{J}_{HD} dV
+						 \\ \int_\Omega ((\nabla \times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omega^2 \phi.\varepsilon_{local} \textbf{E}) dV + \\ \ \int_{\partial \Omega} \phi.(\textbf{n} \times (\mu^{-1}_0 \nabla \times \textbf{E}))dA = i\omega \int_\Omega \phi. \textbf{J}_{HD} dV
 						
 						\\ \\ \int_\Omega ((\nabla \times \phi).(\mu^{-1}_{0} \nabla \times
-						\textbf{E})- \omega^2\phi \epsilon_{local} \textbf{E}_i)dV + \int_{\partial
+						\textbf{E})- \omega^2\phi \varepsilon_{local} \textbf{E}_i)dV + \int_{\partial
 							\Omega} \phi . DtN(\textbf{E})dA\\ \ \ - i\omega \int_\Omega \phi .
 						\textbf{J}_{HD}dV =  -\int_{\partial \Omega} \phi.(n \times (\mu^{-1}_0
 						\nabla \times \textbf{E}_i))dA + \int_{\partial \Omega}
@@ -746,7 +736,7 @@ misinterpretations. Capability of programming in python to understand the data e
 			\end{equation} \\
 			\hline Sources& \cite{hiremath2012numerical}\\ 
 			\hline 
-			Ref.\ By & IM\ref{IM:source}, IM\ref{IM:ampl}, T\ref{TM:E}, T\ref{TM:J}, GD\ref{GD:weakJ}, GD\ref{GD:weakE} 
+			Ref.\ By & 
 			\\ \hline
 	\end{tabular} \end{minipage}\\
 	
@@ -754,26 +744,6 @@ misinterpretations. Capability of programming in python to understand the data e
 	
 	
 	~\newline
-	
-	
-	%----------------------Instance Model 3
-	
-	~\newline \noindent \begin{minipage}{\textwidth}
-		\renewcommand*{\arraystretch}{1.5} \begin{tabular}{| p{\colAwidth} |
-				p{\colBwidth}|} \hline \rowcolor[gray]{0.9} Number&
-			IM\refstepcounter{instnum}\theinstnum \label{IM:ampl}\\ \hline Label& \bf
-			Finding amplitude of the fields in the domain\\ \hline Input&$\textbf{J}_{HD}(\textbf{r},t)$, $\textbf{E}(\textbf{r},t)$
-			 \\
-			\hline Output& $|\textbf{J}_{HD}(\textbf{r},t)|$, $|\textbf{E}(\textbf{r},t)|$
-			\\
-			\hline 
-			Description&
-			After FEniCS solving the equation system \ref{eq:FEniCS}, as $\textbf{J}_{HD}(\textbf{r},t)$, and  $\textbf{E}(\textbf{r},t)$ are in $\Bbb C$ having the magnitude of the variables are more desirable for post processing.
-			 \\
-			\hline Sources& \cite{monk2003finite} \\ \hline Ref.\ By &  IM\ref{IM:solve}\\ \hline \end{tabular} \end{minipage}\\
-	
-	~\newline
-	
 	
 
 	
@@ -796,16 +766,13 @@ misinterpretations. Capability of programming in python to understand the data e
 	Table~\ref{TblSpecParams}.
 	
 	\begin{table}[!h] \caption{Input Variables} \label{TblInputVar} \renewcommand{\arraystretch}{1.2} \noindent \begin{longtable*}{l l l l c} \toprule \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software Constraints} & \textbf{Typical Value} & Uncertainty\\ \midrule 
-			$\textbf{p}$ & $|\textbf{p}|=1,  \textbf{p} \in \Re^{3} , \textbf{p}.\textbf{d}=0$ & $|\textbf{p}|=1, \textbf{p} \in \Re^{3}, \textbf{p}.\textbf{d}=0$ & $(1,0,0)$ & N/A \\
+			$\textbf{p}$ & $\textbf{p} \in \Re^{3} , \textbf{p}.\textbf{d}=0$ & $ \textbf{p} \in \Re^{3}, \textbf{p}.\textbf{d}=0$ & $(1,0,0)$ & N/A \\
+			 &   & $p_{min} < |\textbf{p}| < p_{max}$ & & \\
 			$\textbf{d}$ & $|\textbf{d}|=1,  \textbf{d} \in \Re^{3}, \textbf{p}.\textbf{d}=0$ & $|\textbf{d}|=1, \textbf{d} \in \Re^{3}, \textbf{p}.\textbf{d}=0$ & $(0,1,0)$& N/A\\
-			$\lambda$ & $\lambda>0,  \lambda \in \Re$ & $200*10^{-9} m <\lambda<6*10^{-6} m$ & $4 * 10^{-7} m$& N/A\\	 
-			$\omega$ & $\omega \geqslant 0, \omega \in \Re$ & $\omega \geqslant 0, \omega \in \Re$ & 1 THz & N/A\\ 
-			$\delta t$ & $\delta t \geqslant 0, t \in \Re$ &  $t_{min} < \delta t < t_{max}$ & $10^{-14} s$ & N/A\\
-			$\varnothing(\Omega)$ & $\varnothing(\Omega) > 0$ & $\varnothing(\Omega)_{\text{min}} \leq \varnothing(\Omega) \leq \varnothing(\Omega)_{\text{max}}$ & $20*10^{-9}$ \si[per-mode=symbol] {\metre} & N/A \\ 
-			$t_{final}$ & $t_{final}>0$ &   $t_{min} < t_{final} < t_{max}$, $t_{final} \geqslant \delta t$ & $10^{-12} s$ & N/A\\
+			$\lambda$ & $\lambda>0,  \lambda \in \Re$ & $\lambda_{min} <\lambda< \lambda_{max}$ & $4 * 10^{-7} m$& N/A\\	
 			 \bottomrule \end{longtable*} \end{table}
 
-\begin{table}[!h] \caption{Specification Parameter Values} \label{TblSpecParams} \renewcommand{\arraystretch}{1.2} \noindent \begin{longtable*}{l l} \toprule \textbf{Var} & \textbf{Value} \\ \midrule $\varnothing(\Omega)_{\text{min}}$ & $10^{-8}$ \si{\metre}\\ $\varnothing(\Omega)_{\text{max}}$ & $10^{-7}$ \si{\metre}\\ $t_{min}$ & $10^{-15}$\\ $t_{max}$ & $10^{-12}$\\
+\begin{table}[!h] \caption{Specification Parameter Values} \label{TblSpecParams} \renewcommand{\arraystretch}{1.2} \noindent \begin{longtable*}{l l} \toprule \textbf{Var} & \textbf{Value} \\ \midrule  $\lambda_{min}$ & $200 \times 10^{-9} m$\\ $\lambda_{max}$ & $1000 \times 10^{-9} m$\\ $p_{min}$ & -10 \\ $p_{max}$ & 10 \\
 		
 		
 		\bottomrule \end{longtable*} \end{table}
@@ -830,7 +797,7 @@ misinterpretations. Capability of programming in python to understand the data e
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_1}:] Provide user a procedure to input data and meshed geometry (IM\ref{IM:source}).
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_2}:] Verify the inputs with respect to the criteria provided in table \ref{TblInputVar} (IM\ref{IM:source}).
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_2}:] Verify the inputs with respect to the criteria provided in table \ref{TblInputVar} and \ref{TblSpecParams}.
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_3}:] Calculate the
 		electric field of the light source ($\textbf{E}_i$)
@@ -892,18 +859,13 @@ misinterpretations. Capability of programming in python to understand the data e
 	
 	\noindent \begin{itemize}
 		
-		\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_wavelength}:] As this software
+		\item[UC1\label{LC_wavelength}:] As this software
 		is written for studying surface plasmon activities, this package will expand
 		around this physical phenomenon that takes place in wavelengths ranged from
 		infrared to ultraviolet (A\ref{A_wl}). Thus, it is less probable that this
 		wavelength range change.
 		
-		\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_time}:] As plasmon activities
-		damp within femtoseconds, for studying these system and their interaction with
-		other components in the environment time domains beyond microseconds will not
-		add any useful information. Therefore changing the time domain for calculations
-		in is unlikely (A\ref{A_time}).
-		
+
 	\end{itemize}
 	
 	\section{Traceability Matrices and Graphs}
@@ -926,23 +888,22 @@ misinterpretations. Capability of programming in python to understand the data e
 			\centering
 			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 				\hline
-				& \aref{A_nonlocal}& \aref{A_size}& \aref{A_nonmag}& \aref{A_pd}& \aref{A_wl}& \aref{A_impenetrable}& \aref{A_leakage}& \aref{A_time}\\
+				& \aref{A_nonlocal}& \aref{A_size}& \aref{A_nonmag}& \aref{A_pd}& \aref{A_wl}& \aref{A_impenetrable}& \aref{A_leakage}\\
 				\hline
-				\tref{TM:source}          & & & &X &X & & &X \\ \hline
-				\tref{TM:J}               &X &X &X & & & & X&  \\ \hline
-				\tref{TM:E}               & X& X&X & & & & &  \\ \hline
-				\tref{TM:boundary}        &X & & & & X& X& &  \\ \hline
-				\dref{GD:weakJ}           & X&X & X& & & & &  \\ \hline
-				\dref{GD:weakE}           & X& X& X& & & & & \\ \hline
-				\ddref{DD:wavenumber}     & & & & & X& & &  \\ \hline
-				\ddref{DD:omega}          & &X & & & & & &  \\ \hline
-				\ddref{DD:beta}           & & & & & & & &  \\ \hline
-				\iref{IM:source}          & & & &X &X & & &X  \\ \hline
-				\iref{IM:solve}           &X &X &X &X & X&X &X &X  \\ \hline
-				\iref{IM:ampl}       & X&X &X &X &X & X& X&X  \\ \hline
-				\lcref{LC_lightsource}    & & & &X &X & & &X  \\ \hline
-				\lcref{LC_size}           & X& X& & & & & &  \\ \hline
-				\lcref{LC_magnetism}      & X& & X& & & & &   \\ \hline
+				\tref{TM:source}          & & & &X&X& &  \\ \hline
+				\tref{TM:J}               &X&X&X& & & &   \\ \hline
+				\tref{TM:E}               &X&X&X& & & &   \\ \hline
+				\tref{TM:boundary}        & &X&X&X&X&X&X  \\ \hline
+				\dref{GD:weakJ}           &X& &X& & & &   \\ \hline
+				\dref{GD:weakE}           &X& &X& & & &  \\ \hline
+				\ddref{DD:wavenumber}     & & & & &X& &   \\ \hline
+				\ddref{DD:omega}          & &X& & & & &  \\ \hline
+				\ddref{DD:beta}           & & & & & &X&   \\ \hline
+				\iref{IM:source}          & & &X&X&X& &   \\ \hline
+				\iref{IM:solve}           &X&X&X&X&X& &   \\ \hline
+				\lcref{LC_lightsource}    & & & &X&X& &   \\ \hline
+				\lcref{LC_size}           &X&X& & & & &   \\ \hline
+				\lcref{LC_magnetism}      & & &X& & & &   \\ \hline
 			
 				\hline
 			\end{tabular}
@@ -954,20 +915,20 @@ misinterpretations. Capability of programming in python to understand the data e
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline        
-		& \tref{TM:source}& \tref{TM:J}& \tref{TM:E}& \tref{TM:boundary}& \dref{GD:weakJ} & \dref{GD:weakE}& \ddref{DD:wavenumber} & \ddref{DD:omega}& \ddref{DD:beta}& \iref{IM:source}& \iref{IM:solve}& \iref{IM:ampl} \\
+		& \tref{TM:source}& \tref{TM:J}& \tref{TM:E}& \tref{TM:boundary}& \dref{GD:weakJ} & \dref{GD:weakE}& \ddref{DD:wavenumber} & \ddref{DD:omega}& \ddref{DD:beta}& \iref{IM:source}& \iref{IM:solve} \\
 		\hline
-		\tref{TM:source}        & X& & & X& & & X& & &X &X &X \\ \hline
-		\tref{TM:J}             & & X& & X& X& & & X& & & X&X \\ \hline
-		\tref{TM:E}             & & & X& X& & X& & & & & X& X\\ \hline
-		\tref{TM:boundary}      &X &X &X &X & & &X&X&X&X&X&X\\ \hline
-		\dref{GD:weakJ}         & &X & & &X & & &X &X & &X &X \\ \hline
-		\dref{GD:weakE}         & & &X & & &X & &X & & & X& X\\ \hline
-		\ddref{DD:wavenumber}   & X& & & X& & & X& & &X &X &X \\ \hline
-		\ddref{DD:omega}        & & & &X &X &X & &X & & &X &X \\ \hline
-		\ddref{DD:beta}         & &X & & &X & & & &X & &X &X \\ \hline
-		\iref{IM:source}        &X & & &X & & &X & & &X &X &X \\ \hline
-		\iref{IM:solve}         &X &X &X &X &X &X &X &X &X &X &X &X  \\ \hline
-		\iref{IM:ampl}          &X &X &X &X &X &X &X &X &X &X &X &X \\ 
+		\tref{TM:source}        & & & & & & &X& & & &  \\ \hline
+		\tref{TM:J}             & & & & & & & & &X& &  \\ \hline
+		\tref{TM:E}             & & & & & & & & & & & \\ \hline
+		\tref{TM:boundary}      &X& & & & & &X&X& &X& \\ \hline
+		\dref{GD:weakJ}         & &X& &X& & & &X&X& &  \\ \hline
+		\dref{GD:weakE}         & & &X&X& & & &X& & & \\ \hline
+		\ddref{DD:wavenumber}   &X& & & & & & & & & & \\ \hline
+		\ddref{DD:omega}        & & & & & & & & & & & \\ \hline
+		\ddref{DD:beta}         & &X& & & & & & & & &  \\ \hline
+		\iref{IM:source}        &X& & & & & &X&X& &X&  \\ \hline
+		\iref{IM:solve}         &X&X&X&X&X&X& &X&X&X& \\ \hline
+	
 	
 		\hline
 	\end{tabular}
@@ -979,22 +940,15 @@ misinterpretations. Capability of programming in python to understand the data e
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|c|}
 		\hline
-		& \iref{IM:source}& \iref{IM:solve}& \iref{IM:ampl}& \ref{sec_DataConstraints}& \rref{R_RawInputs}& \rref{R_MassInputs} \\
+		& \iref{IM:source}& \iref{IM:solve}& R\ref{R_1}& \rref{R_2}& \rref{R_3}& R\ref{R_4} \\
 		\hline
-		\iref{IM:source}            & & X& & & & X \\ \hline
-		\iref{IM:solve}            & X& & & X& & X \\ \hline
-		\iref{IM:ampl}          & & & & & & X \\ \hline
+		\iref{IM:source}  & & &X&X&X& \\ \hline
+		\iref{IM:solve}   &X& &X&X& &X\\ \hline
+		\rref{R_1}        & & & & & &\\ \hline
+		\rref{R_2}        & & &X& & & \\ \hline
+		\rref{R_3}        &X& & & & & \\ \hline
+		\rref{R_4}        &X&X& & &X&\\ \hline
 	
-		\rref{R_1}     & X& & & & & \\ \hline
-		\rref{R_2}     & X& & & & & \\ \hline
-		\rref{R_3}     & X& & & & & \\ \hline
-		\rref{R_4}     & X& & & & &  \\ \hline
-		\rref{R_5}     & X& & & & &  \\ \hline 
-		\rref{R_6}     & & X& & & & \\ \hline
-		\rref{R_7}     & & X& & & &  \\ \hline
-		\rref{R_8}     & & X& & & & \\ \hline
-		\rref{R_9}     & & X& & & &  \\ \hline
-		\rref{R_10}    & & X& X& & & \\ 
 		\hline
 	\end{tabular}
 	\caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
@@ -1005,9 +959,9 @@ misinterpretations. Capability of programming in python to understand the data e
 	arrows in the graphs represent dependencies. The component at the tail of an
 	arrow is depended on by the component at the head of that arrow. Therefore, if a
 	component is changed, the components that it points to should also be changed.
-	Figure~\ref{Fig_ATrace} shows the dependencies of theoretical models, general
+	Figure~\ref{Table:A_trace} shows the dependencies of theoretical models, general
 	definitions, data definitions, instance models, likely changes, and assumptions
-	on each other. Figure~\ref{Fig_RTrace} shows the dependencies of instance
+	on each other. Figure~\ref{Table:R_trace} shows the dependencies of instance
 	models, requirements, and data constraints on each other.
 	
 	% \begin{figure}[h!]
@@ -1035,7 +989,7 @@ misinterpretations. Capability of programming in python to understand the data e
 	
 	\section{Values of Auxiliary Constants}
 	
-	$\varepsilon_{0} = 8.8541878128 * 10^{-12} \si{\farad\per \meter}$ \\ $\mu_{0} =
+	$\varepsilon_{0} = 8.8541878128 * 10^{-12} \  \si{\farad\per \meter}$ \\ $\mu_{0} =
 	1.256637062 * 10^{-6}$ \si{\henry \per \meter} \\
 	
 	\newpage
