@@ -18,7 +18,8 @@
 
 \begin{document}
 	
-	\title{Module Guide for \progname{}} \author{S. Shayan Mousavi M.} \date{\today}
+	\title{Module Guide for \progname{}} \author{S. Shayan Mousavi M.}
+	\date{\today}
 	
 	\maketitle
 	
@@ -27,9 +28,8 @@
 	\section{Revision History}
 	
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X} \toprule {\bf Date} & {\bf Version}
-		& {\bf Notes}\\ \midrule Nov 23 2020 & 1.0 & Initial Design\\
-		Dec 18 2020 & 1.1 & Revised Design\\
-		\bottomrule \end{tabularx}
+		& {\bf Notes}\\ \midrule Nov 23 2020 & 1.0 & Initial Design\\ Dec 18 2020 & 1.1
+		& Revised Design\\ \bottomrule \end{tabularx}
 	
 	\newpage
 	
@@ -41,10 +41,11 @@
 	
 	\renewcommand{\arraystretch}{1.2} \begin{tabular}{l l} \toprule \textbf{symbol}
 		& \textbf{description}\\ \midrule AC & Anticipated Change\\ DAG & Directed
-		Acyclic Graph \\ M & Module \\ MG & Module Guide \\ OS & Operating System \\ R &
-		Requirement\\ SC & Scientific Computing \\ SRS & Software Requirements
-		Specification\\ \progname{} & Surface Plasmon Dynamics Finite Method\\ UC & Unlikely Change
-		\\ SPD & Surface Plasmon Dynamics\\ FEM & Finite Element Method\\ \bottomrule \end{tabular}\\
+		Acyclic Graph \\ M & Module \\ MG & Module Guide \\ OS & Operating System \\ R
+		& Requirement\\ SC & Scientific Computing \\ SRS & Software Requirements
+		Specification\\ \progname{} & Surface Plasmon Dynamics Finite Method\\ UC &
+		Unlikely Change \\ SPD & Surface Plasmon Dynamics\\ FEM & Finite Element
+		Method\\ \bottomrule \end{tabular}\\
 	
 	\newpage
 	
@@ -62,11 +63,12 @@
 	
 	Decomposing a system into modules is a commonly accepted approach to developing
 	software.  A module is a work assignment for a programmer or programming
-	team~\citep{ParnasEtAl1984}.  We advocate a decomposition based on the principle
-	of information hiding~\citep{Parnas1972a}.  This principle supports design for
-	change, because the ``secrets'' that each module hides represent likely future
-	changes.  Design for change is valuable in SC, where modifications are frequent,
-	especially during initial development as the solution space is explored.
+	team~\citep{ParnasEtAl1984}.  We advocate a decomposition based on the
+	principle of information hiding~\citep{Parnas1972a}.  This principle supports
+	design for change, because the ``secrets'' that each module hides represent
+	likely future changes.  Design for change is valuable in SC, where
+	modifications are frequent, especially during initial development as the
+	solution space is explored.
 	
 	Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
 	\begin{itemize} \item System details that are likely to change independently
@@ -78,19 +80,19 @@
 	After completing the first stage of the design, the Software Requirements
 	Specification (SRS), the Module Guide (MG) is developed~\citep{ParnasEtAl1984}.
 	The MG specifies the modular structure of the system and is intended to allow
-	both designers and maintainers to easily identify the parts of the software. 
+	both designers and maintainers to easily identify the parts of the software.
 	The potential readers of this document are as follows:
 	
 	\begin{itemize} \item New project members: This document can be a guide for a
 		new project member to easily understand the overall structure and quickly find
-		the relevant modules they are searching for. \item Maintainers: The hierarchical
-		structure of the module guide improves the maintainers' understanding when they
-		need to make changes to the system. It is important for a maintainer to update
-		the relevant sections of the document after changes have been made. \item
-		Designers: Once the module guide has been written, it can be used to check for
-		consistency, feasibility and flexibility. Designers can verify the system in
-		various ways, such as consistency among modules, feasibility of the
-		decomposition, and flexibility of the design. \end{itemize}
+		the relevant modules they are searching for. \item Maintainers: The
+		hierarchical structure of the module guide improves the maintainers'
+		understanding when they need to make changes to the system. It is important for
+		a maintainer to update the relevant sections of the document after changes have
+		been made. \item Designers: Once the module guide has been written, it can be
+		used to check for consistency, feasibility and flexibility. Designers can
+		verify the system in various ways, such as consistency among modules,
+		feasibility of the decomposition, and flexibility of the design. \end{itemize}
 	
 	The rest of the document is organized as follows. Section \ref{SecChange} lists
 	the anticipated and unlikely changes of the software requirements. Section
@@ -107,15 +109,15 @@
 	
 	This section lists possible changes to the system. According to the likeliness
 	of the change, the possible changes are classified into two categories.
-	Anticipated changes are listed in Section \ref{SecAchange}, and unlikely changes
-	are listed in Section \ref{SecUchange}.
+	Anticipated changes are listed in Section \ref{SecAchange}, and unlikely
+	changes are listed in Section \ref{SecUchange}.
 	
 	\subsection{Anticipated Changes} \label{SecAchange}
 	
 	Anticipated changes are the source of the information that is to be hidden
 	inside the modules. Ideally, changing one of the anticipated changes will only
-	require changing the one module that hides the associated decision. The approach
-	adapted here is called design for change.
+	require changing the one module that hides the associated decision. The
+	approach adapted here is called design for change.
 	
 	\begin{description} \item[\refstepcounter{acnum} \actheacnum
 		\label{acHardware}:] The specific hardware on which the software is running.
@@ -135,8 +137,8 @@
 	
 	\subsection{Unlikely Changes} \label{SecUchange}
 	
-	The module design should be as general as possible. However, a general system is
-	more complex. Sometimes this complexity is not necessary. Fixing some design
+	The module design should be as general as possible. However, a general system
+	is more complex. Sometimes this complexity is not necessary. Fixing some design
 	decisions at the system architecture stage can simplify the software design. If
 	these decision should later need to be changed, then many parts of the design
 	will potentially need to be modified. Hence, it is not intended that these
@@ -144,8 +146,7 @@
 	
 	\begin{description} \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:]
 		Input/Output devices (Input: File and/or Keyboard, Output: File, Memory, and/or
-		Screen). 
-		\item[\refstepcounter{ucnum} \uctheucnum \label{ucForm}:] Nonlocal
+		Screen). \item[\refstepcounter{ucnum} \uctheucnum \label{ucForm}:] Nonlocal
 		surface plasmon hydrodynamic formulations. \end{description}
 	
 	
@@ -159,18 +160,20 @@
 	\begin{description} \item [\refstepcounter{mnum} \mthemnum \label{mHH}:]
 		Hardware-Hiding Module.
 		
-		\item [\refstepcounter{mnum} \mthemnum \label{mSC}:] \progname{} Control Module.
+		\item [\refstepcounter{mnum} \mthemnum \label{mSC}:] \progname{} Control
+		Module.
 		
 		\item [\refstepcounter{mnum} \mthemnum \label{mDS}:] Data Structure Module.
 		
 		\item [\refstepcounter{mnum} \mthemnum \label{mIP}:] Input Parameter Module.
 		
-		\item [\refstepcounter{mnum} \mthemnum \label{mCP}:] Constant Parameter Module.
+		\item [\refstepcounter{mnum} \mthemnum \label{mCP}:] Constant Parameter
+		Module.
 		
 		\item [\refstepcounter{mnum} \mthemnum \label{mMI}:] Mesh Input Module.
 		
-		\item [\refstepcounter{mnum} \mthemnum \label{mFD}:] Frequency Domain FEM Solver
-		Module.
+		\item [\refstepcounter{mnum} \mthemnum \label{mFD}:] Frequency Domain FEM
+		Solver Module.
 		
 		\item [\refstepcounter{mnum} \mthemnum \label{mOut}:] Output Module.
 		
@@ -183,19 +186,32 @@
 			{Hardware-Hiding Module} & ~ \\ \midrule
 			
 			\multirow{6}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control
-			Module\\ & Input Parameter Module\\ & Constant Parameters Module\\ & Mesh Input
-			Module\\ & Frequency Domain FEM Solver Module\\ & Output Module\\
+			Module\\ & Input Parameter Module\\ & Constant Parameters Module\\ & Mesh
+			Input Module\\ & Frequency Domain FEM Solver Module\\ & Output Module\\
 			
 			\midrule
 			
-			\multirow{1}{0.3\textwidth}{Software Decision Module} & Data Structure Module\\ \bottomrule
+			\multirow{1}{0.3\textwidth}{Software Decision Module} & Data Structure
+			Module\\ \bottomrule
 			
 		\end{tabular} \caption{Module Hierarchy} \label{TblMH} \end{table}
 	
 	\section{Connection Between Requirements and Design} \label{SecConnection}
 	
 	The design of the system is intended to satisfy the requirements developed in
-	the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS}, with respect to the implementation power at hand. In this regard, as the finite element solver used by \progname{} (i.e. \href{https://fenicsproject.org/}{FEniCS}) does not accept complex numbers, all the complex values in the equations (IM1 and IM2, SRS document) need to be split into real and imaginary parts and new equations should be generated \citep{rochlitz2019custem, otto2012using}. These equations are required to be written in their matrix form to be adopted by the finite element solver \citep{otto2012using}. More information regarding the complex value splittings and equation matrix can be found in the \href{https://github.com/shmouses/SPDFM/tree/master/docs/Design/MIS}{MIS} document. In this stage, the system is decomposed into modules. The connection between requirements and modules is listed in Table \ref{TblRT}.
+	the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS}, with
+	respect to the implementation power at hand. In this regard, as the finite
+	element solver used by \progname{} (i.e.
+	\href{https://fenicsproject.org/}{FEniCS}) does not accept complex numbers, all
+	the complex values in the equations (IM1 and IM2, SRS document) need to be
+	split into real and imaginary parts and new equations should be generated
+	\citep{rochlitz2019custem, otto2012using}. These equations are required to be
+	written in their matrix form to be adopted by the finite element solver
+	\citep{otto2012using}. More information regarding the complex value splittings
+	and equation matrix can be found in the
+	\href{https://github.com/shmouses/SPDFM/tree/master/docs/Design/MIS}{MIS}
+	document. In this stage, the system is decomposed into modules. The connection
+	between requirements and modules is listed in Table \ref{TblRT}.
 	
 	
 	\section{Module Decomposition} \label{SecMD}
@@ -211,8 +227,8 @@
 	the module will be implemented by the \progname{} software.
 	
 	Only the leaf modules in the hierarchy have to be implemented. If a dash
-	(\emph{--}) is shown, this means that the module is not a leaf and will not have
-	to be implemented.
+	(\emph{--}) is shown, this means that the module is not a leaf and will not
+	have to be implemented.
 	
 	\subsection{Hardware Hiding Modules (\mref{mHH})}
 	
@@ -232,8 +248,8 @@
 		module will need to change if there are changes in the SRS. \item[Implemented
 		By:] -- \end{description}
 	
-
-
+	
+	
 	\subsubsection{\progname{} Control Module (\mref{mSC})}
 	
 	\begin{description} \item[Secrets:]Execution flow of \progname{}.
@@ -241,19 +257,19 @@
 		\item[Implemented By:] \progname{} \end{description}
 	
 	
-
-
+	
+	
 	\subsubsection{Input Parameter Module (\mref{mIP})}
 	
 	\begin{description} \item[Secrets:]Input required parameters for \progname{} to
 		run the simulation. \item[Services:]Inputting information required for setting
 		up the light source (the boundary condition for solving PDE equations discussed
-		in the SRS document), material properties of the different domains in the meshed
-		geometry. \item[Implemented By:] \progname{} \end{description}
+		in the SRS document), material properties of the different domains in the
+		meshed geometry. \item[Implemented By:] \progname{} \end{description}
 	
 	
-
-
+	
+	
 	\subsubsection{Constant Parameters Module (\mref{mCP})}
 	
 	\begin{description} \item[Secrets:] The constant values used in the code.
@@ -273,11 +289,11 @@
 	
 	
 	\subsubsection{Frequency Domain FEM Solver Module(\mref{mFD})}
-
+	
 	\begin{description} \item[Secrets:]Solving the non-local hydrodynamic
-	electromagnetic equations in the frequency domain \item[Services:]Calculating
-	electric field and current density at different frequencies. \item[Implemented
-	By:] \progname{} \end{description}
+		electromagnetic equations in the frequency domain \item[Services:]Calculating
+		electric field and current density at different frequencies. \item[Implemented
+		By:] \progname{} \end{description}
 	
 	
 	
@@ -309,10 +325,10 @@
 		\progname{} \end{description}
 	
 	
-
-
-
-
+	
+	
+	
+	
 	\section{Traceability Matrix} \label{SecTM}
 	
 	This section shows two traceability matrices: between the modules and the
@@ -323,16 +339,17 @@
 	\begin{table}[H] \centering \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
 			\toprule \textbf{Req.} & \textbf{Modules}\\ \midrule R1 & M\ref{mDS},
 			M\ref{mIP}, M\ref{mMI}\\ R2 & M\ref{mDS}, M\ref{mIP}, M\ref{mMI}, M\ref{mCP}\\
-			R3 & M\ref{mDS}, M\ref{mFD}\\ R4 & M\ref{mHH}, M\ref{mDS}, M\ref{mFD} M\ref{mOut}\\ \bottomrule \end{tabular} \caption{Trace
-			Between Requirements and Modules} \label{TblRT} \end{table}
+			R3 & M\ref{mDS}, M\ref{mFD}\\ R4 & M\ref{mHH}, M\ref{mDS}, M\ref{mFD}
+			M\ref{mOut}\\ \bottomrule \end{tabular} \caption{Trace Between Requirements and
+			Modules} \label{TblRT} \end{table}
 	
 	\begin{table}[H] \centering \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
 			\toprule \textbf{AC} & \textbf{Modules}\\ \midrule A\ref{acHardware} &
 			M\ref{mHH}\\ A\ref{acInput} & M\ref{mIP}\\ A\ref{acMeshIn} & M\ref{mMI}\\
-			A\ref{acFiniteElement} & M\ref{mFD}\\ A\ref{acFEM} & M\ref{mFD}\\
-			A\ref{acData} & M\ref{mDS}\\ A\ref{acOut} & M\ref{mOut}\\ A\ref{acSControl} &
-			M\ref{mSC}\\ \bottomrule \end{tabular} \caption{Trace Between Anticipated
-			Changes and Modules} \label{TblACT} \end{table}
+			A\ref{acFiniteElement} & M\ref{mFD}\\ A\ref{acFEM} & M\ref{mFD}\\ A\ref{acData}
+			& M\ref{mDS}\\ A\ref{acOut} & M\ref{mOut}\\ A\ref{acSControl} & M\ref{mSC}\\
+			\bottomrule \end{tabular} \caption{Trace Between Anticipated Changes and
+			Modules} \label{TblACT} \end{table}
 	
 	\section{Use Hierarchy Between Modules} \label{SecUse}
 	
@@ -344,11 +361,12 @@
 	implementation of B.  Figure \ref{FigUH} illustrates the use relation between
 	the modules. It can be seen that the graph is a directed acyclic graph (DAG).
 	Each level of the hierarchy offers a testable and usable subset of the system,
-	and modules in the higher level of the hierarchy are essentially simpler because
-	they use modules from the lower levels.
+	and modules in the higher level of the hierarchy are essentially simpler
+	because they use modules from the lower levels.
 	
-	\begin{figure}[H] \centering \includegraphics[width=0.7\textwidth]{MG-Chart.pdf}
-		\caption{Use hierarchy among modules} \label{FigUH} \end{figure}
+	\begin{figure}[H] \centering
+		\includegraphics[width=0.7\textwidth]{MG-Chart.pdf} \caption{Use hierarchy
+			among modules} \label{FigUH} \end{figure}
 	
 	%\section*{References}
 	

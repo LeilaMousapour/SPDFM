@@ -40,7 +40,7 @@ Oct 29 2020& 1.0 & First Draft\\
 
 \listoftables
 
-\listoffigures
+%\listoffigures
 
 \newpage
 
@@ -62,19 +62,19 @@ The complete table of symbols, abbreviations and acronyms can be found in the \h
 
 \pagenumbering{arabic}
 
-This document provides the information on validation and verification plans implemented for the \progname{} software. In this regard,the general approaches and plans are initially discussed and afterwards specific test cases and approaches for validation and verification of functional and nonfunctional requirements (can be found in \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS}) are reviewed. VnV plans here are a combination of manual (assigned to a member of the VnV team to assess) and automated testing approaches to evaluate the correctness of the information (whether input or output) or satisfaction of a goal in \progname{}.    
+This document provides the information on validation and verification plans implemented for the \progname{} software. In this regard, the general approaches and plans are initially discussed and afterwards specific test cases and approaches for validation and verification of functional and nonfunctional requirements (can be found in \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS}) are reviewed. VnV plans here are a combination of manual (assigned to a member of the VnV team to assess) and automated testing approaches to evaluate the correctness of the information (whether input or output) or satisfaction of a goal in \progname{}.    
 
 \section{General Information}
 
 \subsection{Summary}
 
-The \progname{} software, which its VnV plan is discussed in this document, is a software for calculating plasmon-enhanced electric field and electric current in a meshed geometry. This software should be able to setup an optical source (given the related parameters) and study how electric field and current densities in the dielectric are affected. The calculations in this software are based on the newly established theory of surface plasmon oscillations, nonlocal hydrodynamic theory of surface plasmons \cite{hiremath2012numerical}.   
+The \progname{} software is a software for calculating plasmon-enhanced electric field and electric current in a meshed geometry. This software should be able to setup an optical source (given the related parameters) and study how electric field and current densities in the dielectric are affected by illumination of this light source. The calculations in this software are based on the newly established theory of surface plasmon oscillations, nonlocal hydrodynamic theory of surface plasmons \citep{hiremath2012numerical}.   
 
 \subsection{Objectives}
 \label{obj}
 
-This document tries to address the most important areas of the \progname{} software that can act like bottle necks of the system and make sure these areas function properly. In this regard, following chapters will discuss how these key aspects which include, setting up a light source, having properly meshed geometry, well defined dielectric environment, and theoretical formulation used. These areas are reflected within the functional and nonfunctional system requirements in Chapter 5 of the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document.  
-In this software some python libraries are implemented such as FEniCS and Meshio which their validity is accepted will not be checked here. 
+This document tries to address the most important areas of the \progname{} software that can act like bottle necks of the system and make sure these areas function properly. In this regard, following sections will discuss how these key aspects, which include setting up a light source, having properly meshed geometry, well defined dielectric environment, and theoretical formulation are verified. These areas are reflected within the functional and nonfunctional system requirements in Section 5 of the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document.  
+In this software some Python libraries are implemented such as FEniCS. The validity of these libraries is accepted and will not be checked here. 
 
 \subsection{Relevant Documentation}
 
@@ -85,8 +85,23 @@ The relevant documentation for \progname{}, including the problem statement (\ci
 	
 \subsection{Verification and Validation Team}
 
-The VnV team in this work includes S.\ Shayan Mousavi M., responsible for reviewing all the documentations, providing test cases and their execution, verifying the theoretical aspects and their implementation; Dr. Spencer Smiths (CAS741 instructor), and S. Parsa Tayefeh Morsal (domain expert), responsible for reviewing the design of the software, all documentations, and the documenting style itself; Naveen Ganesh Muralidharan (secondary reviewer) responsible for reviewing SRS document; Siddharth (Sid) Shinde (secondary reviewer) responsible for reviewing VnV document; Gabriela Sánchez Díaz (secondary reviewer) responsible for reviewing MG and MIS documents. The theoretical aspects and finite element method implemented in \progname{} is verified by Dr. Gianluigi Botton (supervisor), and Dr. Alexander Pofelski (field expert contributor).
+The VnV team members in this work and their contributions are as below.
 
+\begin{itemize}
+	\item \textbf{S. Shayan Mousavi M. (author):} reviewing all the documentations, providing test cases and their execution, verifying the theoretical aspects and their implementation.
+	
+	\item \textbf{Dr. Spencer Smith (CAS 741 instructor):} reviewing the design of the software, all documentations, and the documentation style.
+	
+	\item \textbf{S. Parsa Tayefeh Morsal (domain expert):} reviewing all documentations. 
+	
+	\item \textbf{Siddharth (Sid) Shinde (secondary reviewer):} reviewing VnV document.
+	
+	\item \textbf{ Gabriela Sánchez Díaz (secondary reviewer):} reviewing MG and MIS documents.
+	
+	\item \textbf{Dr. Gianluigi Botton (supervisor):} reviewing theoretical aspects and finite element method implemented in \progname{}.
+	
+	\item \textbf{Dr. Alexander Pofelski (field expert):} reviewing theoretical aspects, finite element method implemented in \progname{}, and all documentations. 	
+\end{itemize}
 
 
 \subsection{SRS Verification Plan}
@@ -110,407 +125,509 @@ The design shall be verified by ensuring that key aspects in \progname{} are, as
 
 \subsection{Implementation Verification Plan}
 
-The implementation shall be verified in the following ways:\\
-\\
-Code Walkthrough by author:  Module unit code shall be inspected for functional errors by the author (Shayan Mousavi) after MIS document is developed.\\  
-\\
-Code Walkthrough by contributors: Module unit code shall be inspected for functional errors by Dr. Alexander Pofelski after MIS document is developed.\\
-\\
-System Tests:  System tests will be carried out as listed in Section \ref{systest}. The functional and nonfunctional requirements shall be by those listed in the outline of each test. These tests are conducted either manually or automatically which is outlined for each test individual in Chapter \ref{systest}. 
+The implementation shall be verified in the following ways:
+\begin{itemize}
+	\item Code Walkthrough: This process will be performed by the author (Shayan Mousavi) and the field expert (Alex Pofelski). Code walkthough in this work follows the procedure suggested in MIT website \citep{Checklis7:online} and uses their \href{http://www.mit.edu/~mbarker/ideas/review.txt}{code walkthrough checklist}.
+	
+	\item System Tests:  System tests will be carried out as listed in Section \ref{systest}. These tests target functional and nonfunctional requirements listed in the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document. However, as there is an overlap between input related functional requirements (R1 and R2) and \progname{} modular design, to avoid repetition, these requirements are only tested in Section \ref{utest}. System tests are conducted either manually or automatically which is outlined for each test individual in section \ref{systest}. 
+\end{itemize}
+
+
 
 \subsection{Automated Testing and Verification Tools}
 
-By predetermining some user inputs, an automated testing approach can be
-considered. The most of the functional requirement system tests will be executed and
-validated automatically; these tests are outlined in Section \ref{func}. The goal of testing is $100\%$ code coverage. However, some system tests (Test12, Test14, Test15, Test16, Test17, Test18) require at least a manual assessment of the test results and
-are thus removed from the automated scope.
+Automated testing of \progname{} is conducted using \href{pytest.org}{Pytest} library in Python.
+These tests are performed by predetermining some user inputs and comparing some targeted  parameters with their expected values automatically. Automated testings for each test case is separately outlined in Section \ref{func} and Section \ref{utest}.
+
 \subsection{Software Validation Plan}
  
-Metallic Nanoparticle Boundary Element Method (MNPBEM) toolbox in MATLAB is used for validation of the calculated electric field density in this study. In this regard, as MNPBEM toolbox uses quasi-static method to solve Maxwell's equations at the boundaries of a meshed geometry, this software is used to validation of the \progname{}, which solves similar equations using nonlocal hydrodynamic theory (Test 18).
+Software validation due to the lack of experimental data is beyond scope this work.
+ 
+%Metallic Nanoparticle Boundary Element Method (MNPBEM) toolbox in MATLAB is used for verification of the calculated electric field density in this study. MNPBEM toolbox uses quasi-static method to solve Maxwell's equations at the boundaries of a meshed geometry. Although electric field density calculated in \progname{} is obtained using a different theory (hydrodynamic theory), the final results are expected to have show similar behaviours in frequency domain which are more discussed in Section \ref{systest}. 
+%As experimental data regarding the \progname{} calculations are not currently available, the VnV plan in this work is limited to verification of the results and validation is postponed to the time that experimental data are available.
 
 \section{System Test Description}
 \label{systest}
 
 \subsection{Tests for Functional Requirements}
 \label{func}
-The subsections below are designed to cover all the functional requirements of the system which are listed in Chapter 5 of the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document. coverage of each functional requirement is indicated in each subsection.
+The subsections below are designed to cover R3 and R4 functional requirements of the system, which are listed in Section 5 of the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document. As modular design of \progname{} has modules that are directly responsible for data input, corresponding functional requirements (R1 and R2, Section 5 of the SRS document) are tested in the unit testing section of this document (Section \ref{utest}) to avoid repetition. It also worth mentioning that as \progname{} is written in Python, some areas of the verification such as variable types (integer, float, string, etc.), and existence of input files with proper format in the given file path are automatically tested by Python and are beyond scope of this document to be discussed here. 
 
-\subsubsection{Input Verification (and/or Validation) tests}
+For all the tests below, the tolerance for value equality is $10^{-5}$. In this regard, if a test case states that a parameter should be equal to a specific value, it means that the aimed value, and value of the tested parameter should be within tolerance-level proximity of each other.   
+  
+
+%\subsubsection{Input Verification (and/or Validation) tests}
 
 
-This section covers verification and validation of the user's inputs which are reflected in R2, R4, R5.
+%This section covers verification of the user's inputs which are reflected in R1 and R2.
+
+%However 
 		
-\paragraph{Test R 2: Correctness of the light source related input data}
-\begin{enumerate}		
+%\paragraph{Test R 2: Correctness of the light source related input data}
+%\begin{enumerate}		
 
 %----------------------------------------------------------------T1
-\item{\textbf{Test 1:} validity of \textbf{p} vector\\}
+%\item{\textbf{Test 1:} validity of \textbf{p} vector\\}
 
-Control: Automatic
+%Control: Automatic
 					
-Initial State: N/A
+%Initial State: N/A
 					
-Input: Incident light polarity: \textbf{p} = (a, 0, 0)\\
-\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0)
+%Input: Incident light polarity: \textbf{p} = (a, 0, 0)\\
+%\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0)
 					
-Output: An error should be print out saying "Invalid parameter p: p should be a 3D vector of floating numbers"  
+%Output: An error should be print out saying "Invalid parameter p: p should be a 3D vector of floating numbers"  
 
-Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
+%Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
  				
-How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test. 
-\\
-\\
+%How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test. 
+%\\
+%\\
 %----------------------------------------------------------------T2
 %
-\item{\textbf{Test 2:} validity of \textbf{d} vector \\}
+%\item{\textbf{Test 2:} validity of \textbf{d} vector \\}
 
-Control: Automatic
+%Control: Automatic
 
-Initial State: N/A
+%Initial State: N/A
 
-Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
-\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 0, x)
+%Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+%\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 0, x)
 
-Output: An error should be print out saying "Invalid parameter d: d should be a 3D vector of floating numbers"  
+%Output: An error should be print out saying "Invalid parameter d: d should be a 3D vector of floating numbers"  
 
-Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D unit vector in $\Re^3$ which are perpendicular to each other.
+%Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D unit vector in $\Re^3$ which are perpendicular to each other.
 
-How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test. 
-\\
-\\
+%How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test. 
+%\\
+%\\
 %----------------------------------------------------------------T3
 
-\item{\textbf{Test 3:} validation of \textbf{d} vector unity \\}
+%\item{\textbf{Test 3:} validation of \textbf{d} vector unity \\}
 
-Control: Automatic
+%Control: Automatic
 
-Initial State: N/A
+%Initial State: N/A
 
-Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
-\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0.2)
+%Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+%\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0.2)
 
-Output: An error should be print out saying "Invalid parameter d: d should be a 3D unit vector of floating numbers"  
+%Output: An error should be print out saying "Invalid parameter d: d should be a 3D unit vector of floating numbers"  
 
-Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
+%Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
 
-How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
-\\
-\\
+%How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
+%\\
+%\\
 %----------------------------------------------------------------T4
 
-\item{\textbf{Test 4:} validation of \textbf{p} and \textbf{d} vectors orthogonality \\}
+%\item{\textbf{Test 4:} validation of \textbf{p} and \textbf{d} vectors orthogonality \\}
 
-Control: Automatic
+%Control: Automatic
 
-Initial State: N/A
+%Initial State: N/A
 
-Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
-\rule{1.15cm}{0pt} Direction: \textbf{d} = (1, 0, 0)
+%Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+%\rule{1.15cm}{0pt} Direction: \textbf{d} = (1, 0, 0)
 
-Output: An error should be print out saying "Invalid parameters p and d: orthogonality of p and d vectors is not followed"  
+%Output: An error should be print out saying "Invalid parameters p and d: orthogonality of p and d vectors is not followed"  
 
-Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
+%Test Case Derivation: Physically \textbf{p} and \textbf{d} must be 3D vectors in $\Re^3$ which are perpendicular to each other.
 
-How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
-\\
-\\
+%How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
+%\\
+%\\
 %----------------------------------------------------------------T5
 
-\item{\textbf{Test 5:} validation of accepting correct p and d input\\}
+%\item{\textbf{Test 5:} validation of accepting correct p and d input\\}
 
-Control: Automatic
+%Control: Automatic
+
+%Initial State: N/A
+
+%Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
+%\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0)
+
+%Output: This message should be appear: "Valid polarity and direction vectors" and software should move on
+
+%Test Case Derivation: User will be informed of correctness of the input.
+
+%How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
+%\\
+%\\
+%----------------------------------------------------------------T6
+
+%\item{\textbf{Test 6:} validation of wavelength input\\}
+
+%Control: Automatic
+
+%Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
+%\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
+%\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
+
+%Input: wavelength = 100
+
+%Output: An error should be print out saying "Out of range wavelength input: Input wavelength should be in nm and between 200 nm to 6000 nm" 
+
+%Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
+
+%How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test.
+%\\
+%\\
+%----------------------------------------------------------------T7
+%\item{\textbf{Test 7:} validation of wavelength input\\}
+
+%Control: Automatic
+
+%Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
+%\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
+%\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
+
+%Input: wavelength = 6200
+%Output: An error should be print out saying "Out of range wavelength input: Input wavelength should be in nm and between 200 nm to 6000 nm" 
+
+%Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
+
+%How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test.
+%\\
+%\\
+%----------------------------------------------------------------T8
+%\item{\textbf{Test 8:} validation of wavelength input\\}
+
+%Control: Automatic
+
+%Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
+%\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
+%\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
+%
+%Input: wavelength = 700
+%
+%Output: A confirmation massage should be showed up: "The input wavelength is valid" and software must move on.
+%
+%Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
+%
+%How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test. 
+%\\
+%\\
+%\end{enumerate}
+
+%\paragraph{Test R 4: Correctness of the materials properties data entry}
+%\begin{enumerate}
+%---------------------------------------------------------------T9
+%\item{\textbf{Test 9:} \\}
+
+%Control: Manual
+
+%Initial State: As materials properties as assumed to be received by another input module no initial input regarding the light source is required. The validity of the material properties is not been tested and focus is on providing the complete data set.
+
+%Input: \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} 
+
+%All the material related parameters are written in a .csv file as instructed in the \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/Input_Instruction.txt}{Input\_Instruction.txt} more details can also be found in MG and MIS documents. 
+
+%Output: An error saying "Error: Insufficient properties are provided"
+
+%Test Case Derivation: Although some constraints on material parameters can be considered, \progname{} has no limitations on these values. However for initiation of the simulations, \progname{} need to be given enough input data in a .csv file.  
+
+%How test will be performed: Using Pytest library the material properties which are written in \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} file will be input to Material Properties Input Module. As in this data set $\mu_0$ is missed, desired output is an error. Shayan Mousavi is responsible for execution of this test.  
+
+ 
+%\end{enumerate}
+
+%\paragraph{Test R 5: Mesh Input Verification}
+%\begin{enumerate}
+%---------------------------------------------------------------T10	
+%\item{\textbf{Test 10:} validation of format of the input mesh\\}
+
+%Control: Automated
+
+%Initial State: As \progname{} solves the nonlocal hydrodynamic equations for any arbitrary meshed geometry the quality of the mesh has not been verified. The only area about mesh that is concerned by \progname{} is the input format of the mesh. 
+
+%Input:A mesh cylinder in a file with .geo format (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.geo}{cylinder\_3d.geo}) 
+
+%Output: An error saying "Error: Invalid mesh file format" 
+
+%Test Case Derivation: \progname{} only accepts .mesh format as the mesh input. 
+
+%How test will be performed: The file with an unexpected format should be input to the software and the expected error shall be appear on the screen. Shayan Mousavi is responsible for execution of this test.  
+%\\
+%---------------------------------------------------------------T11	
+%\item{\textbf{Test 11:} validation of format of the input mesh\\}
+
+%Control: Automated
+
+%Initial State: As \progname{} solves the nonlocal hydrodynamic equations for any arbitrary meshed geometry the quality of the mesh has not been verified. The only area about mesh that is concerned by \progname{} is the input format of the mesh. 
+
+%Input:A mesh cylinder in a file with .mesh format (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.mesh}{cylinder\_3d.mesh}) 
+
+%Output:"Mesh received"
+
+%Test Case Derivation: \progname{} only accepts .mesh format as the mesh input. If the proper format is fed to the software, an approval message will confirm that software will move on to the next step.
+
+%How test will be performed: The file with an unexpected format should be input to the software and expected message shall be appear on the screen. Shayan Mousavi is responsible for execution of this test.  	
+	
+%\end{enumerate}
+
+\subsubsection{Light Source Calculation Verification (and/or Validation) Tests}
+\paragraph{Test R 3: Verifying light source setup}
+
+\begin{enumerate}
+	
+\item{\textbf{Test id1:}  Calculation of the electric field of the light source\\}
+
+Control: Automated
 
 Initial State: N/A
 
-Input: Incident light polarity: \textbf{p} = (1, 0, 0)\\
-\rule{1.15cm}{0pt} Direction: \textbf{d} = (0, 1, 0)
+Input: Polarity, direction, frequency of a plane wave light source, and a meshed geometry are given using input files and input data indicated in Table \ref{LS_t}. 
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Test Cases: & Test 1 & Test 2 \\
+		\hline 
+		Input file & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/LS_t1.txt}{LS\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t2.txt}{LS\_t2.txt}\\
+		Polarity  & 0,1,0 & 0,1,0 \\
+		Direction & 1,0,0 & 1,0,0 \\
+		Frequency &   600 & 30000 \\
+		(THz) & &  \\ \hline
+		Mesh Input& \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_10node.xml}{G\_cube\_10node.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_10node.xml}{G\_cube\_10node.xml}\\
+		& \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_10node_physical_region.xml}{G\_cube\_10node\_physical\_region.xml} &
+		\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_10node_physical_region.xml}{G\_cube\_10node\_physical\_region.xml} \\
+		
+		& \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_10node_facet_region.xml}{G\_cube\_10node\_facet\_region.xml} &
+		\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_10node_facet_region.xml}{G\_cube\_10node\_facet\_region.xml} \\\hline
+		
+		Test Cases: & Test 3 & Test 4 \\
+		\hline 
+		Input file & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/LS_t1.txt}{LS\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t2.txt}{LS\_t2.txt} \\
+		Polarity  & 0,1,0 & 0,1,0 \\
+		Direction & 1,0,0 & 1,0,0 \\
+		Frequency &   600 & 30000 \\
+		(THz) & & \\ \hline
+		Mesh Input & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_20node.xml}{G\_cube\_20node.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_20node.xml}{G\_cube\_20node.xml} \\
+		
+		& \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_20node_physical_region.xml}{G\_cube\_20node\_physical\_region.xml} &
+		\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_20node_physical_region.xml}{G\_cube\_20node\_physical\_region.xml} \\
+		
+		& \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_20node_facet_region.xml}{G\_cube\_20node\_facet\_region.xml} &
+		\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_20node_facet_region.xml}{G\_cube\_20node\_facet\_region.xml} \\		
+		\hline
+		
+		Test Cases: & Test 5 & Test 6 \\
+		\hline 
+		Input file & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/LS_t1.txt}{LS\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/LS_t2.txt}{LS\_t2.txt} \\
+		Polarity  & 0,1,0 & 0,1,0 \\
+		Direction & 1,0,0 & 1,0,0 \\
+		Frequency &   600 & 30000 \\
+		(THz) & & \\ \hline
+		Mesh Input & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_40node.xml}{G\_cube\_40node.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_40node.xml}{G\_cube\_40node.xml} \\
+		
+		& \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_40node_physical_region.xml}{G\_cube\_40node\_physical\_region.xml} &
+		\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_40node_physical_region.xml}{G\_cube\_40node\_physical\_region.xml} \\
+		
+		& \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_40node_facet_region.xml}{G\_cube\_40node\_facet\_region.xml} &
+		\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_cube_40node_facet_region.xml}{G\_cube\_40node\_facet\_region.xml} \\
+		\hline
+	\end{tabular}
+	\caption{Input data (files) for automated testing of the light source setup}
+	\label{LS_t}
+\end{table}
 
-Output: This message should be appear: "Valid polarity and direction vectors" and software should move on
+Output: Below outputs should be generated for each of the real and imaginary parts of the electric field separately.
 
-Test Case Derivation: User will be informed of correctness of the input.
-
-How test will be performed: Using Pytest library in python Input Module will be fed with the input, \textbf{p} and \textbf{d} vectors, and the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{p\_d\_test.py}). Shayan Mousavi is responsible for execution of this test.
-\\
-\\
-%----------------------------------------------------------------T6
-
-\item{\textbf{Test 6:} validation of wavelength input\\}
-
-Control: Automatic
-
-Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
-\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
-\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
-
-Input: wavelength = 100
-
-Output: An error should be print out saying "Out of range wavelength input: Input wavelength should be in nm and between 200 nm to 6000 nm" 
-
-Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
-
-How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test.
-\\
-\\
-%----------------------------------------------------------------T7
-\item{\textbf{Test 7:} validation of wavelength input\\}
-
-Control: Automatic
-
-Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
-\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
-\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
-
-Input: wavelength = 6200
-Output: An error should be print out saying "Out of range wavelength input: Input wavelength should be in nm and between 200 nm to 6000 nm" 
-
-Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
-
-How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test.
-\\
-\\
-%----------------------------------------------------------------T8
-\item{\textbf{Test 8:} validation of wavelength input\\}
-
-Control: Automatic
-
-Initial State: for having the code moving forward and accepting the wavelength value, an acceptable set of \textbf{p}, and \textbf{d} data should be already given to the software.\\ 
-\rule{2.3cm}{0pt} \textbf{p} = (1,0,0)\\
-\rule{2.3cm}{0pt} \textbf{d} = (0,1,0)
-
-Input: wavelength = 700
-
-Output: A confirmation massage should be showed up: "The input wavelength is valid" and software must move on.
-
-Test Case Derivation: SPDFM only accepts wavelength values for the light source between 200 nm to 6000 nm as the surface plasmonic behaviour of most of the known materials is observed in this energy range (Table 1, Section 4.2.6, \href{https://github.com/shmouses/SPDFM/tree/master/doc/SRS}{SRS} document). 
-
-How test will be performed: Using Pytest library in python Input Module will be fed with the inputs, \textbf{p}, \textbf{d}, and the wavelength value then the output will be checked (\href{https://github.com/shmouses/SPDFM/tree/master/src}{wavelength\_test.py}). Shayan Mousavi is responsible for execution of this test. 
-\\
-\\
-\end{enumerate}
-
-\paragraph{Test R 4: Correctness of the materials properties data entry}
-\begin{enumerate}
-%---------------------------------------------------------------T9
-\item{\textbf{Test 9:} \\}
-
-Control: Manual
-
-Initial State: As materials properties as assumed to be received by another input module no initial input regarding the light source is required. The validity of the material properties is not been tested and focus is on providing the complete data set.
-
-Input: \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} 
-
-All the material related parameters are written in a .csv file as instructed in the \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/Input_Instruction.txt}{Input\_Instruction.txt} more details can also be found in MG and MIS documents. 
-
-Output: An error saying "Error: Insufficient properties are provided"
-
-Test Case Derivation: Although some constraints on material parameters can be considered, \progname{} has no limitations on these values. However for initiation of the simulations, \progname{} need to be given enough input data in a .csv file.  
-
-How test will be performed: Using Pytest library the material properties which are written in \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/data_missing_set1.csv}{data\_missing\_set1.csv} file will be input to Material Properties Input Module. As in this data set $\mu_0$ is missed, desired output is an error. Shayan Mousavi is responsible for execution of this test.  
-
- 
-\end{enumerate}
-
-\paragraph{Test R 5: Mesh Input Verification}
-\begin{enumerate}
-%---------------------------------------------------------------T10	
-\item{\textbf{Test 10:} validation of format of the input mesh\\}
-
-Control: Automated
-
-Initial State: As \progname{} solves the nonlocal hydrodynamic equations for any arbitrary meshed geometry the quality of the mesh has not been verified. The only area about mesh that is concerned by \progname{} is the input format of the mesh. 
-
-Input:A mesh cylinder in a file with .geo format (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.geo}{cylinder\_3d.geo}) 
-
-Output: An error saying "Error: Invalid mesh file format" 
-
-Test Case Derivation: \progname{} only accepts .mesh format as the mesh input. 
-
-How test will be performed: The file with an unexpected format should be input to the software and the expected error shall be appear on the screen. Shayan Mousavi is responsible for execution of this test.  
-\\
-%---------------------------------------------------------------T11	
-\item{\textbf{Test 11:} validation of format of the input mesh\\}
-
-Control: Automated
-
-Initial State: As \progname{} solves the nonlocal hydrodynamic equations for any arbitrary meshed geometry the quality of the mesh has not been verified. The only area about mesh that is concerned by \progname{} is the input format of the mesh. 
-
-Input:A mesh cylinder in a file with .mesh format (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.mesh}{cylinder\_3d.mesh}) 
-
-Output:"Mesh received"
-
-Test Case Derivation: \progname{} only accepts .mesh format as the mesh input. If the proper format is fed to the software, an approval message will confirm that software will move on to the next step.
-
-How test will be performed: The file with an unexpected format should be input to the software and expected message shall be appear on the screen. Shayan Mousavi is responsible for execution of this test.  	
+\begin{itemize}
+	\item Superimposed plot of light wave oscillation towards the light propagation axis (call this line L) calculated by \progname{} and calculated by python built in functions.  
+	\item  Difference between two calculated values at each point of the space that is located on the line L. line L is the line that parallel to the direction of the light source and passes the point (0, 0, 0) of the space. 
+	\item Measuring execution time of the calculations.
 	
-\end{enumerate}
+\end{itemize}	
 
-\subsubsection{Output Verification (and/or Validation) tests}
-\paragraph{Test R 1: Software providing the user with information }
+Test Case Derivation: This test evaluates how precise external FEM toolbox (FEniCS) in \progname{} calculates both real and imaginary parts of the electric field of the light source in the space. In this test two different frequencies are being studied; low frequency at 600 THz (visible range which is important for the future studies) and high frequency at 30000 for giveing visibility to oscillations of the electric field in the nanometer-scaled space are considered. All meshes are cubic geometries of 40 nm length but density of the mesh is sorted from low to high to study impact of mesh density on the precision of the calculated light source. 
 
-\begin{enumerate}
+How test will be performed: This test can be executed by running \href{https://github.com/shmouses/SPDFM/tree/master/src/test_ls.py}{test\_ls.py}; this code is an auxiliary code which imports \progname{} mesh input module, data structure module, and the function that sets up the light source. This code is not Pytest controlled and instead of pass/fail results it provides the user with quantitative results. Shayan Mousavi is responsible for writing and execution of this test.   
+
+
 	
-	\item{\textbf{Test 12:} Instruction print out\\}
+	
+	\newpage
+	\item{\textbf{Test id2:}  Visual inspection of the electric field propagation of the light source\\}
 	
 	Control: Manual
 	
 	Initial State: N/A
 	
-	Input: N/A
+	Input: light polarity and direction, a frequency, and a meshed geometry are given using input files and input data indicated in Table \ref{LS_t}. 
+
 	
 	Output: 
-	"To initiate SPDFM software simulations user need to provide the software with following information:\\
-	p = (p1, p2, p3) : 3D light source polarity vector, \{p1, p2, p3\} in R;\\
-	d = (d1, d2, d3) : 3D light source propagation direction unit vector, \{d1, d2, d3\} in R;\\
-	p and d must be perpendicular;\\ 
-	Wavelength = wl : light source spatial wavelength (nm), wl in R;\\
-	Frequency = freq : light source angular frequency (THz), freq in R;\\
-	Time step = delt\_t : time step (fs), delta\_t in R;\\
-	Final time = t\_final : (fs), t\_final in R;\\
-	provide materials properties in a .csv as instructed;\\
-	Mesh file : address of the .gmsh file."
+	\begin{itemize}
+		\item exported .pvd files containing the interpolated real and imaginary parts of the electric field of the light source in the entire space. These files are named as mentioned in Table \ref{test_ls_out}.
+			\begin{table}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				Test Cases: & Test 1 & Test 2 \\
+				\hline 
+				Output files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-1\_Efield\_real.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-2\_Efield\_real.pvd}\\
+				
+				 &
+			    \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-1\_Efield\_imag.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-2\_Efield\_imag.pvd} \\
+			    \hline
+			    
+			    Test Cases: & Test 3 & Test 4\\
+			    \hline 
+			    Output files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-3\_Efield\_real.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-4\_Efield\_real.pvd} \\
+			    
+			    & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-3\_Efield\_imag.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-4\_Efield\_imag.pvd}\\
+			    \hline
+			    
+			    Test Cases:& Test 5 & Test 6\\
+			    \hline 
+			    Output files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-5\_Efield\_real.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-6\_Efield\_real.pvd}\\
+			    
+			    &
+			     \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-5\_Efield\_imag.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{testid2-6\_Efield\_imag.pvd}\\
+			    \hline
+			    
+			\end{tabular}
+			\caption{Output files for visual inspection of the light source setup}
+			\label{test_ls_out}
+		\end{table}
+		
+	\end{itemize}	
+	Test Case Derivation: This test visually evaluates the propagation of electric field in space. In this regard, the extracted pvd map of the electric field should be opened by a pvd reader (suggestion: \href{https://www.paraview.org/}{Paraview software}). If 3D colour map view is selected for illustration of the result (which is suggested) alternating domains are expected to be seen with domain width equal to wavelength of the light source. In this regard, for 600 THz source the wavelength is $\sim$499 nm, thus no alternation should be seen in real domain (due to the size of the mesh) and a dipole domain alternation should be observed in the result. The wavelength for the 30000 THz source is $\sim$10 nm, thus, alternating domains of the same width is expected. However, user should observe a $\frac{\pi}{2}$ shift between real and imaginary components. Same colour domains are elongated towards polarity vector and colour alternation should happen towards the propagation vector (direction vector).      
 	
-	Test Case Derivation: As soon as the software is executed, the above paragraph should be shown to notify the user of the 
-	
-	How test will be performed: Shayan Mousavi is responsible to check and verify functionality of this feature.   
-	
-	
-\end{enumerate}
-
-
-
-\paragraph{Test R 3: Correctness of the light source electric field calculation}
-
-\begin{enumerate}
-	
-	\item{\textbf{Test 13:} calculation of the light source electric field \\}
-	
-	Control: Automated 
-	
-	Initial State:  \textbf{p}, \textbf{d}, and wavelength are previously given to the software. \\
-	\rule{2.3cm}{0pt} \textbf{p}=(1,0,0)\\
-	\rule{2.3cm}{0pt} \textbf{d}=(0,1,0)\\
-	\rule{2.3cm}{0pt} wavelength=700 nm\\
-	\rule{2.3cm}{0pt} The location vector, r, and time, t, will be given as below.  
-	
-	Input: R = $\{\textbf{r}=(0.1*r_x,0,0)| \forall r_x \in \aleph, r_x \in [0,10]\}$\\
-	\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$
-	
-	Output: For all the elements in sets R and T the output for the $\|E_i-E_{i}^t\|$ should be equal zero.
-	 	
-	Test Case Derivation: In this test $E_i$ is the electric field of the incident beam calculated by the software and $E_i^t$ is the electric field calculated in the test function following the equation $E_i^t = cos(k\  \textbf{d.} \textbf{r} - \omega t) - i \ sin(k\  \textbf{d.} \textbf{r} - \omega t)$   
-	
-	How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
-\\	
-\item{\textbf{Test 14:} Light source electric field evolution\\}
-
-Control: Manual 
-
-Initial State:  \textbf{p}, \textbf{d}, and wavelength are previously given to the software. \\
-\rule{2.3cm}{0pt} \textbf{p}=(1,0,0)\\
-\rule{2.3cm}{0pt} \textbf{d}=(0,1,0)\\
-\rule{2.3cm}{0pt} wavelength=700 nm\\
-\rule{2.3cm}{0pt} The location vector, r, and time, t, will be given as below.  
-
-Input: R = $\{\textbf{r}=(0.1*r_x,0,0)| \forall r_x \in \aleph, r_x \in [0,10]\}$\\
-\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$
-
-Output: for t=0, plot of evolution of electric field by R. for r=(0, 0, 0), plot of evolution of electric field in time.
-
-Test Case Derivation: In this test $E_i = cos(k\  \textbf{d.} \textbf{r} - \omega t) - i \ sin(k\  \textbf{d.} \textbf{r} - \omega t)$ is plotted with respect to time and space and the examiner is responsible to see if the behaviour of the function is as expected or not.   
-
-How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_plot\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
+	How test will be performed: The pvd maps can be obtained by executing \href{https://github.com/shmouses/SPDFM/tree/master/src/test_visual_ls.py}{test\_visual\_ls.py}. Shayan Mousavi is responsible for writing and execution of this test.   
 	
 \end{enumerate}
 
-\paragraph{Test R 6: Correctness of the calculated electric field density (E) and electric current density (J$_\textbf{{HD}}$)}
-	
+\newpage
+
+\paragraph{Test R 4: Verifying calculated electric field and electric current density}
+
 \begin{enumerate}
 	
-\item{\textbf{Test 15:} Proper implementation of equations in code\\}
-
-Control: Manual
-
-Initial State:  performance of FEniCS toolbox has not been tested. 
-
-Input:N/A
-
-Output: N/A
-
-Test Case Derivation: Walkthrough 
-
-How test will be performed: Shayan Mousavi and Dr. Alexander Pofelski are responsible for walkthrough the whole codes after MG and MIS documents developed and verify the functionality of the code and validate that theoretical equations are properly fed to FEniCS PDE solver.
-\\	
-\item{\textbf{Test 16:} Amplitude of E and J$_{HD}$ in absence of light source\\}
-
-Control: Manual 
-
-Initial State:  performance of FEniCS toolbox has not been tested. 
-
-Input:\textbf{p}=(0,0,0)\\
-\rule{1.3cm}{0pt}\textbf{d}=(0,1,0)\\
-\rule{1.3cm}{0pt}wavelength=700 nm\\ 
-\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$\\
-\rule{1.3cm}{0pt}materials properties file (.csv): \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv}\\
-\rule{1.3cm}{0pt}mesh file (.msh): \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.msh}{cylinder\_3d.msh}
-
-Output: for all the nodes value of E and J$_{HD}$ shall be zero 
-
-Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
-
-How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  			
-\\
-\item{\textbf{Test 17:} Amplitude of E and J$_{HD}$ in absence of light source\\}
-
-Control: Manual 
-
-Initial State: Performance of FEniCS toolbox in python has not been tested. 
-
-Input:\textbf{p}=(0,0,0)\\
-\rule{1.3cm}{0pt}\textbf{d}=(0,1,0)\\
-\rule{1.3cm}{0pt}wavelength=700 nm\\ 
-\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$\\
-\rule{1.3cm}{0pt}materials properties file (.csv): Material properties for gold (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv})\\
-\rule{1.3cm}{0pt}mesh file (.msh): A 3d meshed cylinder (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.msh}{cylinder\_3d.msh})
-
-Output: for all the nodes value of E and J$_{HD}$ shall be zero 
-
-Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
-
-How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  
-\\
-\item{\textbf{Test 18:} Amplitude of E and J$_{HD}$ in absence of light source\\}
-
-Control: Manual 
-
-Initial State:  performance of FEniCS toolbox in python and MNPBEM toolbox in MATLAB has not been tested. 
-
-Input:\textbf{p}=(1,0,0)\\
-\rule{1.1cm}{0pt}\textbf{d}=(0,1,0)\\
-\rule{1.1cm}{0pt}wavelength=532 nm\\ 
-\rule{1.1cm}{0pt}t=0\\
-\rule{1.1cm}{0pt}materials properties file (.csv): Material properties for gold  \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv}\\
-\rule{1.1cm}{0pt}mesh file (.msh): A meshed sphere of 12 nm diameter
-
-Output: .vtk 3D intensity map of the meshed geometry
-
-Test Case Derivation: Similar input shall be fed to the MNPBEM toolbox in  MATLAB and the electric field enhancement be extracted for the 3D meshed geometry. As MNPBEM uses boundary element method to calculate a quasi-static approximation of the Maxwell's equations it is not expected to have exactly the same results. However, as both nonlocal hydrodynamic theory and quasi-static theory trying to solve similar equations roughly similar behaviour on the surface of the structure is expected.     
-
-How test will be performed: Shayan Mousavi is responsible for executing both SPDFM and MNPBEM simulations. Shayan Mousavi, Dr. Gianluigi Botton, and Dr. Alex Pofelski are responsible for evaluating how these two responses are close.
-
-
+	\item{\textbf{Test id3:} Plasmon enhanced electric field calculation compared to boundary element simulation\\}
+	
+	Control: Manual
+	
+	Initial State: N/A 
+	
+	Input: Input data is as listed in Table \ref{efield}. These files, as is indicated in the Table \ref{efield}, include all the required data for initiation of a \progname{} simulation. The meshed geometry in this test is a 20 nm in diameter nanoparticle embedded in the vacuum environment of diameter 40 nm. These 20 nm-sized particles are either simulated as an empty shell or as a particle with volume; see Table \ref{efield}. Moreover, test cases here are divided into three separate sets of input with different number of nodes in the mesh.  
+	
+	\begin{table}
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			Test Cases: & Test 1 & Test 2  \\
+			\hline 
+			Input files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t1.txt}{Input\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t1.txt}{Input\_t1.txt} \\
+			Polarity & 0, 1, 0  &   \\
+			Direction & 1, 0, 0 &  \\
+			Lambda(init) (nm) &400 &  \\
+			Lambda(fin) (nm) &500 &  \\
+			Steps & 1 & // \\
+			$\varepsilon_0$ (F/m) & $8.85 \times 10^{-12}$  &  \\
+			$\mu_0$ (H/m) & $ 1.25 \times 10^{-6}$ &  \\
+			$\mu_1$ (H/m) & $ 1.25 \times 10^{-6}$ &  \\
+			$\gamma$ (THz)& 17.94 &  \\
+			Plasma freq. (THz)& 2165 &  \\
+			$\beta^2$ ($m^2/s^2$) & $1.16 \times 10^{12}$ &  \\
+			\hline 
+			Input mesh Set1 & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh}{G\_shell\_t1.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh}{G\_fill\_t1.xml} \\
+			
+			(low mesh density)&			 \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh}{G\_shell\_pr\_t1.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh}{G\_fill\_pr\_t1.xml} \\
+			 &\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh}{G\_shell\_fc\_t1.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh}{G\_fill\_fc\_t1.xml} \\
+			 & 177 nodes & 178 nodes\\
+			\hline
+			
+			
+						Test Cases: & Test 3 & Test 4  \\
+			\hline 
+			Input files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t1.txt}{Input\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t1.txt}{Input\_t1.txt} \\
+			 // & // & // \\
+			
+			\hline 
+			Input mesh Set2 & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_shell_t2.xml}{G\_shell\_t2.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_fill_t2.xml}{G\_fill\_t2.xml} \\
+			
+			(medium mesh density)&			 \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_shell_pr_t2.xml}{G\_shell\_pr\_t2.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_fill_pr_t2.xml}{G\_fill\_pr\_t2.xml} \\
+			&\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_shell_fc_t2.xml}{G\_shell\_fc\_t2.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_fill_fc_t2.xml}{G\_fill\_fc\_t2.xml} \\
+			& 2306 nodes & 1268 nodes\\
+			\hline
+			
+						Test Cases: & Test 5 & Test 6  \\
+			\hline 
+			Input files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t1.txt}{Input\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t1.txt}{Input\_t1.txt} \\
+			 // & // & // \\
+			\hline 
+			Input mesh Set3 & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_shell_t3.xml}{G\_shell\_t2.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_fill_t3.xml}{G\_fill\_t2.xml} \\
+			
+			(high mesh density)&			 \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_shell_pr_t3.xml}{G\_shell\_pr\_t3.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_fill_pr_t3.xml}{G\_fill\_pr\_t3.xml} \\
+			&\href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_shell_fc_t3.xml}{G\_shell\_fc\_t3.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Mesh/G_fill_fc_t3.xml}{G\_fill\_fc\_t3.xml} \\
+			& 2306 nodes & 2613\\
+			\hline
+		\end{tabular}
+		\caption{Input data, required for \progname{} a complete FEM simulations used in Testid3.}
+		\label{efield}
+	\end{table}
+	
+	Output: Below outputs should be generated: 
+	
+	\begin{itemize}
+		\item Simulation results are expected to be extracted as the pvd files and store  Superimposed plot of electric field intensity vs. distance from the sphere surface for both MNPBEM simulated electric field and \progname{}. These plot will be provided for two directions one passing the centre of space point (0, 0, 0) and is parallel to (0, 1, 0) and the other one is parallel to (1, 0, 0).
+		\item Extracted data from 
+		 
+    \end{itemize}	
+	
+	
+	Test Case Derivation: In this test excited electric field by a plane wave of 400 nm wavelength, around a 20 nm diameter sphere is calculated by \progname{} and \href{https://physik.uni-graz.at/mnpbem/}{MNPBEM toolbox}. MNPBEM is a boundary element method (BEM) software for simulating plasmon activities is nanoparticles \citep{hohenester2012mnpbem}. Although in MNPBEM, parameter determination is not as flexible as in \progname{}, and some discrepancies are expected due to the implementation of different theories (local quasi-static vs. non-local hydrodynamic) and different techniques (BEM vs FEM), MNPBEM result can still be compared with FEM simulations. This comparison should be closer when  in FEM on the boundary of the target particle is meshed instead of the whole volume (G\_Shell\_t2.xml). In this regard, for a 20 nm diameter sphere made of gold (parameters obtained from \cite{grady2004influence}) that is only meshed on the surface, electric field intensity is compared between MNPBEM and \progname{} simulations in direction of light propagation (1, 0, 0) and polarity (0, 1, 0). 
+	To see how presence of the volume affects these results, a 20 nm fully meshed gold sphere is also compared with the MNPBEM results. 
+	As MNPBEM simulations use Gaussian units the output cannot be directly compared and here 
+		
+	How test will be performed: Executing  \href{https://github.com/shmouses/SPDFM/tree/master/src/test_efield_fem_mnpbem.py}{test\_efield\_fem\_mnpbem.py} automatically initiates the test and simulations will be stored in  \href{https://github.com/shmouses/SPDFM/tree/master/src/Test Output}{Test Output folder}. MNPBEM results are already simulated and results and the codes in MATLAB are provided in the \href{https://github.com/shmouses/SPDFM/tree/master/src/MNPBEM}{MNPBEM folder}. For comparing the  MNPBEM results with \progname{} results, stored files should be opened with a .pvd viewer (\href{www.paraview.org}{ParaView} is suggested). These results are analyzed in the VnV report document. Shayan Mousavi is responsible for writing and execution of this test.   \\
+		
+		
+	\newpage	
+	
+	\item{\textbf{Test id4:} Plasmon enhanced electric current density testing\\}	
+	
+	\# Implementation and execution of this test is beyond scope of the current version of this document and it is not possible to be delivered within the strict time window of CAS741. However, it is presented here to show the authors intention of conducting this test in the future. 
+	
+	
+	Control: Automated
+	
+	Initial State: N/A 
+	
+	Input: Files regarding Tests 2, 4, and 6 in Table \ref{efield}. These files include all the required data for initiation of a FEM simulation. 
+	
+	Output: Below outputs shall be obtained: 
+	\begin{itemize}
+		\item Superimposed plots of current density calculated by \progname{} and Mie theorem solution for spherical particles (analytical solution) along x-axis (light propagation) and y-axis (light polarity).
+		
+		\item  Difference between two calculated values at each point along the mentioned axes.
+		
+	\end{itemize}
+	
+	
+	Test Case Derivation: According to Mie theorem the analytical solution for nonlocal hydrodynamic electromagnetic response of a spherical particle can be calculated. 
+	
+	How test will be performed: Implementation is planned for the future.
+	
 \end{enumerate}
 	
 
 \subsection{Tests for Nonfunctional Requirements}
 \label{nonfunc}
-
+Although it is believed that testing nonfunctional requirements in a short time-frame with limited number of users is not applicable and would not necessarily provide meaningful data, the plans for testing these areas are provided here. This plans show intention and approach of the author for verification of nonfunctional requirements, albeit in the future. The report reflecting results of tests mentioned below is beyond scope of the current draft of the VnV report but as soon as the enough data is gathered, the corresponding analysis will be released.    
+ 
 \subsubsection{Usability}
+
 		
 \paragraph{Test NR1: Capability of execution of the software}
 
 \begin{enumerate}
 
-\item{\textbf{Test 19:} Usability \\}
+\item{\textbf{Test id5:} Usability \\}
 
 Type: Usability Survey
 					
@@ -529,11 +646,11 @@ How test will be performed: each participant shall install the software on a sys
 
 \begin{enumerate}
 	
-	\item{\textbf{Test 20:} Maintainability\\}
+	\item{\textbf{Test id6:} Maintainability\\}
 	
 	Type: Maintainability Walkthrough
 	
-	Initial State: Maintainability of the repository and external toolboxes used in this software such as FEniCS has not been tested.
+	Initial State: N/A
 	
 	Input/Condition: production version of \progname{} has been released.
 	
@@ -553,149 +670,149 @@ Table \ref{Table:A_trace} shows the connection between functional and nonfunctio
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline        
-		& R1 & R2 & R3 & R4 & R5 & R6 & NR1 & NR2 \\
+		& R1 & R2 & R3 & R4 & NR1 & NR2 & NR3 \\
 		\hline
-		Test1        & &X & & & & & &   \\ \hline
-		Test2        & &X & & & & & &   \\ \hline
-		Test3        & &X & & & & & &  \\ \hline
-		Test4        & &X & & & & & & \\ \hline
-		Test5        & &X & & & & & &   \\ \hline
-		Test6        & &X & & & & & &  \\ \hline
-		Test7        & &X & & & & & &  \\ \hline
-		Test8        & &X & & & & & &  \\ \hline
-		Test9        & & & &X & & & &  \\ \hline
-		Test10       & & & & &X & & &  \\ \hline
-		Test11       & & & & & X& & &  \\ \hline
-		Test12       &X & & & & & & &  \\ \hline
-		Test13       & & &X & & & & &  \\ \hline
-		Test14       & & &X & & & & &  \\ \hline
-		Test15       & & & & & &X & &  \\ \hline
-		Test16       & & & & & &X & &  \\ \hline
-		Test17       & & & & & &X & &  \\ \hline
-		Test18       & & & & & &X & &  \\ \hline
-		Test19       & & & & & & &X &  \\ \hline
-		Test20       & & & & & & & &X  \\ \hline
-	\end{tabular}
+		Test1        & & &X& & & &   \\ \hline
+		Test2        & & &X& & & &   \\ \hline
+		Test3        & & & &X& & &   \\ \hline
+		Test4        & & & &X& & & \\ \hline
+		Test5        & & & & &X&X&   \\ \hline
+		Test6        & & & & & & &X \\ \hline
+		Test7        & &X& & & & &   \\ \hline
+		Test8        &X& & & & & &   \\ \hline
+		Test9        &X& & & & & &  \\ \hline
+		\end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Tests and Functional and Nonfunctional System Requirements}
 \label{Table:A_trace}
 \end{table}
 
-\section{Unit Test Description}
+\section{Unit Test Description} \label{utest}
 
-\wss{Reference your MIS and explain your overall philosophy for test case
-  selection.}  
-\wss{This section should not be filled in until after the MIS has
-  been completed.}
+The modular design of \progname{} is introduced in MG document \citep{MGSPDFMdoc74:online}, and discussed in MIS document \citep{MISSPDFMdoc81:online}; according to these documents \progname{} is consist of eight modules. These modules are assigned to input the data, input the mesh geometry, storing and organizing the data, calculate the electric field and electric current density, and output the data. 
 
 \subsection{Unit Testing Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+
+In the process of \progname{} verification, the modules that are the most emphasized on are the input (M5 and M6, MG) and output (M8, MG) modules. As the finite element solver module (M7, MG) uses an external finite element solver (\href{www.fenics.org}{FEniCS}), and due to the fact that the obtained results from this module are separately verified within system verification section (Section \ref{systest}), verifying M7 is beyond the unit testing scope. Moreover, hardware hiding module (M1, MG), \progname{} control module (M2, MG), data structure module (M3, MG), and output module (M8, MG) are not being tested here. About the data structure module (M3), it should be mentioned that as this module is being used in all other modules, it can be assumed that this module is being tested indirectly while others are verified. The reason that output module is not tested is that this module is majorly depends on the output module of the external FEM solver (FEniCS toolbox). Thus, as in this work it is assumed that FEniCS is verified, this module is exempted from testing.  
+
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
 
-\subsubsection{Module 1}
+\subsubsection{Module 4: Constant parameters module (M4)}
 
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
+As the constant parameter module (M4, MIS and MG) is assigned to be a template object that holds the constants used in project, unit testing is performed by checking all the values stored in this module.
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{\textbf{Test id7} \\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+Type: Automatic
 					
-Initial State: 
+Initial State: N/A
 					
-Input: 
+Input: The constant values used in the \progname{} are stored in  \href{https://github.com/shmouses/SPDFM/tree/master/src/constants.txt}{constants.txt}. 
 					
-Output: \wss{The expected result for the given inputs}
+Output: PASS, if all the constant values in the template module is equal to (in the tolerance level distance of) the values stores in the constant.txt; FAIL, otherwise. 
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: The constant parameters used in the code should be equal to the constant parameters in Table 2 of the SRS document.
 
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-
-\item{...\\}
+How test will be performed:  By execution of  \href{https://github.com/shmouses/SPDFM/tree/master/src/test_const.py}{test\_const.py} using pytest, all the values in the constant parameter object (template module M4, MG) will be tested. 
     
 \end{enumerate}
 
-\subsubsection{Module 2}
+\subsubsection{Module 5: Input parameters modules (M5)}
 
-...
-
-\subsection{Tests for Nonfunctional Requirements}
-
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
-
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
-
-\subsubsection{Module ?}
-		
 \begin{enumerate}
+	
+\item{\textbf{Test id8}  \\}
+	
+Type: Automatic
+	
+Initial State: N/A
+	
+Input: In this test the input data is as stated in Table \ref{inputunittest}.  \href{https://github.com/shmouses/SPDFM/tree/master/src/constants.txt}{constants.txt}. 
 
-\item{test-id1\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
+\begin{table}
 
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Test Cases: & Test 1 & Test 2 & Test 3 \\
+\hline 
+Input files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t1.txt}{Input\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t2.txt}{Input\_t2.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input/Input_t3.txt}{Input\_t3.txt}  \\
+\hline
+\end{tabular}
+\caption{Input data (files) for input module (M5) unit testing}
+\label{inputunittest}
+\end{table}
+
+
+	
+Output: Pass, if all the constant values in the template module is equal to (in the tolerance level distance of) the values stored in the input file; Fail, otherwise.
+	
+Test Case Derivation: This test only verifies if input module can properly store data in the data structure.
+	
+How test will be performed:  By execution of  \href{https://github.com/shmouses/SPDFM/tree/master/src/test_inputparam.py}{test\_inputparam.py}performance of input module (M5, MG and MIS) will be tested. 
 
 \end{enumerate}
 
-\subsubsection{Module ?}
 
-...
+\subsubsection{Module 6: Input Mesh modules (M6)}
+
+\begin{enumerate}
+
+
+\item{\textbf{Test id9}\\}
+
+Type: Manual
+
+Initial State: N/A
+
+Input: In this test the inputs are mesh files listed in Table \ref{efield}.
+
+Output: N/A 
+Test Case Derivation: This test aims to verify that mesh input module is capable of inputting a mesh and storing it in the data structure module and user can extract (plot) later. In this regard, \href{https://github.com/shmouses/SPDFM/tree/master/src/test_inputmesh.py}{test\_inputmesh.py} uses mesh input module to input and store a mesh then by plotting it examines if the mesh is properly restored or not. 
+
+How test will be performed:  By executing \href{https://github.com/shmouses/SPDFM/tree/master/src/test_inputmesh.py}{test\_inputmesh.py} meshes in Table \ref{efield} will be input and stored using mesh input module and then they will be called and plotted. Shayan Mousavi is responsible of executing this test.  
+	
+\end{enumerate}
+
+
+
+
+
+\subsection{Tests for Nonfunctional Requirements}
+
+Unit testing the nonfunctional requirements in beyond scope and time-frame of this work.
+
 
 \subsection{Traceability Between Test Cases and Modules}
 
-\wss{Provide evidence that all of the modules have been considered.}
-				
+The connections between tests and modules is indicated in Table \ref{Table:B_trace}.
+\begin{table}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline        
+		             & M4 & M5 & M6 & M7  \\
+		\hline
+		Test1        && & & X \\ \hline
+		Test2        & & & &X \\ \hline
+		Test3        & & & &X  \\ \hline
+		Test4        & & & &X\\ \hline
+		Test5        & & & &   \\ \hline
+		Test6        & & & &  \\ \hline
+		Test7        &X& & &   \\ \hline
+		Test8        & &X& &   \\ \hline
+		Test9        & & &X&  \\ \hline
+	\end{tabular}
+	\caption{Traceability Matrix Showing the Connections Between Tests and Modules. Modules that are not in the table are beyond scope of testing plan in this work}
+	\label{Table:B_trace}
+\end{table}
+
+\newpage
+
 \bibliographystyle{plainnat}
 
 \bibliography{../../refs/References}

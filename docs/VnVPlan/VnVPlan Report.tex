@@ -1,0 +1,668 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+\usepackage{amssymb}
+\input{Comments}
+\input{Common}
+
+\begin{document}
+
+\title{Project Title: System Verification and Validation Report for \progname{}} 
+\author{S. Shayan Mousavi M.}
+\date{\today}
+	
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+Dec 18 2020& 1.0 & First Draft\\
+\bottomrule
+\end{tabularx}
+
+\newpage
+
+\tableofcontents
+
+\listoftables
+
+%\listoffigures
+
+\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  T & Test\\
+  VnV & verification and validation\\
+  \progname{} & Surface Plasmon Dynamics Finite Method\\
+  MNPBEM & Metallic NanoParticle Boundary Element Method\\
+  \bottomrule
+\end{tabular}\\
+The complete table of symbols, abbreviations and acronyms can be found in the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS} document of the software. 
+\newpage
+
+\pagenumbering{arabic}
+
+This document provides the information on validation and verification plans implemented for the \progname{} software. In this regard, the general approaches and plans are initially discussed and afterwards specific test cases and approaches for validation and verification of functional and nonfunctional requirements (can be found in \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS}) are reviewed. VnV plans here are a combination of manual (assigned to a member of the VnV team to assess) and automated testing approaches to evaluate the correctness of the information (whether input or output) or satisfaction of a goal in \progname{}.    
+
+\section{Functional Requirements Evaluation}
+
+\subsection{Light Source Calculation Verification (and/or Validation) Tests}
+\paragraph{Test R 3: Verifying light source setup}
+
+\begin{enumerate}
+	
+	\item{\textbf{Test id1:}  Calculation of the electric field of the light source\\}
+	
+	Test id1 is design to compare persiceness of the 
+	
+	Control: Automated
+	
+	Initial State: N/A
+	
+	Input: Polarity, direction, frequency of a plane wave light source, and a meshed geometry are given using input files and input data indicated in Table \ref{LS_t}. 
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			Test Cases: & Test 1 & Test 2 \\
+			\hline 
+			Input file & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t1.txt}{LS\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t2.txt}{LS\_t2.txt}\\
+			Polarity  & 0,1,0 & 0,1,0 \\
+			Direction & 1,0,0 & 1,0,0 \\
+			Frequency &   600 & 30000 \\
+			(THz) & &  \\ 
+			Mesh Input& \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_10node.xml}{G\_cube\_10node.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_10node.xml}{G\_cube\_10node.xml}\\
+			& \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_10node_physical_region.xml}{G\_cube\_10node\_physical\_region.xml} &
+			\href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_10node_physical_region.xml}{G\_cube\_10node\_physical\_region.xml} \\
+			
+			& \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_10node_facet_region.xml}{G\_cube\_10node\_facet\_region.xml} &
+			\href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_10node_facet_region.xml}{G\_cube\_10node\_facet\_region.xml} \\\hline
+			
+			Test Cases: & Test 3 & Test 4 \\
+			\hline 
+			Input file & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t1.txt}{LS\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t2.txt}{LS\_t2.txt} \\
+			Polarity  & 0,1,0 & 0,1,0 \\
+			Direction & 1,0,0 & 1,0,0 \\
+			Frequency &   600 & 30000 \\
+			(THz) & & \\ \hline
+			Mesh Input & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_20node.xml}{G\_cube\_20node.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_20node.xml}{G\_cube\_20node.xml} \\
+			 
+			& \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_20node_physical_region.xml}{G\_cube\_20node\_physical\_region.xml} &
+			\href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_20node_physical_region.xml}{G\_cube\_20node\_physical\_region.xml} \\
+			
+			& \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_20node_facet_region.xml}{G\_cube\_20node\_facet\_region.xml} &
+			\href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_20node_facet_region.xml}{G\_cube\_20node\_facet\_region.xml} \\		
+			\hline
+			
+			Test Cases: & Test 5 & Test 6 \\
+			\hline 
+			Input file & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t1.txt}{LS\_t1.txt} & \href{https://github.com/shmouses/SPDFM/tree/master/src/LS_t2.txt}{LS\_t2.txt} \\
+			Polarity  & 0,1,0 & 0,1,0 \\
+			Direction & 1,0,0 & 1,0,0 \\
+			Frequency &   600 & 30000 \\
+			(THz) & & \\ \hline
+			Mesh Input & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_40node.xml}{G\_cube\_40node.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_40node.xml}{G\_cube\_40node.xml} \\
+			
+			& \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_40node_physical_region.xml}{G\_cube\_40node\_physical\_region.xml} &
+			\href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_40node_physical_region.xml}{G\_cube\_40node\_physical\_region.xml} \\
+			
+			& \href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_40node_facet_region.xml}{G\_cube\_40node\_facet\_region.xml} &
+			\href{https://github.com/shmouses/SPDFM/tree/master/src/G_cube_40node_facet_region.xml}{G\_cube\_40node\_facet\_region.xml} \\
+			\hline
+		\end{tabular}
+	\caption{Input data (files) for automated testing of the light source setup}
+	\label{LS_t}
+\end{table}
+	
+	Output: Below outputs should be generated for each of the real and imaginary parts of the electric field separately.
+	
+	\begin{itemize}
+		\item Superimposed plot of light wave oscillation towards the light propagation axis (call this line L) calculated by \progname{} and calculated by python built in functions.  
+		\item  Difference between two calculated values at each point of the space that is located on the line L. line L is the line that parallel to the direction of the light source and passes the point (0, 0, 0) of the space. 
+		\item Measuring execution time for measuring .
+	    
+	\end{itemize}	
+
+	Test Case Derivation: This test evaluates how precise external FEM toolbox (FEniCS) in \progname{} calculates both real and imaginary parts of the electric field of the light source in the space. In this test two different frequencies are being studied; low frequency at 600 THz (visible range which is important for the future studies) and high frequency at 30000 for giveing visibility to oscillations of the electric field in the nanometer-scaled space are considered. All meshes are cubic geometries of 40 nm length but density of the mesh is sorted from low to high to study impact of mesh density on the precision of the calculated light source. 
+	
+	How test will be performed: This test can be executed by running \href{https://github.com/shmouses/SPDFM/tree/master/src/test_ls.py}{test\_ls.py}; this code is an auxiliary code which imports \progname{} mesh input module, data structure module, and the function that sets up the light source. This code is not Pytest controlled and instead of pass and fail results, provides user with quantitative results. Shayan Mousavi is responsible for writing and execution of this test.   
+	
+	
+	
+	
+	
+		\item{\textbf{Test 2:}  Visual inspection of the electric field propagation of the light source\\}
+	
+	Control: Manual
+	
+	Initial State: N/A
+	
+	Input: light polarity and direction, a frequency, and a meshed geometry are given using input files and input data indicated in Table \ref{LS_t}. 
+
+	
+	Output: 
+	\begin{itemize}
+		\item exported .pvd files containing the interpolated real and imaginary parts of the electric field of the light source in the entire space. These files are named as mentioned in Table \ref{test_ls_out}.
+			\begin{table}
+			\centering
+			\begin{tabular}{|c|c|c|c|c|c|c|}
+				\hline
+				Test Cases: & Test 1 & Test 2 & Test 3 & Test 4 & Test 5 & Test 6\\
+				\hline 
+				Output files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Re_t1.pvd}{Re\_t1.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Re_t2.pvd}{Re\_t2.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Re_t3.pvd}{Re\_t3.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Re_t4.pvd}{Re\_t4.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Re_t5.pvd}{Re\_t5.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Re_t1.pvd}{Re\_t6.pvd}\\
+				
+				 &
+			    \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t1.pvd}{Im\_t1.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t2.pvd}{Im\_t2.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t3.pvd}{Im\_t3.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t4.pvd}{Im\_t4.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t5.pvd}{Im\_t5.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t1.pvd}{Im\_t6.pvd}\\
+			    \hline
+			\end{tabular}
+			\caption{Output files for visual inspection of the light source setup}
+			\label{test_ls_out}
+		\end{table}
+		
+	\end{itemize}	
+	Test Case Derivation: This test visually evaluates the propagation of electric field in space. In this regard, the extracted pvd map of the electric field should be opened by a pvd reader (suggestion: \href{https://www.paraview.org/}{Paraview software}). If 3D colour map view is selected for illustration of the result (which is suggested) alternating domains are expected to be seen with domain width equal to wavelength of the light source. In this regard, for 600 THz source the wavelength is $\sim$499 nm, thus no alternation should be seen in real domain (due to the size of the mesh) and a dipole domain alternation should be observed in the result. The wavelength for the 30000 THz source is $\sim$10 nm, thus, alternating domains of the same width is expected. However, user should observe a $\frac{\pi}{2}$ shift between real and imaginary components. Same colour domains are elongated towards polarity vector and colour alternation should happen towards the propagation vector (direction vector).      
+	
+	How test will be performed: The pvd maps can be obtained by executing \href{https://github.com/shmouses/SPDFM/tree/master/src/test_visual_ls.py}{test\_visual\_ls.py}. Shayan Mousavi is responsible for writing and execution of this test.   
+	
+\end{enumerate}
+
+
+
+\paragraph{Test R 4: Verifying calculated electric field and electric current density}
+
+\begin{enumerate}
+	
+	\item{\textbf{Test 3:} Plasmon enhanced electric field calculation compared to boundary element simulation\\}
+	
+	Control: Automated 
+	
+	Initial State: N/A 
+	
+	Input: Input data will be fed to the program through input files listed in Table \ref{efield}. These files include all the required data for initiation of a FEM simulation.
+	
+	\begin{table}
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			Test Cases: & Test 1 & Test 2  \\
+			\hline 
+			Input files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input_t1.pvd}{Input\_t1.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input_t1.pvd}{Input\_t1.pvd} \\
+			Polarity & 0, 1, 0  & 0, 1, 0  \\
+			Direction & 1, 0, 0 & 1, 0, 0  \\
+			Lambda(init) (nm) &400 & 400  \\
+			Lambda(fin) (nm) &500 & 500  \\
+			Steps & 1 & 1  \\
+			$\varepsilon_0$ (F/m) & $8.85 \times 10^{-12}$  & $8.85 \times 10^{-12}$ \\
+			$\mu_0$ (H/m) & $ 1.25 \times 10^{-6}$ & $ 1.25 \times 10^{-6}$ \\
+			$\mu_1$ (H/m) & $ 1.25 \times 10^{-6}$ & $ 1.25 \times 10^{-6}$ \\
+			$\gamma$ (THz)& 17.94 & 17.94 \\
+			Plasma freq. (THz)& 2165 & 2165 \\
+			$\beta^2$ ($m^2/s^2$) & $1.16 \times 10^{12}$ & $1.16 \times 10^{12}$ \\
+			\hline 
+			Input mesh & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_Shell_t1.xml}{G\_Shell\_t1.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_Fill_t2.xml}{G\_Fill\_t2.xml} \\
+			
+			&			 \href{https://github.com/shmouses/SPDFM/tree/master/src/G_Shell_PR_t1.xml}{G\_Shell\_PR\_t1.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_Fill_PR_t2.xml}{G\_Fill\_PR\_t2.xml} \\
+			&		   \href{https://github.com/shmouses/SPDFM/tree/master/src/G_Shell_FC_t1.xml}{G\_Shell\_PR\_t1.xml} & \href{https://github.com/shmouses/SPDFM/tree/master/src/G_Fill_FC_t2.xml}{G\_Fill\_FC\_t2.xml} \\
+			 
+			\hline
+		\end{tabular}
+		\caption{Input data required for \progname{} a complete FEM simulations}
+		\label{efield}
+	\end{table}
+	
+	Output: Below outputs should be generated: 
+	
+	\begin{itemize}
+		\item Superimposed plot of electric field intensity vs. distance from the sphere surface for both MNPBEM simulated electric field and \progname{}. These plot will be provided for two directions one passing the centre of space point (0, 0, 0) and is parallel to (0, 1, 0) and the other one is parallel to (1, 0, 0).
+		
+		\item  Difference between two calculated electric field values at each point of the space in plots mentioned above. 
+		
+    \end{itemize}	
+	
+	
+	Test Case Derivation: In this test excited electric field by a plane wave of 400 nm wavelength, around a 20 nm diameter sphere is calculated by \progname{} and \href{https://physik.uni-graz.at/mnpbem/}{MNPBEM toolbox}. MNPBEM is a boundary element method (BEM) software for simulating plasmon activities is nanoparticles \citep{hohenester2012mnpbem}. Although in MNPBEM parameter determination is not as flexible as \progname{} and some discrepancies are expected due to the implementation of different theories (local quasi-static vs. non-local hydrodynamic) and different techniques (BEM vs FEM), MNPBEM result can still be compared with FEM simulations that are meshed a boundary instead of the whole volume (G\_Shell\_t1.xml). In this regard, for a 20 nm diameter sphere made of gold (parameters obtained from \cite{grady2004influence}) that is only meshed on the surface, electric field intensity is compaired between MNPBEM and \progname{} simulations in direction of light propagation (1, 0, 0) and polarity (0, 1, 0). 
+	To see how presence of the sphere volume affects these results, a 20 nm fully meshed gold sphere is also compared with the MNPBEM results. 
+		
+	How test will be performed: Executing  \href{https://github.com/shmouses/SPDFM/tree/master/src/test_visual_ls.py}{test\_Efield\_FEM\_MNPBEM.py} automatically initiates the test and results will be printed. Shayan Mousavi is responsible for writing and execution of this test.   \\
+		
+		
+		
+	
+	\item{\textbf{Test 4:} Visual inspection of the plasmon enhanced electric field calculation (\progname{} Vs. MNPBEM)\\}
+	
+	Control: Manual
+	Initial State: N/A 
+	
+	Input: Input data will be fed to the program through input files listed in Table \ref{efield}. These files include all the required data for initiation of a FEM simulation.
+	
+	Output: Colormap plot of the generated electric field calculated by MNPBEM (\href{https://github.com/shmouses/SPDFM/tree/master/src/MNPBEM_12nm_wl_400nm.png}{MNPBEM\_20nm\_wl\_400nm.png}) and pvd file showing the result obtained from \progname{} (\href{https://github.com/shmouses/SPDFM/tree/master/src/SPDFM_20nm_wl_400nm.pvd}{SPDFM\_20nm\_wl\_400nm.pvd}).
+	
+	Test Case Derivation: In this test the electric field around a 20 nm diameter sphere is calculated by \progname{} and \href{https://physik.uni-graz.at/mnpbem/}{MNPBEM toolbox}. Polarity, direction, and in general, electric field distribution in space for both simulations BEM and FEM simulations should be the same.
+	
+	How test will be performed: Executing  \href{https://github.com/shmouses/SPDFM/tree/master/src/test_visual_ls.py}{test\_Efield\_FEM\_MNPBEM.py} automatically runs the \progname{} simulation and saves the results in \href{https://github.com/shmouses/SPDFM/tree/master/src/SPDFM_20nm_wl_400nm.pvd}{SPDFM\_20nm\_wl\_400nm.pvd}. \href{https://github.com/shmouses/SPDFM/tree/master/src/MNPBEM_12nm_wl_400nm.png}{MNPBEM\_20nm\_wl\_400nm.png} is already available in the repository and files can be compared manually by the user. Shayan Mousavi is responsible for writing and execution of this test.  
+	
+		
+	\item{\textbf{Test 4:} visual inspection of the electric field calculation with respect to the light source \\}
+	
+	Control: Automated 
+	
+	Initial State: N/A 
+	
+	Input: Input data will be fed to the program through input files listed in the table \ref{efield1}.
+	
+	
+	Output: 
+	
+	Test Case Derivation: Physically polarity of the light source and the electric response of the system should be the same. Therefore, 
+	
+	How test will be performed: 
+	
+\item{\textbf{Test 14:} Light source electric field evolution}
+
+Control: Manual 
+
+Initial State:  \textbf{p}, \textbf{d}, and wavelength are previously given to the software. \\
+\rule{2.3cm}{0pt} \textbf{p}=(1,0,0)\\
+\rule{2.3cm}{0pt} \textbf{d}=(0,1,0)\\
+\rule{2.3cm}{0pt} wavelength=700 nm\\
+\rule{2.3cm}{0pt} The location vector, r, and time, t, will be given as below.  
+
+Input: R = $\{\textbf{r}=(0.1*r_x,0,0)| \forall r_x \in \aleph, r_x \in [0,10]\}$\\
+\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$
+
+Output: for t=0, plot of evolution of electric field by R. for r=(0, 0, 0), plot of evolution of electric field in time.
+
+Test Case Derivation: In this test $E_i = cos(k\  \textbf{d.} \textbf{r} - \omega t) - i \ sin(k\  \textbf{d.} \textbf{r} - \omega t)$ is plotted with respect to time and space and the examiner is responsible to see if the behaviour of the function is as expected or not.   
+
+How test will be performed: Using Pytest library in python. Codes can be found in \textbf{E\_field\_plot\_test.py } in the src folder. Shayan Mousavi is responsible for execution of this test. 
+	
+\end{enumerate}
+
+\paragraph{Test R 6: Correctness of the calculated electric field density (E) and electric current density (J$_\textbf{{HD}}$)}
+	
+\begin{enumerate}
+	
+\item{\textbf{Test 15:} Proper implementation of equations in code\\}
+
+Control: Manual
+
+Initial State:  performance of FEniCS toolbox has not been tested. 
+
+Input:N/A
+
+Output: N/A
+
+Test Case Derivation: Walkthrough 
+
+How test will be performed: Shayan Mousavi and Dr. Alexander Pofelski are responsible for walkthrough the whole codes after MG and MIS documents developed and verify the functionality of the code and validate that theoretical equations are properly fed to FEniCS PDE solver.
+\\	
+\item{\textbf{Test 16:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+
+Control: Manual 
+
+Initial State:  performance of FEniCS toolbox has not been tested. 
+
+Input:\textbf{p}=(0,0,0)\\
+\rule{1.3cm}{0pt}\textbf{d}=(0,1,0)\\
+\rule{1.3cm}{0pt}wavelength=700 nm\\ 
+\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$\\
+\rule{1.3cm}{0pt}materials properties file (.csv): \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv}\\
+\rule{1.3cm}{0pt}mesh file (.msh): \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.msh}{cylinder\_3d.msh}
+
+Output: for all the nodes value of E and J$_{HD}$ shall be zero 
+
+Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
+
+How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  			
+\\
+\item{\textbf{Test 17:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+
+Control: Manual 
+
+Initial State: Performance of FEniCS toolbox in python has not been tested. 
+
+Input:\textbf{p}=(0,0,0)\\
+\rule{1.3cm}{0pt}\textbf{d}=(0,1,0)\\
+\rule{1.3cm}{0pt}wavelength=700 nm\\ 
+\rule{1.3cm}{0pt}T = $\{t| \forall t \in \aleph, t \in (0,10]\}$\\
+\rule{1.3cm}{0pt}materials properties file (.csv): Material properties for gold (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv})\\
+\rule{1.3cm}{0pt}mesh file (.msh): A 3d meshed cylinder (\href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/cylinder\_3d.msh}{cylinder\_3d.msh})
+
+Output: for all the nodes value of E and J$_{HD}$ shall be zero 
+
+Test Case Derivation: As polarity of the incident light is p=(0,0,0), in fact, the amplitude of the incident electric field is zero. Thus, in absence of the excitation source no plasmonic activity should be observed in the medium. 
+
+How test will be performed: Shayan Mousavi is responsible for inputting the data an inspecting if E and J$_{HD}$ values are equal zero.  
+\\
+\item{\textbf{Test 18:} Amplitude of E and J$_{HD}$ in absence of light source\\}
+
+Control: Manual 
+
+Initial State:  performance of FEniCS toolbox in python and MNPBEM toolbox in MATLAB has not been tested. 
+
+Input:\textbf{p}=(1,0,0)\\
+\rule{1.1cm}{0pt}\textbf{d}=(0,1,0)\\
+\rule{1.1cm}{0pt}wavelength=532 nm\\ 
+\rule{1.1cm}{0pt}t=0\\
+\rule{1.1cm}{0pt}materials properties file (.csv): Material properties for gold  \href{https://github.com/shmouses/SPDFM/blob/master/src/TestCase/complete\_set.csv}{complete\_set.csv}\\
+\rule{1.1cm}{0pt}mesh file (.msh): A meshed sphere of 12 nm diameter
+
+Output: .vtk 3D intensity map of the meshed geometry
+
+Test Case Derivation: Similar input shall be fed to the MNPBEM toolbox in  MATLAB and the electric field enhancement be extracted for the 3D meshed geometry. As MNPBEM uses boundary element method to calculate a quasi-static approximation of the Maxwell's equations it is not expected to have exactly the same results. However, as both nonlocal hydrodynamic theory and quasi-static theory trying to solve similar equations roughly similar behaviour on the surface of the structure is expected.     
+
+How test will be performed: Shayan Mousavi is responsible for executing both SPDFM and MNPBEM simulations. Shayan Mousavi, Dr. Gianluigi Botton, and Dr. Alex Pofelski are responsible for evaluating how these two responses are close.
+
+
+\end{enumerate}
+	
+
+\subsection{Tests for Nonfunctional Requirements}
+\label{nonfunc}
+
+\subsubsection{Usability}
+		
+\paragraph{Test NR1: Capability of execution of the software}
+
+\begin{enumerate}
+
+\item{\textbf{Test 19:} Usability \\}
+
+Type: Usability Survey
+					
+Initial State: The system being used should already have Python3, and FEniCS toolbox installed on.  
+					
+Input/Condition: A usability survey with the questions listed in Section \ref{usab}. For execution of a simulation, data provided in Test? is suggested to be used.
+					
+Output/Result: Survey results
+					
+How test will be performed: each participant shall install the software on a system and try to run a simulation. Respondents will be asked to rank their experience of installing and running a module. A final average grade of 3 will indicate that the users found the system to have average usability. The higher the score,the better the perception of usability. Shayan Mousavi and Alexander Pofelski shall be participate this test. This approach is suggested by \cite{LatticeB41:online}.
+
+\end{enumerate}
+\subsubsection{Maintainability}
+
+\paragraph{Test NR2: Maintainability and expandability of the software}
+
+\begin{enumerate}
+	
+	\item{\textbf{Test 20:} Maintainability\\}
+	
+	Type: Maintainability Walkthrough
+	
+	Initial State: Maintainability of the repository and external toolboxes used in this software such as FEniCS has not been tested.
+	
+	Input/Condition: production version of \progname{} has been released.
+	
+	Output/Result: A graded report describing the maintainability of the repository
+	
+	How test will be performed: Dr. Alexander Pofelski shall check the repository for the following documentation:  SRS, VnV Plan, MG, MIS, User Guide. He shall mark 1 point for each of the above documents. He shall read through each of the above documents and
+	provide a grade between 1 and 5 for clarity of the writing. A score of 1 represents a document that is hard to understand, and a score of 5 represents a document that is easy to understand. The user should also grade the traceability of each document. A score of 1 represents no links within the report, and a score of 5 represents many links between sections of the report. The user shall then divide the sum of the scores for all of the reports by 5.
+	 A final average grade of 3 will indicate that the users found the system to have average Maintainability. The higher the score,the better the perception of Maintainability. This approach is suggested by \cite{LatticeB41:online}. 
+					
+\end{enumerate}
+
+\subsection{Traceability Between Test Cases and Requirements}
+
+Table \ref{Table:A_trace} shows the connection between functional and nonfunctional requirements and the tests provided in this document. 
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline        
+		& R1 & R2 & R3 & R4 & R5 & R6 & NR1 & NR2 \\
+		\hline
+		Test1        & &X & & & & & &   \\ \hline
+		Test2        & &X & & & & & &   \\ \hline
+		Test3        & &X & & & & & &  \\ \hline
+		Test4        & &X & & & & & & \\ \hline
+		Test5        & &X & & & & & &   \\ \hline
+		Test6        & &X & & & & & &  \\ \hline
+		Test7        & &X & & & & & &  \\ \hline
+		Test8        & &X & & & & & &  \\ \hline
+		Test9        & & & &X & & & &  \\ \hline
+		Test10       & & & & &X & & &  \\ \hline
+		Test11       & & & & & X& & &  \\ \hline
+		Test12       &X & & & & & & &  \\ \hline
+		Test13       & & &X & & & & &  \\ \hline
+		Test14       & & &X & & & & &  \\ \hline
+		Test15       & & & & & &X & &  \\ \hline
+		Test16       & & & & & &X & &  \\ \hline
+		Test17       & & & & & &X & &  \\ \hline
+		Test18       & & & & & &X & &  \\ \hline
+		Test19       & & & & & & &X &  \\ \hline
+		Test20       & & & & & & & &X  \\ \hline
+	\end{tabular}
+\caption{Traceability Matrix Showing the Connections Between Tests and Functional and Nonfunctional System Requirements}
+\label{Table:A_trace}
+\end{table}
+
+\section{Unit Test Description} \label{utest}
+
+\wss{Reference your MIS and explain your overall philosophy for test case
+  selection.}  
+\wss{This section should not be filled in until after the MIS has
+  been completed.}
+
+The modular design of \progname{} is introduced in MG document \citep{MGSPDFMdoc74:online}, and discussed in MIS document \citep{MISSPDFMdoc81:online}; according to these documents \progname{} is consist of eight modules. These modules are assigned to input the data, input the mesh geometry, storing and organizing the data, calculate the electric field and electric current density, and output the data. 
+
+\subsection{Unit Testing Scope}
+
+\wss{What modules are outside of the scope.  If there are modules that are
+  developed by someone else, then you would say here if you aren't planning on
+  verifying them.  There may also be modules that are part of your software, but
+  have a lower priority for verification than others.  If this is the case,
+  explain your rationale for the ranking of module importance.}
+
+In the process of \progname{} verification, the modules that are the most emphasized on are the input (M5 and M6, MG) and output (M8, MG) modules. As the finite element solver module (M7, MG) uses an external finite element solver (\href{www.fenics.org}{FEniCS}), and due to the fact that the obtained results from this module are separately verified within system verification section (Section \ref{systest}), verifying M7 is beyond the unit testing scope. Moreover, hardware hiding module (M1, MG), \progname{} control module (M2, MG), and data structure module (M3, MG) are also not being tested here. About the data structure module (M3), it should be mentioned that as this module is being used in all other modules, it can be assumed that this module is being tested indirectly while others are verified.
+
+
+\subsection{Tests for Functional Requirements}
+
+\wss{Most of the verification will be through automated unit testing.  If
+  appropriate specific modules can be verified by a non-testing based
+  technique.  That can also be documented in this section.}
+
+\subsubsection{Module 4: Constant parameters module (M4)}
+
+\wss{Include a blurb here to explain why the subsections below cover the module.
+  References to the MIS would be good.  You will want tests from a black box
+  perspective and from a white box perspective.  Explain to the reader how the
+  tests were selected.}
+
+As the constant parameter module (M4) is assigned to be a template object that holds the constants used in project, unit testing is performed by checking all the values.
+
+\begin{enumerate}
+
+\item{\textbf{Test} \\}
+
+Type: Automatic
+					
+Initial State: N/A
+					
+Input: The constant values used in the \progname{} are stored in  \href{https://github.com/shmouses/SPDFM/tree/master/src/constants.txt}{constants.txt}. 
+					
+Output: PASS, if all the constant values in the template module is equal to (in the tolerance level distance of) the values stores in the constant.txt; FAIL, otherwise.
+
+Test Case Derivation: The constant parameters used in the code should be equal to the constant parameters in Table 2 of the SRS document.
+
+How test will be performed:  By execution of  \href{https://github.com/shmouses/SPDFM/tree/master/src/test_const.py}{test\_const.py} all the values in the constant parameter object (template module M4, MG) will be tested. 
+    
+\end{enumerate}
+
+\subsubsection{Module 5: Input parameters modules (M5)}
+
+\begin{enumerate}
+	
+\item{\textbf{Test} \\}
+	
+Type: Automatic
+	
+Initial State: N/A
+	
+Input: In this test the input data is as stated in Table \ref{inputunittest}.  \href{https://github.com/shmouses/SPDFM/tree/master/src/constants.txt}{constants.txt}. 
+
+
+\begin{table}
+
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Test Cases: & Test 1 & Test 2 & Test 3 & Test 4 \\
+\hline 
+Input files & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input_t1.pvd}{Input\_t1.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input_t2.pvd}{Input\_t2.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input_t3.pvd}{Input\_t3.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Input_t4.pvd}{Input\_t4.pvd} \\
+\hline
+&
+\href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t1.pvd}{Im\_t1.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t2.pvd}{Im\_t2.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t3.pvd}{Im\_t3.pvd} & \href{https://github.com/shmouses/SPDFM/tree/master/src/Im_t4.pvd}{Im\_t4.pvd} \\
+\hline
+\end{tabular}
+\caption{Input data (files) for input module (M5) unit testing}
+\label{inputunittest}
+\end{table}
+
+
+	
+Output: Pass, if all the constant values in the template module is equal to (in the tolerance level distance of) the values stores in the constant.txt; Fail, otherwise.
+	
+Test Case Derivation: The constant parameters used in the code should be equal to the constant parameters in Table 2 of the SRS document.
+	
+How test will be performed:  By execution of  \href{https://github.com/shmouses/SPDFM/tree/master/src/test_const.py}{test\_const.py} all the values in the constant parameter object (template module M4, MG) will be tested. 
+	
+\item{test-id2\\}
+	
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will be automatic}
+	
+Initial State: 
+	
+Input: 
+
+Output: \wss{The expected result for the given inputs}
+	
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+	
+How test will be performed: 
+	
+\item{...\\}
+	
+\end{enumerate}
+
+\subsection{Tests for Nonfunctional Requirements}
+
+\wss{If there is a module that needs to be independently assessed for
+  performance, those test cases can go here.  In some projects, planning for
+  nonfunctional tests of units will not be that relevant.}
+
+\wss{These tests may involve collecting performance data from previously
+  mentioned functional tests.}
+
+\subsubsection{Module ?}
+		
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input/Condition: 
+					
+Output/Result: 
+					
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
+
+\end{enumerate}
+
+\subsubsection{Module ?}
+
+...
+
+\subsection{Traceability Between Test Cases and Modules}
+
+\wss{Provide evidence that all of the modules have been considered.}
+				
+\bibliographystyle{plainnat}
+
+\bibliography{../../refs/References}
+
+\newpage
+
+\section{Appendix}
+
+This is where you can place additional information.
+
+\subsection{Symbolic Parameters}
+
+The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+Their values are defined in this section for easy maintenance.
+
+\subsection{Usability Survey Questions?} \label{usab}
+
+Using the following rubric please rate the five statements found below (this rubric is suggested by \cite{LatticeB41:online}):\\
+\textbf{1. The formatting of the input file was easy to understand.} \\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\ 
+\\
+\textbf{2. The location to place the input file was easy to find.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\ 
+\\
+\textbf{3. Navigating to the correct module was straightforward.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\
+\\
+\textbf{4. The MG and MIS of this product explain the modules well.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\
+\\
+\textbf{5. I would recommend this product.}\\
+\rule{2cm}{0pt}1 - strongly disagree\\
+\rule{2cm}{0pt}2 - somewhat disagree\\
+\rule{2cm}{0pt}3 - neither agree nor disagree\\
+\rule{2cm}{0pt}4 - somewhat agree\\
+\rule{2cm}{0pt}5 - strongly agree\\
+\end{document}
