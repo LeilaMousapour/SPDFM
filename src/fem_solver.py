@@ -257,14 +257,4 @@ def freq_fem_solver(data_obj):
         data_obj.j_real.append(j_re_calc)
         data_obj.j_im.append(j_im_calc)
 
-#        file_e_re = fn.File("E_real.pvd")
-#        file_e_im = fn.File("E_im.pvd")
-#        file_j_re = fn.File("J_re.pvd")
-#        file_j_im = fn.File("J_im.pvd")
-
-#       file_e_re << e_re_calc
-#        file_e_im << e_im_calc
-#        file_j_re << j_re_calc
-#        file_j_im << j_im_calc
-
     return data_obj
