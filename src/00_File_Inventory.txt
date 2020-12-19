@@ -1,0 +1,59 @@
+List of Test input files: 
+### LS_t1: polarity, direction, and frequency for testing light source setup
+### LS_t2: polarity, direction, and frequency for testing light source setup
+### LS_t3: polarity, direction, and frequency for testing light source setup
+### LS_t4: polarity, direction, and frequency for testing light source setup
+
+#Input_t1: a complete input file for initiation of SPDFM (not including mesh)
+
+
+List of Meshed Geometries: 
+### Geometry_1: 
+###### G_t1.msh: Gmsh designed meshed 20nm x 20nm square, 20 nodes per edge, 6268 nodes
+###### G_t1.xml: Dolfin converted G_t1.msh
+###### PR_t1.xml: Physical Regions info extracted from G_t1.msh
+###### FC_t1.xml: Facet Regions info extracted from G_t1.msh
+
+### Geometry_2:
+####### G_cube_10node.msh: 
+####### G_cube_10node.xml: 
+####### G_cube_10node_physical_region.xml: 
+####### G_cube_10node_facet_region.xml:
+
+### Geometry_3:
+####### G_cube_20node.msh: 
+####### G_cube_20node.xml: 
+####### G_cube_20node_physical_region.xml: 
+####### G_cube_20node_facet_region.xml:
+
+### Geometry_4:
+####### G_cube_40node.msh: 
+####### G_cube_40node.xml: 
+####### G_cube_40node_physical_region.xml: 
+####### G_cube_40node_facet_region.xml:
+
+### Geometry_5: 
+###### G_shell_t1.msh: Gmsh 20 nm diameter spherical shell in 80 nm diameter volume; 5 nodes on inner curve and 10 on outer curve  
+###### G_shell_t1.xml:
+
+### Geometry_6: 
+###### G_shell_t2.msh: Gmsh 20 nm diameter spherical shell in 80 nm diameter volume; 10 nodes on inner curve and 20 on outer curve  
+###### G_shell_t2.xml:
+
+### Geometry_7: 
+###### G_shell_t3.msh: Gmsh 20 nm diameter spherical shell in 80 nm diameter volume; 20 nodes on inner curve and 20 on outer curve  
+###### G_shell_t3.xml:
+
+### Geometry_8: 
+###### G_fill_t1.msh: Gmsh 20 nm diameter spherical particle in 80 nm diameter volume; 5 nodes on inner curve and 10 on outer curve  
+###### G_fillll_t1.xml:
+
+### Geometry_9: 
+###### G_fill_t2.msh: Gmsh 20 nm diameter spherical particle in 80 nm diameter volume; 10 nodes on inner curve and 20 on outer curve  
+###### G_shell_t2.xml:
+
+### Geometry_10: 
+###### G_fill_t3.msh: Gmsh 20 nm diameter spherical particle in 80 nm diameter volume; 20 nodes on inner curve and 20 on outer curve  
+###### G_fill_t3.xml:
+
+
