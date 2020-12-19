@@ -28,7 +28,7 @@
 	
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X} \toprule {\bf Date} & {\bf Version}
 		& {\bf Notes}\\ \midrule Nov 23 2020 & 1.0 & Initial Design\\
-		
+		Dec 18 2020 & 1.1 & Revised Design\\
 		\bottomrule \end{tabularx}
 	
 	\newpage
@@ -43,8 +43,8 @@
 		& \textbf{description}\\ \midrule AC & Anticipated Change\\ DAG & Directed
 		Acyclic Graph \\ M & Module \\ MG & Module Guide \\ OS & Operating System \\ R &
 		Requirement\\ SC & Scientific Computing \\ SRS & Software Requirements
-		Specification\\ \progname & Explanation of program name\\ UC & Unlikely Change
-		\\ SPD & Surface Plasmon Dynamics\\ \bottomrule \end{tabular}\\
+		Specification\\ \progname{} & Surface Plasmon Dynamics Finite Method\\ UC & Unlikely Change
+		\\ SPD & Surface Plasmon Dynamics\\ FEM & Finite Element Method\\ \bottomrule \end{tabular}\\
 	
 	\newpage
 	
@@ -144,7 +144,8 @@
 	
 	\begin{description} \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:]
 		Input/Output devices (Input: File and/or Keyboard, Output: File, Memory, and/or
-		Screen). \item[\refstepcounter{ucnum} \actheacnum \label{acForm}:] Nonlocal
+		Screen). 
+		\item[\refstepcounter{ucnum} \uctheucnum \label{ucForm}:] Nonlocal
 		surface plasmon hydrodynamic formulations. \end{description}
 	
 	
@@ -168,10 +169,7 @@
 		
 		\item [\refstepcounter{mnum} \mthemnum \label{mMI}:] Mesh Input Module.
 		
-		\item [\refstepcounter{mnum} \mthemnum \label{mSS}:] SPD Simulator Module.
-		
-		
-		\item [\refstepcounter{mnum} \mthemnum \label{mFD}:] Frequency Domain PDE Solver
+		\item [\refstepcounter{mnum} \mthemnum \label{mFD}:] Frequency Domain FEM Solver
 		Module.
 		
 		\item [\refstepcounter{mnum} \mthemnum \label{mOut}:] Output Module.
@@ -184,22 +182,20 @@
 			
 			{Hardware-Hiding Module} & ~ \\ \midrule
 			
-			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control
-			Module\\ & Input Parameter Modules\\ & Constan Parameters Module\\ & Mesh Input
-			Module\\ & SPD Simulator Module\\ & Output Module\\
+			\multirow{6}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control
+			Module\\ & Input Parameter Module\\ & Constant Parameters Module\\ & Mesh Input
+			Module\\ & Frequency Domain FEM Solver Module\\ & Output Module\\
 			
 			\midrule
 			
-			\multirow{3}{0.3\textwidth}{Software Decision Module} & Frequency Domain PDE
-			Solver Module\\ & Data Structure Module\\ \bottomrule
+			\multirow{1}{0.3\textwidth}{Software Decision Module} & Data Structure Module\\ \bottomrule
 			
 		\end{tabular} \caption{Module Hierarchy} \label{TblMH} \end{table}
 	
 	\section{Connection Between Requirements and Design} \label{SecConnection}
 	
 	The design of the system is intended to satisfy the requirements developed in
-	the SRS. In this stage, the system is decomposed into modules. The connection
-	between requirements and modules is listed in Table \ref{TblRT}.
+	the \href{https://github.com/shmouses/SPDFM/tree/master/docs/SRS}{SRS}, with respect to the implementation power at hand. In this regard, as the finite element solver used by \progname{} (i.e. \href{https://fenicsproject.org/}{FEniCS}) does not accept complex numbers, all the complex values in the equations (IM1 and IM2, SRS document) need to be split into real and imaginary parts and new equations should be generated \citep{rochlitz2019custem, otto2012using}. These equations are required to be written in their matrix form to be adopted by the finite element solver \citep{otto2012using}. More information regarding the complex value splittings and equation matrix can be found in the \href{https://github.com/shmouses/SPDFM/tree/master/docs/Design/MIS}{MIS} document. In this stage, the system is decomposed into modules. The connection between requirements and modules is listed in Table \ref{TblRT}.
 	
 	
 	\section{Module Decomposition} \label{SecMD}
@@ -236,6 +232,8 @@
 		module will need to change if there are changes in the SRS. \item[Implemented
 		By:] -- \end{description}
 	
+
+
 	\subsubsection{\progname{} Control Module (\mref{mSC})}
 	
 	\begin{description} \item[Secrets:]Execution flow of \progname{}.
@@ -243,6 +241,8 @@
 		\item[Implemented By:] \progname{} \end{description}
 	
 	
+
+
 	\subsubsection{Input Parameter Module (\mref{mIP})}
 	
 	\begin{description} \item[Secrets:]Input required parameters for \progname{} to
@@ -252,6 +252,8 @@
 		geometry. \item[Implemented By:] \progname{} \end{description}
 	
 	
+
+
 	\subsubsection{Constant Parameters Module (\mref{mCP})}
 	
 	\begin{description} \item[Secrets:] The constant values used in the code.
@@ -260,24 +262,26 @@
 		where needed at different modules. \item[Implemented By:] \progname{}
 	\end{description}
 	
+	
+	
 	\subsubsection{Mesh Input Module (\mref{mMI})}
 	
 	\begin{description} \item[Secrets:]Input mesh geometry.
-		\item[Services:]Inputting the meshed geometry. Converting the format of the
-		input data (.mesh) to a readable format (.XML) for the PDE solver
-		(\hyperref{https://fenicsproject.org/}{}{}{FEniCS}) used in \progname{}.
+		\item[Services:]Inputting .xml files that contain the meshed geometry.
 		\item[Implemented By:] \progname{} \end{description}
 	
-	\subsubsection{SPD Simulator Module (\mref{mSS})}
 	
-	\begin{description} \item[Secrets:]Control flow of the different PDE solving
-		units. \item[Services:]Although at the current version of the software there is
-		only one PDE solving module (M\ref{mFD}), SPD Simulator module considers future
-		expansions of the code. This module controls the flow of different PDE solving
-		modules as some of them need to be run using results of other modules.
-		\item[Implemented By:] \progname{} \end{description}
 	
-	\subsubsection{Mesh Output Module(\mref{mOut})}
+	\subsubsection{Frequency Domain FEM Solver Module(\mref{mFD})}
+
+	\begin{description} \item[Secrets:]Solving the non-local hydrodynamic
+	electromagnetic equations in the frequency domain \item[Services:]Calculating
+	electric field and current density at different frequencies. \item[Implemented
+	By:] \progname{} \end{description}
+	
+	
+	
+	\subsubsection{Output Module(\mref{mOut})}
 	
 	\begin{description} \item[Secrets:]Output data. \item[Services:]Storing the
 		calculated electric field and current density in external vtk files.
@@ -296,15 +300,8 @@
 		\item[Implemented By:] -- \end{description}
 	
 	
-	\subsubsection{Frequency Domain PDE Solver Module(\mref{mFD})}
 	
-	\begin{description} \item[Secrets:]Solving the non-local hydrodynamic
-		electromagnetic equations in the frequency domain \item[Services:]Calculating
-		electric field and current density at different frequencies. \item[Implemented
-		By:] \progname{} \end{description}
-	
-	
-	\subsubsection{Data Structure Module (\mref{mOut})}
+	\subsubsection{Data Structure Module (\mref{mDS})}
 	
 	\begin{description} \item[Secrets:]Data format for all parameters in
 		\progname{}. \item[Services:]Provides convenient format to store, read and
@@ -312,7 +309,10 @@
 		\progname{} \end{description}
 	
 	
-	
+
+
+
+
 	\section{Traceability Matrix} \label{SecTM}
 	
 	This section shows two traceability matrices: between the modules and the
@@ -323,14 +323,13 @@
 	\begin{table}[H] \centering \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
 			\toprule \textbf{Req.} & \textbf{Modules}\\ \midrule R1 & M\ref{mDS},
 			M\ref{mIP}, M\ref{mMI}\\ R2 & M\ref{mDS}, M\ref{mIP}, M\ref{mMI}, M\ref{mCP}\\
-			R3 & M\ref{mDS}, M\ref{mSS}, M\ref{mFD}\\ R4 & M\ref{mHH}, M\ref{mDS},
-			M\ref{mSS}, M\ref{mFD} M\ref{mOut}\\ \bottomrule \end{tabular} \caption{Trace
+			R3 & M\ref{mDS}, M\ref{mFD}\\ R4 & M\ref{mHH}, M\ref{mDS}, M\ref{mFD} M\ref{mOut}\\ \bottomrule \end{tabular} \caption{Trace
 			Between Requirements and Modules} \label{TblRT} \end{table}
 	
 	\begin{table}[H] \centering \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
 			\toprule \textbf{AC} & \textbf{Modules}\\ \midrule A\ref{acHardware} &
 			M\ref{mHH}\\ A\ref{acInput} & M\ref{mIP}\\ A\ref{acMeshIn} & M\ref{mMI}\\
-			A\ref{acFiniteElement} & M\ref{mSS}, M\ref{mFD}\\ A\ref{acFEM} & M\ref{mFD}\\
+			A\ref{acFiniteElement} & M\ref{mFD}\\ A\ref{acFEM} & M\ref{mFD}\\
 			A\ref{acData} & M\ref{mDS}\\ A\ref{acOut} & M\ref{mOut}\\ A\ref{acSControl} &
 			M\ref{mSC}\\ \bottomrule \end{tabular} \caption{Trace Between Anticipated
 			Changes and Modules} \label{TblACT} \end{table}

@@ -39,7 +39,9 @@
 	\section{Revision History}
 	
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X} \toprule {\bf Date} & {\bf Version}
-		& {\bf Notes}\\ \midrule Nov 23, 2020 & 1.0 & Notes\\ \bottomrule \end{tabularx}
+		& {\bf Notes}\\ \midrule Nov 23, 2020 & 1.0 & Initial Design\\ 
+		 Dec 18, 2020 & 1.1 & Revised Design\\
+		\bottomrule \end{tabularx}
 	
 	~\newpage
 	
@@ -102,17 +104,16 @@
 	project.
 	
 	
-	\begin{table}[h!] \centering \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+	\begin{table}[h!] \centering \begin{tabular}{p{0.3\textwidth} p{0.7\textwidth}}
 			\toprule \textbf{Level 1} & \textbf{Level 2}\\ \midrule
 			
 			{Hardware-Hiding Module} & ~ \\ \midrule
 			
-			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control
-			Module\\ & Input Parameter Module\\ & Constant Parameters Module\\ & Mesh
-			Input Module\\ & SPD Simulator Module\\ & Output Module\\ \midrule
+			\multirow{6}{0.3\textwidth}{Behaviour-Hiding Module} & \progname{} Control
+			Module (M2, Section \ref{Module})\\ & Input Parameter Module (M5, Section \ref{IPM})\\ & Constant Parameters Module (M4, Section \ref{CPM})\\ & Mesh
+			Input Module (M6, Section \ref{MIM})\\ & Frequency Domain FEM Solver Module (M7, Section \ref{FDSM})\\ & Output Module (M8, Section \ref{OM})\\ \midrule
 			
-			\multirow{3}{0.3\textwidth}{Software Decision Module} & Frequency Domain PDE
-			Solver Module\\ & Data Structure Module\\ \bottomrule
+			\multirow{1}{0.3\textwidth}{Software Decision Module} & Data Structure Module (M3, Section \ref{DSM})\\ \bottomrule
 			
 		\end{tabular} \caption{Module Hierarchy} \label{TblMH} \end{table}
 	
@@ -125,7 +126,7 @@
 	
 	\subsection{Uses} \begin{itemize} \item Data Structure (Section \ref{DSM}) \item
 		Input Parameter Module (Section \ref{IPM}) \item Mesh Input Module (Section
-		\ref{MIM}) \item SPD Simulator Control Module (Section \ref{SSM}) \item Output
+		\ref{MIM}) \item Frequency Domain FEM Solver Module (Section \ref{FDSM}) \item Output
 		Module (Section \ref{OM})\\ \end{itemize}
 	
 	\subsection{Syntax}
@@ -137,9 +138,8 @@
 			& \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline main & - & - & - \\
 			\hline \end{tabular} \end{center}
 	
-	\subsection{Semantics} \progname{} Control Module is design to control the
-	process flow in the software. With respect to the SRS document, current module
-	organizes all other modules to satisfy all the requirements that specified in
+	\subsection{Semantics} \progname{} Control Module is designed to control the
+	process flow in the software with respect to the SRS document. In this regard, current module organizes all other modules to satisfy the requirements that are specified in
 	SRS. This module also help maintainability and expandability of \progname{} by
 	classifying different parts of the code.
 	
@@ -157,23 +157,19 @@
 	
 	\subsubsection{Access Routine Semantics}
 	
-	\subsubsection*{main():} \begin{itemize} \item transition: Control the flow
-		input data, calculation, and the output data by following below steps:\\
+	\subsubsection*{main():} \begin{itemize} \item transition: Control the order of execution of different modules:\\
+		\subitem Initiate the SPData object (M3, Section \ref{DSM}): doing so provides an empty framework that other modules can use to call or export data. \\ 
+		\subitem ParamLoad (M5, Section \ref{IPM}): This module inputs all the parameters and stores them in the Data object.\\
 		
-		\subitem Initiate global data object: doing so provides an empty framework that
-		lets user store data at different modules. \\ \subitem ParamLoad: This module
-		inputs all the parameters and stores them in the data structure.\\
-		
-		\subitem MshInput: This module loads and prepares the mesh geometry for finite
+		\subitem MshInput (M6, Section \ref{MIM}): This module loads and prepares the mesh geometry for finite
 		element calculations.\\
 		
-		\subitem SPDsimulator: Controls process flow and interactions with the FEniCS
-		PDE solver. FEniCS PDE solver is a library used in this study for solving
+		\subitem FreqSolver (M7, Section \ref{FDSM}): Controls process flow and interactions with the FEniCS FEM solver. FEniCS is an external library used in this study for solving
 		non-local hydrodynamic PDEs (see IM 2 in the SRS document). Interested readers
 		can find more information about FEniCS at
 		\cite{alnaes2015fenics,logg2012finite}.\\
 		
-		\subitem SPDoutput: Exports the final results of the simulation into .vtk file.
+		\subitem SPDoutput (M8, Section \ref{OM}): Exports the final results of the simulation into .vtk file.
 		
 		\item output: None \item exception: None \end{itemize}
 	
@@ -191,8 +187,8 @@
 	
 	\subsection{Module} ParamLoad
 	
-	\subsection{Uses} \begin{itemize} \item Specification Parameters Module (Section
-		\ref{CPM}) \item Data Structure (Section \ref{DSM})
+	\subsection{Uses} \begin{itemize} \item Conatant Parameters Module (Section
+		\ref{CPM}) \item Data Structure Module (Section \ref{DSM})
 		
 	\end{itemize}
 	
@@ -204,7 +200,7 @@
 	
 	\begin{center} \begin{tabular}{p{3cm} p{2cm} p{2cm} p{8cm}} \hline \textbf{Name}
 			& \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline ParamLoad & string
-			& - & FileError\\ VrifyParam & - & - & PolarizationRangeError,
+			& - & PolarizationRangeError,
 			DirectionNormalityError, LightOrthogonalityError,  WavelengthRangeError,
 			GammaRangeError\\
 			
@@ -214,11 +210,10 @@
 	
 	\subsubsection{State Variables}
 	
-	data: object
+	SPData object: stores input light source and material properties data
 	
-	\subsubsection{Environment Variables} ParamLSfile: A file containing sequence of
-	strings that provides data related to the light source. \\ ParamMPfile: A file
-	containing sequence of strings that provides data related to the materials
+	\subsubsection{Environment Variables} ParamFile: A file containing sequence of
+	strings that provides data related to the light source and material
 	properties.
 	
 	\subsubsection{Assumptions} \begin{itemize}
@@ -228,45 +223,43 @@
 		
 		\item The file contains the string equivalents of the numeric values for each
 		input parameter in order, each on a new line. The order of the input data is as
-		below:
+		below (further explanation about input parameters can be found in ):
 		
 		\# Data in ParamLSfile:
 		
-		line 1: $p_x$, $p_y$, $p_z$
+		line 1: $p_x$, $p_y$, $p_z$ (light polarization)
 		
-		line 2: $d_x$, $d_y$, $d_z$
+		line 2: $d_x$, $d_y$, $d_z$ (direction of light propagation)
 		
-		line 3: $WL_{min}$
+		line 3: $WL_{min}$ (the shortest wavelength of the light source)
 		
-		line 4: $WL_{max}$
+		line 4: $WL_{max}$ (the longest wavelength of the light source)
+		 
+		line 5: NumLS (number of wavelengths/light sources between min and max wavelength)
 		
-		line 5: NumLS
+		line 6: eps0 (environment permittivity)
 		
-		\# Data in ParamMPfile:
+		line 7: mu0 (environment permeability)
 		
-		line 1: eps0
+		line 8: gamma (plasmon damping parameter)
 		
-		line 2: mu0
+		line 9: PlasmaFreq (plasma frequency)
 		
-		line 3: gamma
-		
-		line 4: PlasmaFreq
-		
-		line 5: Beta
+		line 10: Beta (Fermi velocity proportionality)
 		
 		
 	\end{itemize}
 	
 	\subsubsection{Access Routine Semantics}
 	
-	Function to load, verify, and store input data (R1 and R2 from SRS).
+	ParamLoad is a function to load, verify, and store input data (R1 and R2 from SRS).
 	
 	\subsubsection*{ParamLoad(pathLS, pathMP):}
 	
 	\begin{itemize} \item transition: pathLS (light source data) and pathMP
 		(material properties) are the file paths for the input files which user
 		provides. The following procedure is performed: \subitem -- Verify the format of
-		the files to be .csv.\\ \subitem -- From ParamLSfile (located at pathLS) below
+		the files to be .txt.\\ \subitem -- From ParamLSfile (located at pathLS) below
 		parameters are obtained (As PDE equation (IM 2 SRS document) is being solve in
 		the frequency domain light source should have a minimum and a maximum wavelength
 		to specify the interval of the frequency domain. In this regard, number of
@@ -274,33 +267,25 @@
 		
 		\subsubitem Polarization of the incident light($\mathbb{R}^3$ vector): data.pol
 		:= p := [$p_x$, $p_y$, $p_z$]
-		
 		\subsubitem Direction of the incident light ($\mathbb{R}^3$ vector): data.dir
 		:= d := [$d_x$, $d_y$, $d_z$]
-		
-		
 		\subsubitem Minimum wavelength of the light source ($\mathbb{R}$): data.WLmin
 		:= WL$_{min}$
-		
 		\subsubitem Maximum wavelength of the light source ($\mathbb{R}$): data.WLmax
 		:= WL$_{max}$
-		
 		\subsubitem Number of different wavelengths in the interval ($\mathbb{N}$):
-		data.NumLS := NumLS \\
-		
-		\subitem -- verifyPol\\ \subitem -- verifyDir\\ \subitem -- verifyWL\\
-		
-		
-		\subitem --From ParamMSfile below information is obtained:
-		
+		data.NumLS := NumLS
 		\subsubitem Environment permittivity ($\mathbb{R}$): data.eps0 := eps0
-		
 		\subsubitem Environment permeability ($\mathbb{R}$): data.mu0 := mu0
 		\subsubitem Plamson damping parameter ($\mathbb{R}$): data.damp := gamma
 		\subsubitem Plasma frequency ($\mathbb{R}$): data.Pfreq := PlasmaFreq
 		\subsubitem Fermi velocity proportionality ($\mathbb{R}$): data.beta := Beta\\
+		\subitem -- VerifyPol
+		\subitem -- VerifyDir\\ 
+		\subitem -- VerifyWL\\
+		\subitem -- VerifyGamma\\ 
 		
-		\subitem -- verifyGamma\\ \item output: None
+		\item output: None
 		
 		\item exception: exc :=\  \noindent \begin{longtable*}[l]{l l} \ \ \ \ \ \ If the file
 			addressed by pathLS or path MP doesn't exist & $=>$ badFilePath\\ \ \ \ \ \ \
@@ -347,37 +332,17 @@
 	\section{MIS of Constant Parameters Module} \label{CPM}
 	
 	
-	\subsection{Module} ConstParam
+	\subsection{Module}
+	Template Module
 	
-	\subsection{Uses} \begin{itemize} \item Data Structure (Section \ref{DSM})
+	\subsection{Uses} \begin{itemize} \item Hardware Hiding Module
 	\end{itemize}
 	
 	\subsection{Syntax}
 	
 	\subsubsection{Exported Constants}
 	
-	From Table 2 in SRS update the values in the data object:\\
-	
-	data.PminLmt := -10\\
-	
-	data.PmaxLmt := 10\\
-	
-	data.RadiusMinLmt := 10\\
-	
-	data.RadiusMaxLmt := 100\\
-	
-	data.WLminLmt := 200\\
-	
-	data.WLmaxLmt := 1000\\
-	
-	data.dampMinLmt:= 0.01\\
-	
-	data.dampMaxLmt:= 1\\
-	
-	Although currently only constants in the \progname{} are exported from
-	specification parameters table in SRS document (Table 2), this module also
-	considers future expansions of the program. In this regard, more constants can
-	be added to this module in the future if needed.
+	None 
 	
 	\subsubsection{Exported Access Programs}
 	
@@ -386,7 +351,46 @@
 -
 			& - \\ \hline \end{tabular} \end{center}
 	
-	\subsection{Semantics} N/A
+	\subsection{Semantics}	
+	
+	\subsubsection{State Variables}
+	ConstParam: An object containing real values.
+	\begin{itemize}	
+		\item ConstParam.PminLmt $\in \mathbb{R}$
+		\item ConstParam.PmaxLmt $\in \mathbb{R}$
+		\item ConstParam.RadiusMinLmt $\in \mathbb{R}$
+		\item ConstParam.RadiusMaxLmt $\in \mathbb{R}$
+		\item ConstParam.WLminLmt $\in \mathbb{R}$
+		\item ConstParam.WLmaxLmt $\in \mathbb{R}$
+		\item ConstParam.dampMinLmt $\in \mathbb{R}$
+		\item ConstParam.dampMaxLmt $\in \mathbb{R}$		
+	\end{itemize}
+	
+	\subsubsection{Environment Variables}
+	
+	N/A \subsubsection{Assumptions}
+	
+	None
+	
+	\subsubsection{Access Routine Semantics}
+	Store constant variables as indicated in Table 2 of the SRS (aligned with R2 of the SRS). 
+	 
+	\subsubsection*{ConstParam:} \begin{itemize} \item transition: Initiation of ConstParam object and stroing constant values obtained from Table 2 of the SRS in it:
+		\subitem ConstParam.PminLmt := -100
+		\subitem ConstParam.PmaxLmt := 100
+		\subitem ConstParam.RadiusMinLmt := 10
+		\subitem ConstParam.RadiusMaxLmt := 100
+		\subitem ConstParam.WLminLmt := 200
+		\subitem ConstParam.WLmaxLmt := 1000
+		\subitem ConstParam.dampMinLmt:= 0.01
+		\subitem ConstParam.dampMaxLmt:= 1	
+		   
+		   \item output: None. \item exception: None. \end{itemize}
+	
+	
+	\subsubsection{Local Functions}
+	
+	None
 	
 	\newpage %
 	%
@@ -408,22 +412,17 @@
 	
 	\begin{center} \begin{tabular}{p{4cm} p{2cm} p{2cm} p{2cm}} \hline \textbf{Name}
 			& \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline GmshInput & string
-			& - & FileError \\ MeshConvert & object & object & -\\ \hline \end{tabular}
+			& - & FileError \\ \hline \end{tabular}
 	\end{center}
 	
 	\subsection{Semantics}
 	
 	\subsubsection{State Variables}
 	
-	For inputting the mesh object in this module,
-	\hyperref{https://pypi.org/project/meshio/}{library}{}{meshio} toolbox is used.
-	Interested readers for better understanding properties of meshio mesh object are
-	referred to \cite{schlomer2019meshio} and \cite{dai2017high}. \\
+	SPData object to store the mesh data.
 	
-	Data: mesh object
-	
-	\subsubsection{Environment Variables} inputMesh: A .msh file containing the data
-	related to the meshed geometry.
+	\subsubsection{Environment Variables} inputMesh: .xml files containing the data
+	related to the meshed geometry (nodes, physical regions, boundaries).
 	
 	\subsubsection{Assumptions}
 	
@@ -431,29 +430,18 @@
 	
 	\subsubsection{Access Routine Semantics}
 	
-	Function to load, convert and verify the mesh file. This module satisfies R1 and
-	R2 requirements from the SRS document.
+	This module satisfies R1 and R2 requirements from the SRS document.
 	
 	\subsubsection*{gmshInput(pathMESH):} \begin{itemize} \item transition: pathMESH
 		is the file path for the input mesh file. The following procedure is performed:
-		\subitem -- Verify the format of the file to be .msh. \subitem -- Load mesh
-		object, GMESH, from the input file. \subitem -- MeshConvert \subitem -- Geometry
-		is stored in the data structure: data.XDMFmesh := XDMFmesh
+		\subitem -- Load mesh
+		data from the input file. \subitem  -- Geometry
+		is stored in the data structure: SPData.mesh := XMLmesh
 		
-		\item output: None \item exception: exc :=  \noindent \begin{longtable*}[l]{l l} \ \ \
-			\ \ \ If the file addressed by pathMESH doesn't exist & $=>$ badMeshFilePath\\
-			\ \ \ \ \ \ If the file format is not .msh & $=>$ badMeshFileFormat\\
-		\end{longtable*}
-		
+		\item output: None 
+		\item exception: None \\		
 		
 	\end{itemize}
-	
-	
-	\subsubsection*{MeshConvert(GmeshFile):} \begin{itemize} \item transition: None
-		\item output: XDMFmesh which is converted GmeshFile (.mesh format) into .xdmf
-		format (which is an acceptable format for FEniCS to initiate FEM solver) \item
-		exception: None \end{itemize}
-	
 	
 	\subsubsection{Local Functions}
 	
@@ -461,54 +449,8 @@
 	%
 	%
 	%
-	\section{MIS of SPD Simulator Module} \label{SSM}
-	
-	
-	\subsection{Module} SPDSimulator
-	
-	\subsection{Uses} \begin{itemize} \item Frequency Domain PDE Solver Module
-		(Section \ref{FDSM}) \end{itemize}
-	
-	\subsection{Syntax}
-	
-	\subsubsection{Exported Constants} None. \subsubsection{Exported Access
-		Programs}
-	
-	\begin{center} \begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}} \hline \textbf{Name}
-			& \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline SPDSimulator & - &
-			- & - \\ \hline \end{tabular} \end{center}
-	
-	\subsection{Semantics}
-	
-	\subsubsection{State Variables}
-	
-	Data: object
-	
-	\subsubsection{Environment Variables} N/A
-	
-	\subsubsection{Assumptions} None.
-	
-	\subsubsection{Access Routine Semantics} Functions to calculate the Electric
-	field and Electric Current density in the given mesh and illumination (satisfies
-	R3, R4 from SRS document). In fact, this module will control flow and order of
-	the different PDE solver units. Although at the moment it seems like this module
-	only calls "Frequency Domain PDE Solver Module (Section \ref{FDSM})", it gives
-	expandability to the software to have more PDE solver modules in the future.
-	This module is aligned with the second non-functional requirement (NR2) from the
-	SRS document which is maintainability and expandability of the software.
-	
-	\subsubsection*{SPDSimulator():} \begin{itemize} \item transition: \subitem --
-		FreqSolver() \item output: None. \item exception: None. \end{itemize}
-	
-	\subsubsection{Local Functions} None
-	
-	
-	
-	\newpage %
 	%
-	%
-	%
-	\section{MIS of Frequency Domain PDE Solver Module:} \label{FDSM}
+	\section{MIS of Frequency Domain FEM Solver Module:} \label{FDSM}
 	
 	
 	\subsection{Module} FreqSolver
@@ -530,7 +472,7 @@
 	
 	\subsubsection{State Variables}
 	
-	data: object
+	SPData: the object containing all the data required for FEM solver
 	
 	\subsubsection{Environment Variables}
 	
@@ -565,9 +507,9 @@
 				\beta^2(\nabla.\psi)(\nabla.\textbf{J}_{HD})dV+\omega(\omega+i\gamma)\int_{\Omega} \psi. \textbf{J}_HD dV - \ i\omega \omega^2_p \int_\Omega \psi.\varepsilon_{0}\textbf{E}dV = 0 \\ \\ \int_\Omega ((\nabla \times \phi) . (\mu^{-1}_0 \nabla \times \textbf{E})-\omega^2 \phi.\epsilon_{local} \textbf{E}) dV + \ \int_{\partial \Omega} \phi.(\textbf{n} \times (\mu^{-1}_0 \nabla \times \textbf{E}))dA = i\omega \int_\Omega \phi. \textbf{J}_{HD} dV \\ \\Boundary\ Conditions: \\ \int_\Omega ((\nabla \times \phi).(\mu^{-1}_{0} \nabla \times \textbf{E})- \omega^2\phi \epsilon_{local} \textbf{E}_i)dV + \int_{\partial \Omega} \phi . DtN(\textbf{E})dA \ \ - i\omega \int_\Omega \phi . \textbf{J}_{HD}dV = \\ -\int_{\partial \Omega} \phi.(n \times (\mu^{-1}_0 \nabla \times \textbf{E}_i))dA + \int_{\partial \Omega} \phi.DtN(\textbf{E}_i)dA \\ \\ n.\textbf{J}_{HD}=0 \ \ on \ \partial \Omega \end{gathered} \end{equation*} \\ \subitem \# For importing the data to FEniCS, as complex numbers are not defined in this toolbox parameters and equations should be separated into real and imaginary parts. \begin{equation*} \begin{gathered} \textbf{J}_{HD}=\textbf{J}^{real}_{HD} + i\textbf{J}^{img}_{HD} \\ \textbf{E} = \textbf{E}^{real} + i\textbf{E}^{img} \end{gathered} \end{equation*}
 		
 		
-		\subitem --Store the result for each frequency in the Data.FDres.
+		\subitem --Store the result for each frequency in the SPData.FEMresult.
 		
-		\begin{equation*} data.FDres = \begin{pmatrix} \textbf{E}^{real}\\
+		\begin{equation*} SPData.FEMresult = \begin{pmatrix} \textbf{E}^{real}\\
 				\textbf{E}^{img}\\ \textbf{J}^{real}_{HD}\\ \textbf{J}^{img}_{HD} \end{pmatrix}
 		\end{equation*}
 		
@@ -579,9 +521,10 @@
 	%
 	\section{MIS of Data Structure Module} \label{DSM}
 	
-	\subsection{Module} data
+	\subsection{Module} 
+	Template Module
 	
-	\subsection{Uses} \begin{itemize} \item Hardware Hiding module \end{itemize}
+	\subsection{Uses} \begin{itemize} \item Hardware Hiding Module \end{itemize}
 	
 	\subsection{Syntax}
 	
@@ -640,8 +583,8 @@
 		Programs}
 	
 	\begin{center} \begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}} \hline \textbf{Name}
-			& \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline Output& - & - & -
-			\\ vtkExport & - & string (.vtk file) & - \\
+			& \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline Output& - & string (.pvd and .vtk file) & -
+			 \\
 			
 			\hline \end{tabular} \end{center}
 	
@@ -655,14 +598,9 @@
 	
 	\subsubsection{Access Routine Semantics}
 	
-	\subsubsection*{Output():} \begin{itemize} \item transition: Control different
-		output units. The current version of the code only uses one unit as below:
-		\subitem -- vtksaver \item output: None \item exception: None \end{itemize}
+	\subsubsection*{Output():} \begin{itemize} \item transition: None \item output: export .pvd and .vtk files from SPData.FEMresult \item exception: None \end{itemize}
 	
-	\subsubsection*{vtkSaver():} \begin{itemize} \item transition: None \item
-		output: Exported vtkFile: \subitem vtkFile := vtk export of data.FreqRes \item
-		exception: None \end{itemize}
-	
+
 	\subsubsection{Local Functions} None
 	
 	\newpage %
