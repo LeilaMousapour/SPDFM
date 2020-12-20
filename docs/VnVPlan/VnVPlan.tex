@@ -136,8 +136,8 @@ The implementation shall be verified in the following ways:
 
 \subsection{Automated Testing and Verification Tools}
 
-Automated testing of \progname{} is conducted using \href{pytest.org}{Pytest} library in Python.
-These tests are performed by predetermining some user inputs and comparing some targeted  parameters with their expected values automatically. Automated testings for each test case is separately outlined in Section \ref{func} and Section \ref{utest}.
+Automated testing of \progname{} is conducted using \href{pytest.org}{Pytest} library in Python or a custom program that is written by the author (author names these programs as auxiliary codes).
+These tests are either performed by predetermining some user inputs and comparing some targeted  parameters with their expected values automatically (using Pytest) or they import different modules from \progname{} and by inputting required parameters and extract the data and superimpose the results on the expected output obtained from other approaches. Automated testings for each test case is separately outlined in Section \ref{func} and Section \ref{utest}.
 
 \subsection{Software Validation Plan}
  
@@ -672,15 +672,15 @@ Table \ref{Table:A_trace} shows the connection between functional and nonfunctio
 		\hline        
 		& R1 & R2 & R3 & R4 & NR1 & NR2 & NR3 \\
 		\hline
-		Test1        & & &X& & & &   \\ \hline
-		Test2        & & &X& & & &   \\ \hline
-		Test3        & & & &X& & &   \\ \hline
-		Test4        & & & &X& & & \\ \hline
-		Test5        & & & & &X&X&   \\ \hline
-		Test6        & & & & & & &X \\ \hline
-		Test7        & &X& & & & &   \\ \hline
-		Test8        &X& & & & & &   \\ \hline
-		Test9        &X& & & & & &  \\ \hline
+		Test id1        & & &X& & & &   \\ \hline
+		Test id2        & & &X& & & &   \\ \hline
+		Test id3        & & & &X& & &   \\ \hline
+		Test id4        & & & &X& & & \\ \hline
+		Test id5        & & & & &X&X&   \\ \hline
+		Test id6        & & & & & & &X \\ \hline
+		Test id7        & &X& & & & &   \\ \hline
+		Test id8        &X& & & & & &   \\ \hline
+		Test id9        &X& & & & & &  \\ \hline
 		\end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Tests and Functional and Nonfunctional System Requirements}
 \label{Table:A_trace}
@@ -797,15 +797,15 @@ The connections between tests and modules is indicated in Table \ref{Table:B_tra
 		\hline        
 		             & M4 & M5 & M6 & M7  \\
 		\hline
-		Test1        && & & X \\ \hline
-		Test2        & & & &X \\ \hline
-		Test3        & & & &X  \\ \hline
-		Test4        & & & &X\\ \hline
-		Test5        & & & &   \\ \hline
-		Test6        & & & &  \\ \hline
-		Test7        &X& & &   \\ \hline
-		Test8        & &X& &   \\ \hline
-		Test9        & & &X&  \\ \hline
+		Test id1        && & & X \\ \hline
+		Test id2        & & & &X \\ \hline
+		Test id3        & & & &X  \\ \hline
+		Test id4        & & & &X\\ \hline
+		Test id5        & & & &   \\ \hline
+		Test id6        & & & &  \\ \hline
+		Test id7        &X& & &   \\ \hline
+		Test id8        & &X& &   \\ \hline
+		Test id9        & & &X&  \\ \hline
 	\end{tabular}
 	\caption{Traceability Matrix Showing the Connections Between Tests and Modules. Modules that are not in the table are beyond scope of testing plan in this work}
 	\label{Table:B_trace}
